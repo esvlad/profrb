@@ -1,0 +1,1 @@
+<script src="<?= TPL_PATH; ?>default/js/common/common.js"></script>

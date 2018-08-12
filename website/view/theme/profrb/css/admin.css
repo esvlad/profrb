@@ -1,0 +1,791 @@
+.admin_section {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 5px 0;
+  z-index: 99999;
+}
+.admin_section .content {
+  padding: 0 90px;
+}
+.admin_section a {
+  color: #fff;
+  border-bottom: 1px dotted #fff;
+  display: inline;
+}
+
+.admin_second_menu_block,
+.admin_second_children_menu_block,
+.notise_block_popup {
+  display: none;
+}
+
+.admin_col {
+  display: inline-block;
+  margin-right: 70px;
+  padding: 0 20px;
+}
+.admin_col.right {
+  float: right;
+  margin-right: 0;
+}
+
+.admin_first_menu_link {
+  padding-bottom: 13px;
+}
+
+.admin_second_menu_block {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px 0;
+  margin-top: 13px;
+  margin-left: -20px;
+}
+.admin_second_menu_block .admin_second_menu_list {
+  padding: 7px 20px 12px;
+  position: relative;
+}
+.admin_second_menu_block .admin_second_menu_list:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+.admin_second_menu_block .admin_second_menu_list:hover > .admin_second_children_menu_block {
+  display: block;
+}
+
+.admin_second_children_menu_block {
+  display: none;
+  background: rgba(0, 0, 0, 0.8);
+  width: 220px;
+  position: absolute;
+  left: 100%;
+  top: -1px;
+  padding: 10px 0;
+}
+.admin_second_children_menu_block .admin_second_children_menu_list {
+  padding: 0 20px 10px;
+  position: relative;
+}
+.admin_second_children_menu_block .admin_second_children_menu_list:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.admin_first_menu_link:hover > .admin_second_menu_block {
+  display: block;
+}
+
+.admin_modal {
+  width: 80%;
+  left: 10%;
+  padding: 50px;
+  z-index: 9999;
+}
+.admin_modal .modal_title {
+  margin-bottom: 50px;
+}
+.admin_modal input, .admin_modal select, .admin_modal textarea {
+  border: 1px solid #ccc;
+  width: 50%;
+  padding: 5px 10px;
+  float: none;
+  clear: both;
+  font-size: 16px;
+  margin-bottom: 25px;
+}
+
+.admin_modal input[type="checkbox"]{
+  display: none;
+}
+
+.admin_modal input[type="checkbox"] + label{
+  margin-bottom: 25px;
+  padding-left: 50px;
+  position: relative;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.admin_modal input[type="checkbox"] + label:before{
+    content: '';
+    background: transparent;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: -4px;
+    left: 0;
+    border: 3px solid #d6d6e1;
+    z-index: 3;
+}
+
+.admin_modal input[type="checkbox"] + label:after{
+    content: '';
+    background: url(../img/icon/icon_ckecked.png) no-repeat;
+    width: 24px;
+    height: 17px;
+    position: absolute;
+    top: 5px;
+    left: 4px;
+    z-index: 4;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    transition: 0.2s;
+}
+
+.admin_modal input[type="checkbox"]:not(checked)  + label{
+  color: #d6d6e1;
+}
+
+.admin_modal input[type="checkbox"]:not(checked)  + label:after{
+  opacity: 0;
+}
+
+.admin_modal input[type="checkbox"]:checked + label{
+  color: #40bdfa;
+}
+
+.admin_modal input[type="checkbox"]:checked + label:after {
+  opacity: 1;
+}
+
+.admin_modal label {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 85%;
+  font-weight: 600;
+}
+.admin_modal .setting {
+  height: 50px;
+  border: 2px solid #75bbf7;
+  padding: 0 15px;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+.admin_modal .setting.closed {
+  height: 50px;
+}
+.admin_modal .setting.opened {
+  height: 100%;
+}
+.admin_modal .setting .setting_btn {
+  line-height: 46px;
+  color: #75bbf7;
+  margin-bottom: 16px;
+}
+.admin_modal .admin_form_row.btns {
+  margin-top: 25px;
+}
+.admin_modal .btn_admin {
+  width: 220px;
+  height: 46px;
+  line-height: 42px;
+  float: left;
+  margin-right: 25px;
+  background: #fff;
+  border: 2px solid #75bbf7;
+  color: #75bbf7;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+}
+.admin_modal .btn_admin.btn_delete_ids{
+  margin-top: -40px;
+}
+.admin_modal .btn_admin:focus {
+  outline: 0;
+}
+.admin_modal .btn_admin:hover {
+  color: #fff;
+  background: #75bbf7;
+}
+
+.cke,
+.cke_reset{
+  margin-bottom: 25px !important;
+}
+
+/* FILEUPLOAD */
+
+#fileUploaded{
+  margin: 0 0 -7px;
+}
+
+.file_upload{
+  width: 100%;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.file_upload .file_upload_input{
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 46px;
+  z-index: 1;
+}
+
+.file_upload .btn_admin{
+  float: none;
+  position: relative;
+  z-index: 2;
+}
+
+.file_viewed{
+  width: 100%;
+  padding: 30px 0 30px 30px;
+  margin-bottom: 25px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 12px -2px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+.file_viewed.files{
+  display: block;
+}
+
+.file_viewed .img_block{
+  width: calc(25% - 30px);
+  float: left;
+  margin-right: 30px;
+  margin-bottom: 25px;
+  padding: 10px;
+  outline: 1px solid #ccc;
+  position: relative;
+}
+
+.file_viewed .img_block img{
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.file_upload input[data-file-type="docs"] + .file_viewed .img_block img{
+  width: 50%;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.file_upload input[data-file-type="docs"] + .file_viewed .img_block .file_name{
+  text-align: center;
+  width: 94%;
+  margin: 0 auto;
+}
+
+#docs + .file_viewed .img_block img{
+  width: 65%;
+  margin: 10px 0;
+  margin-left: calc(50% - 70px);
+  display: block;
+}
+
+.file_viewed .img_block .img_delete{
+  width: 100px;
+  height: 32px;
+  line-height: 26px;
+  font-size: 14px;
+  background: red;
+  color: #fff;
+  border: 2px solid red;
+  border-radius: 30px;
+  margin: 0 auto;
+  transition: .2s;
+}
+
+.file_viewed .img_block .img_delete:hover{
+  background: #fff;
+  color: red;
+}
+
+.geo_map_admin{
+  width: 100%;
+  height: 400px;
+}
+
+.admin_modal .geo_map_admin input{
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.admin_form_row.clearfix,
+.admin_form_row.content_fields{
+  margin-bottom: 25px;
+}
+
+.admin_modal p.file_name{
+  font-size: 13px;
+  word-wrap: break-word;
+  line-height: normal;
+  margin-bottom: 15px;
+}
+
+label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
+  width: 50%;
+  margin: 0 auto 20px;
+  display: block;
+}
+
+.modal p.admin_field_group_title{
+  margin: 0 0 15px;
+}
+
+.modal p.admin_form_caption{
+  font-size: 80%;
+  font-style: italic;
+  color: #929292;
+  line-height: normal;
+  margin: -5px 0 13px;
+}
+
+/* ADMIN TABLE */
+
+.admin_content_table{
+  width: 100%;
+  margin-bottom: 75px;
+  border-collapse: collapse;
+}
+
+.admin_content_table tr:nth-child(odd){
+  background: #f7f7f7;
+}
+
+.admin_content_table tr > td{
+  vertical-align: middle;
+  padding: 4px 10px;
+  border: 0;
+}
+
+.admin_content_view .admin_content_table tr > td:nth-child(1){
+  width: 42px;
+}
+
+.admin_content_view .admin_content_table tr > td:nth-child(2){
+  width: 11%;
+}
+
+.admin_content_view .admin_content_table tr > td:nth-child(4){
+  width: 13%;
+}
+
+.admin_content_view .admin_content_table tr > td:nth-child(5){
+  width: 4%;
+}
+
+.admin_content_view .admin_content_table tr > td:nth-child(6),
+.admin_content_view .admin_content_table tr > td:nth-child(7),
+.admin_content_view .admin_content_table tr > td:nth-child(8){
+  width: 10%;
+}
+
+.admin_modal .admin_content_table input[type="checkbox"] + label{
+  margin-bottom: -11px;
+  padding-left: 18px;
+}
+
+.admin_modal .admin_content_table input[type="checkbox"] + label:before{
+  width: 22px;
+  height: 22px;
+  top: 0;
+  border: 2px solid #d6d6e1;
+}
+
+.admin_modal .admin_content_table input[type="checkbox"] + label:after{
+  background-size: contain;
+  width: 16px;
+  top: 6px;
+  left: 3px;
+}
+
+.content_event{
+  position: relative;
+}
+
+.admin_content_view .admin_content_table tr > td{
+  position: relative;
+}
+
+.admin_content_view .admin_content_table tr > td:before{
+  content: '';
+  background: url(../img/other/loading32.gif);
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: .1s;
+}
+
+.admin_content_view .admin_content_table tr > td.mini_load > .content_event{
+  opacity: 0;
+}
+
+.admin_content_view .admin_content_table tr > td.mini_load:before{
+  opacity: 1;
+}
+
+.admin_content_table p a,
+.content_event{
+  color: #5d7e99;
+  border-bottom: 1px solid rgba(117, 187, 247, 0.4);
+}
+
+.admin_content_table p a:hover,
+.content_event:hover{
+  color: #75bbf7;
+}
+
+.modal .admin_content_table p{
+  font-family: "Open Sans";
+  font-size: 14px;
+  line-height: normal;
+}
+
+.modal .admin_content_table thead p{
+  font-size: 16px;
+}
+
+.modal .admin_content_table thead p.sorted{
+  color: #1a8fe2;
+  cursor: pointer;
+  position: relative;
+}
+
+.modal .admin_content_table thead p.sorted > span{
+  position: relative;
+}
+
+.modal .admin_content_table thead p.sorted > span:after{
+  content: '';
+  background: url(../img/icon/icon_sort.svg) no-repeat;
+  background-size: cover;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  right: -17px;
+  top: 7px;
+}
+
+.modal .admin_content_table thead p.sorted[data-sort-active="0"] > span:after{
+  display: none;
+}
+
+.modal .admin_content_table thead p.sorted[data-sorted="desc"] > span:after{
+  transform: rotate(180deg);
+}
+
+.modal .admin_content_table thead p.sorted[data-sorted="ask"] > span:after{
+  transform: none;
+}
+
+.content_event{
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.modal p.admin_more_docs{
+  display: inline-block;
+  margin: 10px 20px 25px 0;
+  color: #4da4ee;
+  border-bottom: 1px dashed #4da4ee;
+  cursor: pointer;
+}
+
+.modal p.admin_more_docs:hover{
+  color: #2b2b66;
+  border-bottom: 1px dashed rgba(43, 43, 102, 0.4);
+}
+
+.admin_modal input.docs_title{
+  margin-bottom: 13px;
+}
+
+.admin_edit_content{
+  background: url(../img/icon/icon_setting.png) no-repeat;
+  width: 32px;
+  height: 38px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  opacity: .6;
+  transition: .2s;
+  z-index: 2;
+}
+
+.contacts .contacts_block > .admin_edit_content{
+  right: -75px;
+}
+
+.workers .worker_block > .admin_edit_content{
+  right: -17px;
+  top: -31px;
+}
+
+.history .history_block .admin_edit_content{
+  top: -45px;
+}
+
+.news_page .news_view .admin_edit_content{
+  right: -50px;
+}
+
+.admin_edit_content:hover{
+  opacity: 1;
+}
+
+#remove_field{
+  display: inline-block;
+  margin-left: 15px;
+  color: #75bbf7;
+  border-bottom: 1px dashed #75bbf7;
+  cursor: pointer;
+}
+
+.admin_slider #remove_field{
+  display: none;
+}
+
+.doc #remove_field{
+  display: none;
+}
+
+#docs_title ~ #fileUpload .file_viewed .img_block .img_delete{
+	display: none;
+}
+
+.cke + #remove_field,
+#gallery_image ~ #remove_field,
+#gallery_image ~ .file_upload_filed{
+  margin-bottom: 30px;
+  margin-left: 0;
+}
+
+#gallery_image ~ #fileUploaded{
+  float: left;
+  margin-right: 20px;
+}
+
+#gallery_image ~ #remove_field{
+  margin-left: 18px;
+}
+
+.admin_modal select.order_fields{
+  width: 7%;
+}
+
+#fileUploaded{
+  margin-right: 25px;
+  display: inline-block;
+}
+
+.admin_modal label.sortered{
+  display: none;
+}
+
+.admin_content_history label.sortered{
+  display: none;
+}
+
+.admin_content_history #fileUploaded ~ label.sortered{
+  display: inline;
+}
+
+.admin_content_history .cke + label.sortered{
+  display: inline;
+}
+
+.admin_modal label.sortered select{
+  width: 7%;
+}
+
+.admin_form .error_form{
+  background-color: #fff0f0;
+  border-color: red;
+}
+
+.admin_content_view.admin_faq .admin_content_table tr > td{
+  position: relative;
+}
+
+.admin_content_view.admin_faq .admin_content_table tr > td:nth-child(3){
+  overflow-x: hidden;
+}
+
+.admin_content_view.admin_faq .admin_content_table tr > td:nth-child(3) {
+    width: 15%;
+}
+
+.admin_content_view.admin_faq .admin_content_table tr > td:nth-child(4) {
+    width: 39%;
+}
+
+.admin_content_view.admin_faq .admin_content_table tr > td:nth-child(5){
+  width: 4%;
+}
+
+.admin_content_view.admin_faq .admin_content_table tr > td:nth-child(6), 
+.admin_content_view.admin_faq .admin_content_table tr > td:nth-child(7), 
+.admin_content_view.admin_faq .admin_content_table tr > td:nth-child(8) {
+    width: 10%;
+}
+
+.admin_content_view.admin_comments .admin_content_table tr > td:nth-child(2) {
+    width: 12%;
+}
+
+.admin_content_view.admin_comments .admin_content_table tr > td:nth-child(4) {
+    width: 42%;
+}
+
+.admin_content_view.admin_comments .admin_content_table tr > td:nth-child(5) {
+    width: 8%;
+}
+
+.admin_content_view.admin_comments .admin_content_table tr > td:nth-child(6){
+    width: 14%;
+}
+
+.admin_content_view.admin_comments .admin_content_table tr > td:nth-child(7){
+    width: 10%;
+}
+
+.modal .admin_content_table p.faq_id{
+  text-align: center;
+}
+
+.modal .admin_content_table p.faq_id > span {
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.modal .admin_content_table p.faq_id:hover + .modal_qc,
+.admin_content_view.admin_faq .admin_content_table tr > td:nth-child(4):hover > .modal_qc,
+.admin_content_view.admin_comments .admin_content_table tr > td:nth-child(4):hover > .modal_qc{
+  display: block;
+  z-index: 5;
+}
+
+.modal_qc{
+    background: #fff;
+    position: absolute;
+    top: 40px;
+    left: -12vw;
+    width: 30vw;
+    padding: 30px;
+    border-radius: 30px;
+    display: none;
+    box-shadow: 0 0 12px -4px #000;
+}
+
+.modal .admin_content_table p.faq_answer + .modal_qc{
+    width: 45vw;
+    top: 50px;
+}
+
+.admin_content_view.admin_comments .admin_content_table tr > td:nth-child(4) > .modal_qc{
+  top: 43px;
+  left: 0vw;
+}
+
+.admin_section a.icon_notification{
+  background: url(../img/icon/icon_notification.png) no-repeat;
+  background-size: contain;
+  width: 28px;
+  height: 27px;
+  padding-bottom: 4px;
+  display: inline-block;
+  position: relative;
+  border-bottom: 0;
+  margin-left: -35px;
+  top: -1px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.notification_count{
+    background: #fff;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    width: 22px;
+    height: 22px;
+    display: block;
+    position: relative;
+    font-size: 12px;
+    font-weight: 700;
+    color: red;
+    text-align: center;
+    border-radius: 12px;
+    bottom: -10px;
+    right: -13px;
+}
+
+.admin_section a.icon_notification.icon_notification_true{
+  background-position: 0 0;
+}
+
+.admin_section a.icon_notification.icon_notification_false{
+  background-position: 0 0;
+  opacity: .5;
+  margin-bottom: -13px;
+}
+
+.admin_first_menu_link:hover > .admin_second_menu_block.notification_true{
+  margin-top: -1px;
+  margin-left: -50px;
+}
+
+.admin_section .notification_true b.red{
+  color: red;
+}
+
+.admin_section .admin_notification{
+  height: 17px;
+  width: 30px;
+}
+
+.admin_filter.faq_category,
+.admin_filter.faq_authors{
+  width: 450px;
+  float: left;
+}
+
+.isset_keys{
+  position: relative;
+  height: 25px;
+}
+
+.isset_keys:before{
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 20px;
+}
+
+.isset_keys[data-key="1"]:before{
+  background: url(../img/icon/icon_ckecked.png) no-repeat;
+  background-size: cover;
+  width: 24px;
+  height: 17px;
+}
+
+.isset_keys[data-key="0"]:before{
+  content: '+';
+  font-size: 52px;
+  color: #ff8484;
+  transform: rotate(45deg);
+  top: -24px;
+  left: 19px;
+}
