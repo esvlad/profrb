@@ -28,6 +28,16 @@ class ControllerGeoCity extends MVC{
 		$data['filters'] = $geo['filters'];
 
 		return $this->render(THEME_NAME . '/template/geo/city.tpl', $data);
-	}	
+	}
+
+	public function map(){
+		//$data = array();
+
+		$geo_model = new Action(MODEL, 'geo/content');
+		$data['content'] = $geo_model->loader('getPins');
+		$json = json_encode($data['content']);
+
+		echo $json;
+	}
 }
 ?>

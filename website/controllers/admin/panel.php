@@ -11,6 +11,8 @@ class ControllerAdminPanel extends MVC{
 		$data['pages'] = $content_type->loader('getPageViews');
 		$data['sections'] = $content_type->loader('getSections');
 
+		$data['user'] = $admin;
+
 		$data['notification'] = $content_type->loader('getNotification');
 		
 		return $this->render(THEME_NAME . '/template/admin/panel.tpl', $data);

@@ -197,6 +197,11 @@
   -o-transition: 0.2s;
   transition: 0.2s;
 }
+.admin_modal .btn_admin.gpass{
+  display: inline-block;
+  float: none;
+  margin-left: 15px;
+}
 .admin_modal .btn_admin.btn_delete_ids{
   margin-top: -40px;
 }
@@ -206,6 +211,10 @@
 .admin_modal .btn_admin:hover {
   color: #fff;
   background: #75bbf7;
+}
+
+.admin_modal .btn_admin.vieweds{
+  width: 291px;
 }
 
 .cke,
@@ -377,6 +386,10 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
   width: 13%;
 }
 
+.admin_content_view.admin_user .admin_content_table tr > td:nth-child(4){
+  width: 32%;
+}
+
 .admin_content_view .admin_content_table tr > td:nth-child(5){
   width: 4%;
 }
@@ -447,10 +460,18 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
   color: #75bbf7;
 }
 
+.admin_content_view[data-user-level="71"] thead[data-types="geo_page"] + tbody .icon_delete{
+  display: none;
+}
+
 .modal .admin_content_table p{
   font-family: "Open Sans";
   font-size: 14px;
   line-height: normal;
+}
+
+.modal .admin_content_table .no_view p{
+  font-weight: 600;
 }
 
 .modal .admin_content_table thead p{
@@ -788,4 +809,29 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
   transform: rotate(45deg);
   top: -24px;
   left: 19px;
+}
+
+@media all and (max-height: 700px){
+  .admin_section{
+    position: relative;
+  }
+}
+
+.admin_content_view .admin_content_table.notifications tr > td:nth-child(2){
+  width: 16%;
+}
+
+.notifi_link{
+  color: #2b2b66;
+  border-bottom: 1px dashed rgba(43, 43, 102, 0.4);
+  cursor: pointer;
+}
+
+.notifi_link:hover{
+  color: #75bbf7;
+  border-bottom: 1px dashed #75bbf7;
+}
+
+.admin_content_view .admin_content_table.notifications tr > td:last-child:before{
+  display: none;
 }

@@ -12,6 +12,7 @@ $coordinates['body'] = $content['coordinates'];
 ?>
 
 <h2 class="modal_title">Редактирование материала <?=$content['type_tytle'];?></h2>
+
 <form id="adminForm" class="admin_form clearfix" method="post" action="index.php?r=admin/content/save_update&type=geo" data-table="content" data-params="save">
     <input type="hidden" name="content_id" value="<?=$content_id;?>">
     <div class="admin_form_row">
@@ -43,7 +44,7 @@ $coordinates['body'] = $content['coordinates'];
     <div class="admin_form_row">
       <?=HtmlHelper::formField($filter);?>
     </div>
-    <div class="admin_form_row content_fields is_field_group">
+    <div class="admin_form_row is_field_group">
       <? $i = 1;?>
       <? foreach($field_group as $key => $value) : ?>
         <input type="hidden" name="field_group[]" value="<?=$key;?>">
@@ -64,9 +65,9 @@ $coordinates['body'] = $content['coordinates'];
               );
             }
           ?>
-          <? foreach($value as $fields) : ?>
-            <?=HtmlHelper::formField($fields, $i, $key);?>
-            <? if($fields['field_name'] == 'geo_docs') $d = 1; ?>
+          <? foreach($value as $fields_group) : ?>
+            <?=HtmlHelper::formField($fields_group, $i, $key);?>
+            <? if($fields_group['field_name'] == 'geo_docs') $d = 1; ?>
           <? endforeach; ?>
         </div>
         <? $i++; ?>
@@ -76,17 +77,32 @@ $coordinates['body'] = $content['coordinates'];
       </div>-->
     </div>
     <? if(!$d) : ?>
-    <div class="admin_form_row">
-      <label for="geo_docs">Коллективный договор</label>
-      <div id="fileUpload" class="file_upload clearfix">
-        <input id="geo_docs" type="file" name="geo_docs[group][]" data-table="fields" data-file-type="docs" required="required" class="file_upload_input" onchange="getUploadFiles('geo_docs');" value="">
-        <div class="file_viewed clearfix"></div>
-        <div id="fileUploaded" class="btn btn_admin" onclick="fileUploadBtn('geo_docs');">Добавить файл</div>
-        <input class="file_upload_filed" type="hidden" name="geo_docs[group][]" value="">
+      <div class="admin_form_row">
+        <label for="geo_docs">Коллективный договор</label>
+        <div id="fileUpload" class="file_upload clearfix">
+          <input id="geo_docs" type="file" name="geo_docs[group][]" data-table="fields" data-file-type="docs" required="required" class="file_upload_input" onchange="getUploadFiles('geo_docs');" value="">
+          <div class="file_viewed clearfix"></div>
+          <div id="fileUploaded" class="btn btn_admin" onclick="fileUploadBtn('geo_docs');">Добавить файл</div>
+          <input class="file_upload_filed" type="hidden" name="geo_docs[group][]" value="">
+        </div>
+        <p class="admin_form_caption">Можно прикрепить лишь 1 документ. Разрешены форматы: DOC, DOCX, PDF</p>
       </div>
-      <p class="admin_form_caption">Можно прикрепить лишь 1 документ. Разрешены форматы: DOC, DOCX, PDF</p>
-    </div>
     <? endif; ?>
+    <div class="admin_form_row content_fields">
+      <h3 style="margin: 30px 0 10px;">Документы</h3>
+    <?
+      foreach($fields as $key => $field){
+        if($field['name'] == 'docs'){
+          echo HtmlHelper::formField($field);
+        }
+
+        $idf = $fields['id'];
+      }
+
+      if(empty($idf)) $idf = 0;
+    ?>
+    </div>
+    <p id="more_field" class="admin_more_docs" onclick="addField(25)" data-type-id="25" data-type="docs" data-key="<?++$idf;?>">Добавить ещё документ</p>
     <div class="admin_form_row">
       <div id="geo_map_pin" class="admin_form_row">
         <?=HtmlHelper::formField($coordinates);?>
@@ -105,7 +121,6 @@ $coordinates['body'] = $content['coordinates'];
       <input id="active" type="checkbox" name="active" data-table="content" value="1" checked/>
       <label for="active">Материал опубликован</label>
     </div>
-
     <div class="admin_form_row btns">
       <button class="btn brd btn_admin" id="save" data-btn-event="save">Сохранить изменения</button>
     </div>

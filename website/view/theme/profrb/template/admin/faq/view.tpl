@@ -52,6 +52,9 @@ function ordered($data, $order){
           </div>
       </td>
       <td>
+        <p>ID</p>
+      </td>
+      <td>
         <p id="date_creat" data-sorted="<?=$sort;?>" data-sort-active="<?=ordered('date_creat', $order);?>" class="sorted"><span onclick="sorted('date_creat');">Дата создания</span></p>
       </td>
       <td>
@@ -77,6 +80,9 @@ function ordered($data, $order){
             <input id="content_id<?=$content['id']?>" type="checkbox" name="id[<?=$content['id']?>]" value="<?=$content['id']?>">
             <label for="content_id<?=$content['id']?>"></label>
           </div>
+        </td>
+        <td>
+          <p><?=$content['id']?></p>
         </td>
         <td>
           <p class="content_views_title"><?=$content['date_creat']?></p>

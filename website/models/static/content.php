@@ -44,8 +44,20 @@ class ModelStaticContent extends MVC{
 			$content['date_end'] = '';
 		}
 
+		if(isset($data['geo_id'])){
+			$content['geo_id'] = $data['geo_id'];
+			$content['title'] = '-';
+			unset($data['geo_id']);
+		}
+
 		$sql_content = 'UPDATE '.DB_PREFIX.'content SET ?u WHERE id = ?i';
 		$this->db->query($sql_content, $content, $content_id);
+
+		$user = $this->isAdmin();
+		if($user['level'] < 80){
+			$sql_notification = 'INSERT INTO '.DB_PREFIX.'notification SET date = NOW(), user_id = ?i, content_id = ?i, event = ?s';
+			$this->db->query($sql_notification, $user['id'], $data['content_id'], 'update');
+		}
 
 		#FILTER
 		if(isset($data['filter_id']) && $data['filter_id'] != ''){
@@ -270,6 +282,8 @@ class ModelStaticContent extends MVC{
 			$url = $this->getUri($category_id, 'docs');
 		} else if($content_type_id == 11){
 			$url = $this->getUri($content_id, 'news');
+		} else if($content_type_id == 17){
+			$url = '/geo';
 		} else {
 			$sql_url = 'SELECT u.uri FROM pf_content_type ct, pf_page_section ps, pf_url u WHERE ct.id = ?i AND ps.section_id = ct.section_id AND u.page_id = ps.page_id';
 			$url = $this->db->getOne($sql_url, $content_type_id);
@@ -326,9 +340,23 @@ class ModelStaticContent extends MVC{
 			$content['date_end'] = '';
 		}
 
+		if(isset($data['geo_id'])){
+			$content['geo_id'] = $data['geo_id'];
+			$content['title'] = '-';
+			unset($data['geo_id']);
+		}
+
 		$sql_content = 'INSERT INTO '.DB_PREFIX.'content SET ?u';
 		$this->db->query($sql_content, $content);
 		$content_id = $this->db->insertId();
+
+		$user = $this->isAdmin();
+		if($user['level'] < 80){
+			$sql_notification = 'INSERT INTO '.DB_PREFIX.'notification SET date = NOW(), user_id = ?i, content_id = ?i, event = ?s';
+			$this->db->query($sql_notification, $user['id'], $content_id, 'add');
+		}
+
+		//echo $content_id;
 
 		if($category_id != 0){
 			$sql_count = 'UPDATE `'.DB_PREFIX.'category` SET `count` = `count` + 1 WHERE `id` = ?i';
@@ -471,6 +499,8 @@ class ModelStaticContent extends MVC{
 			$url = $this->getUri($category_id, 'docs');
 		} else if($content_type_id == 11){
 			$url = $this->addUrl('news', $content_id, $title);
+		} else if($content_type_id == 17){
+			$url = '/geo';
 		} else {
 			$sql_url = 'SELECT u.uri FROM pf_content_type ct, pf_page_section ps, pf_url u WHERE ct.id = ?i AND ps.section_id = ct.section_id AND u.page_id = ps.page_id';
 			$url = $this->db->getOne($sql_url, $content_type_id);
@@ -692,7 +722,7 @@ class ModelStaticContent extends MVC{
 		#CONTENT
 		$result = array();
 
-		$sql_content = 'SELECT c.title, c.category_id, c.date_creat, c.date_end, c.active, ct.id as type_id, ct.name as type_name, ct.title as type_tytle
+		$sql_content = 'SELECT c.title, c.category_id, c.date_creat, c.date_end, c.geo_id, c.active, ct.id as type_id, ct.name as type_name, ct.title as type_tytle
 						FROM '.DB_PREFIX.'content c, '.DB_PREFIX.'content_type ct
 						WHERE c.id = ?i AND ct.id = c.type_id';
 
@@ -700,6 +730,11 @@ class ModelStaticContent extends MVC{
 
 		$content['date_creat'] = $this->getDateFormatLocal($content['date_creat']);
 		$content['date_end'] = $this->getDateFormatLocal($content['date_end']);
+
+		if(isset($content['geo_id'])){
+			$result['geo_id'] = $content['geo_id'];
+			$result['geo_objects'] = $this->db->getAll('SELECT c.id, c.title FROM pf_content c WHERE c.type_id = ?i ORDER BY c.title ASC', 5);
+		}
 
 		$filters = $this->getFilter($content['type_id']);
 		$categoryes = $this->getCategory($content['type_id']);

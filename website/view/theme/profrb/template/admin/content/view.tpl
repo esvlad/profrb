@@ -27,7 +27,7 @@ function ordered($data, $order){
     </select>
   </div>
 <? endif; ?>
-<div class="admin_content_view">
+<div class="admin_content_view" data-user-level="<?=$user['level']?>">
   <table class="admin_content_table">
   <thead data-types="<?=$c_type;?>">
     <tr>

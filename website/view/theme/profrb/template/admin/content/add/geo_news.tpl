@@ -1,32 +1,42 @@
-<h2 class="modal_title">Редактирование материала <?=$content['content_type_title'];?></h2>
-<pre><?print_r($fields);?></pre>
-<form class="admin_form clearfix" method="post" action="index.php?r=admin/content/save_update&type=static" data-table="content" data-params="save">
-    <input type="hidden" name="content_type_id" value="6">
-    <input type="hidden" name="content_id" value="<?=$content_id;?>">
+<h2 class="modal_title">Создание материала <?=$content['content_type_title'];?></h2>
+
+<form class="admin_form clearfix" method="post" action="index.php?r=admin/content/save&type=static" data-table="content" data-params="save">
+    <input type="hidden" name="content_type_id" value="17">
     <div class="admin_form_row">
-      <label for="title">Название материала</label>
-      <input id="title" type="text" name="title" data-table="content" value="<?=$content['title'];?>" required/>
+      <label for="title">Название материала*</label>
+      <input id="title" type="text" name="title" data-table="content" value="-" disabled required/>
     </div>
+    <? if(is_array($content['geo_objects'])) : ?>
+    <div class="admin_form_row">
+      <label for="geo_page">Организация</label>
+      <p class="admin_form_caption">Введите или выберите существующию</p>
+        <input id="geo_page" name="geo_id" required="required" list="list_geo_page" value="">
+        <datalist id="list_geo_page">
+          <? foreach($content['geo_objects'] as $geo) : ?>
+            <option value="<?=$geo['id'];?>"><?=$geo['title'];?></option>
+          <? endforeach; ?>
+        </datalist>
+    </div>
+    <? else : ?>
+      <input id="geo_page" name="geo_id" type="hidden" value="<?=$content['geo_objects']?>">
+    <? endif; ?>
     <div class="admin_form_row content_fields">
-      <? if(!empty($fields)) : ?>
-        <? foreach($fields as $key => $field) : ?>
-          <?=HtmlHelper::formField($field);?>
-          <? $i = $fields['id']; ?>
+      <? if(!empty($content['field_type'])) : ?>
+        <? foreach($content['field_type'] as $key => $fields) : ?>
+          <?=HtmlHelper::formField($fields, 1);?>
         <? endforeach; ?>
       <? endif; ?>
     </div>
-    <p id="more_field" class="admin_more_docs" onclick="addField(25)" data-type-id="25" data-type="docs" data-key="<?=++$i;?>">Добавить ещё документ</p>
     <div class="admin_form_row">
       <label for="date_creat">Дата публикации</label>
-      <input id="date_creat" type="datetime-local" name="date_creat" data-table="content" value="<?=$content['date_creat'];?>"/>
+      <input id="date_creat" type="datetime-local" name="date_creat" data-table="content" value=""/>
     </div>
     <div class="admin_form_row">
-      <label for="date_end">Дата конца публикации</label>
-      <input id="date_end" type="datetime-local" name="date_end" data-table="content" value="<?=$content['date_end'];?>"/>
-    </div>
-    <div class="admin_form_row">
-      <? $checked = ($content['active'] == 1) ? 'checked' : null; ?>
-      <input id="active" type="checkbox" name="active" data-table="content" value="1" <?=$checked;?> />
+      <? if($user_level > 80) : ?>
+        <input id="active" type="checkbox" name="active" data-table="content" value="1" checked/>
+      <? else : ?>
+        <input id="active" type="checkbox" name="active" data-table="content" value="1" disabled />
+      <? endif; ?>
       <label for="active">Материал опубликован</label>
     </div>
     <div class="admin_form_row setting closed display_none">
@@ -57,19 +67,6 @@
 
 <script>
 
-$('#fileUpload').each(function(){
-	var dfid = $(this).find('.file_upload_filed').val();
-	var difid = $(this).find('input#docs').attr('id');
-	var newfid = difid + dfid;
-	$(this).find('input#docs').attr('id', newfid);
-});
-
-$('.file_upload_filed').each(function(){
-  group = $(this).attr('name');
-  ngroup = group.replace('[group]','');
-  $(this).attr('name',ngroup);
-});
-
 var tid = [];
 $('textarea').each(function(){
   tid.push($(this).attr('id'));
@@ -78,8 +75,4 @@ $('textarea').each(function(){
 for(var i = 0; i<$('textarea').length; i++){
   CKEDITOR.replace(tid[i]);
 }
-
-$('.setting > .setting_btn').bind('click', function(){
-  $(this).parent().toggleClass('closed opened');
-});
 </script>

@@ -110,7 +110,7 @@
 </footer>
 <? endif; ?>
 
-<script src="../<?= TPL_PATH . THEME_NAME; ?>/js/jquery/jquery.min.js"></script>
+
 <!--<script src="../verstka/js/jquery/owl.carousel/owl.carousel.min.js"></script>
 <script src="../<?= TPL_PATH . THEME_NAME; ?>/js/search-address.js"></script>-->
 <script src="../<?= TPL_PATH . THEME_NAME; ?>/js/jquery/slick/slick.min.js"></script>
@@ -129,26 +129,7 @@
     <script src="//www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
   <? endif; ?>
 
-<!-- Yandex.Metrika informer -->
-<a href="http://metrika.yandex.ru/stat/?id=12597004&amp;from=informer"
-target="_blank" rel="nofollow"><img src="//bs.yandex.ru/informer/12597004/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
-style="width:1px; height:1px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:12597004,type:0,lang:'ru'});return false}catch(e){}"/></a>
-<!-- /Yandex.Metrika informer -->
 
-<!-- Yandex.Metrika counter -->
-<div style="display:none;"><script type="text/javascript">
-(function(w, c) {
-    (w[c] = w[c] || []).push(function() {
-        try {
-            w.yaCounter12597004 = new Ya.Metrika({id:12597004, enableAll: true, webvisor:true});
-        }
-        catch(e) { }
-    });
-})(window, "yandex_metrika_callbacks");
-</script></div>
-<script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" defer="defer"></script>
-<noscript><div><img src="//mc.yandex.ru/watch/12597004" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
 
 </body>
 </html>

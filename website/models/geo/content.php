@@ -9,6 +9,12 @@ class ModelGeoContent extends MVC{
 
 		$ucontent = $this->db->getRow('SELECT * FROM '.DB_PREFIX.'content WHERE id = ?i', $data['content_id']);
 
+		$user = $this->isAdmin();
+		if($user['level'] < 80){
+			$sql_notification = 'INSERT INTO '.DB_PREFIX.'notification SET date = NOW(), user_id = ?i, content_id = ?i, event = ?s';
+			$this->db->query($sql_notification, $user['id'], $data['content_id'], 'update');
+		}
+
 		$category_name = trim($data['geo_category'][0]);
 		$category_id = $this->db->getOne('SELECT p.id FROM '.DB_PREFIX.'category p WHERE p.title = ?s AND p.content_type_id = ?i', $category_name, $ucontent['type_id']);
 
@@ -60,6 +66,49 @@ class ModelGeoContent extends MVC{
 			$this->db->query('UPDATE '.DB_PREFIX.'fields SET body = ?s WHERE id = ?i', $value, $key);
 		}
 
+		#DOCUMENTS
+		$files = array();
+		foreach($data as $key => $value){
+			if(is_array($value)){
+				if($key == 'docs'){
+					foreach($value as $k => $v){
+						if($v != ''){
+							$files['docs'][$data['docs'][$k]] = $data['docs_title'][$k];
+
+							if($data['order'] != '' || $data['order'] != null){
+								if(!array_key_exists($data['docs'][$k], $data['order'])){
+									$data['order'][$data['docs'][$k]] = $data['order'][$k];
+									unset($data['order'][$k]);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if(count($files['docs']) > 0){
+			foreach($files['docs'] as $id => $file_title){
+				$sql_count_field = $this->db->getOne('SELECT count(*) FROM '.DB_PREFIX.'fields_content fc WHERE fc.content_id = ?i AND fc.fields_id = ?i', $data['content_id'], $id);
+				if($sql_count_field != 0){
+					$jbody = $this->db->getOne('SELECT f.body FROM '.DB_PREFIX.'fields f WHERE f.id = ?i', $id);
+					$body = json_decode($jbody, true);
+					$body['title'] = $file_title;
+					$nbody = json_encode($body);
+					$data_order_id = (!empty($data['order'][$id])) ? $data['order'][$id] : null;
+					$this->db->query('UPDATE `'.DB_PREFIX.'fields` SET `body` = ?s, `order` = ?i WHERE `id` = ?i', $nbody, $data_order_id, $id);
+				} else {
+					$jbody = $this->db->getOne('SELECT f.body FROM '.DB_PREFIX.'fields f WHERE f.id = ?i', $id);
+					$body = json_decode($jbody, true);
+					$body['title'] = isset($file_title) ? $file_title : '';
+					$nbody = json_encode($body);
+					$order_f = isset($data['order'][$id]) ? $data['order'][$id] : null;
+					$this->db->query('UPDATE `'.DB_PREFIX.'fields` SET `body` = ?s, `order` = ?i WHERE `id` = ?i', $nbody, $order_f, $id);
+					$this->db->query('INSERT INTO '.DB_PREFIX.'fields_content SET content_id = ?i, fields_id = ?i', $data['content_id'], $id);
+				}
+			}
+		}
+
 		$mg = 0;
 		foreach($data['view_profile_mail']['group'] as $key => $value){
 			$field_mail = $this->db->getOne('SELECT count(*) FROM '.DB_PREFIX.'fields WHERE id = ?i AND fields_type_id = 46', $key);
@@ -91,7 +140,7 @@ class ModelGeoContent extends MVC{
 			$this->db->query($sql_fcg, $fields_ids);
 			$cf_group_id = $this->db->insertId();
 
-			$this->db->query($sql_cfg, $content_id, $cf_group_id);
+			$this->db->query($sql_cfg, $data['content_id'], $cf_group_id);
 		}
 
 		$field_group = $this->db->getAll('SELECT fcg.id, fcg.fields_id FROM '.DB_PREFIX.'content_fields_group cfg, '.DB_PREFIX.'fields_content_group fcg WHERE cfg.content_id = ?i AND fcg.id = cfg.fields_group_id', $data['content_id']);
@@ -242,6 +291,29 @@ class ModelGeoContent extends MVC{
 		$sql_c_tc = 'INSERT INTO '.DB_PREFIX.'fields_content SET content_id = ?i, fields_id = ?i';
 		$this->db->query($sql_c_tc, $content_id, $tc_fid);
 
+		#G DOCUMENTS
+		$files = array();
+		foreach($data as $key => $value){
+			if($key == 'docs'){
+				foreach($value as $k => $v){
+					$files['docs'][$k][$data['docs'][$k]] = $data['docs_title'][$k];
+				}
+			}
+		}
+
+		if(count($files['docs']) > 0){
+			foreach($files['docs'] as $key => $value){
+				foreach($value as $id => $file_title){
+					$jbody = $this->db->getOne('SELECT f.body FROM '.DB_PREFIX.'fields f WHERE f.id = ?i', $id);
+					$body = json_decode($jbody, true);
+					$body['title'] = $file_title;
+					$nbody = json_encode($body);
+					$this->db->query('UPDATE `'.DB_PREFIX.'fields` SET `body` = ?s, `order` = ?i WHERE `id` = ?i', $nbody, $key, $id);
+					$this->db->query('INSERT INTO '.DB_PREFIX.'fields_content SET content_id = ?i, fields_id = ?i', $content_id, $id);
+				}
+			}
+		}
+
 		#FIELDS_GROUP
 		$group = array();
 
@@ -353,7 +425,7 @@ class ModelGeoContent extends MVC{
 		#CONTENT
 		$sql_content = 'SELECT c.id, c.title, c.setting_id, ct.title as type_title, f.fields_type_id, f.body, cf.filter_id
 						FROM '.DB_PREFIX.'content c, '.DB_PREFIX.'content_type ct, '.DB_PREFIX.'fields_content fc, '.DB_PREFIX.'fields f, '.DB_PREFIX.'content_filter cf
-						WHERE c.category_id = ?i AND c.type_id = ct.id AND fc.content_id = c.id AND f.id = fc.fields_id AND cf.content_id = c.id';
+						WHERE c.category_id = ?i AND c.type_id = ct.id AND fc.content_id = c.id AND f.id = fc.fields_id AND f.fields_type_id = 24 AND cf.content_id = c.id';
 
 		$content = $this->db->getAll($sql_content, $category_id);
 
@@ -402,6 +474,16 @@ class ModelGeoContent extends MVC{
 					$view_modal[$key][$k][$fields_content[$v]['field_name']] = $fields_content[$v];					
 				}
 			}
+		}
+
+		#DOCUMENTS
+		foreach($view_modal as $key => $value){
+			$view_modal[$key]['docs'] = $this->db->getAll('SELECT f.body FROM pf_fields f, pf_fields_content fc WHERE fc.content_id = ?i AND f.id = fc.fields_id AND f.fields_type_id = ?i AND f.activ = ?i ORDER BY f.id ASC', $key, 25, 1);
+
+			$view_modal[$key]['news'] = $this->db->getAll('SELECT f.body, DATE_FORMAT(c.date_creat, "%d.%m.%Y") as date_creat FROM pf_content c, pf_fields f, pf_fields_content fc WHERE c.type_id = ?i AND c.geo_id = ?i AND fc.content_id = c.id AND f.id = fc.fields_id AND f.fields_type_id = ?i AND c.active = ?i ORDER BY c.date_creat DESC LIMIT 0,10', 17, $key, 26, 1);
+			$view_modal[$key]['count_news'] = $this->db->getOne('SELECT count(*) FROM pf_content c WHERE c.type_id = ?i AND c.geo_id = ?i AND c.active = ?i', 17, $key, 1);
+
+			$view_modal[$key]['coordinates'] = $this->db->getOne('SELECT gp.coordinates FROM pf_geo_pins gp WHERE gp.content_id = ?i', $key);
 		}
 
 		#FILTER
@@ -453,6 +535,8 @@ class ModelGeoContent extends MVC{
 		$sql_content = 'SELECT c.title, cfg.fields_group_id, fcg.fields_id FROM pf_content c, pf_content_fields_group cfg, pf_fields_content_group fcg WHERE c.id = ?i AND cfg.content_id = c.id AND fcg.id = cfg.fields_group_id';
 		$field_groups = $this->db->getAll($sql_content, $content_id);
 
+		$coordinates = $this->db->getOne('SELECT gp.coordinates FROM pf_geo_pins gp WHERE gp.content_id = ?i', $content_id);
+
 		$sql_fields = '';
 
 		if(count($field_groups) > 0){
@@ -497,29 +581,21 @@ class ModelGeoContent extends MVC{
 			$view_modal = '';
 		}
 
+		$docs = $this->db->getAll('SELECT f.body FROM pf_fields f, pf_fields_content fc WHERE fc.content_id = ?i AND f.id = fc.fields_id AND f.fields_type_id = ?i AND f.activ = ?i ORDER BY f.id ASC', $content_id, 25, 1);
+
+		$news = $this->db->getAll('SELECT f.body, DATE_FORMAT(c.date_creat, "%d.%m.%Y") as date_creat FROM pf_content c, pf_fields f, pf_fields_content fc WHERE c.type_id = ?i AND c.geo_id = ?i AND fc.content_id = c.id AND f.id = fc.fields_id AND f.fields_type_id = ?i AND c.active = ?i ORDER BY c.date_creat DESC LIMIT 0,10', 17, $content_id, 26, 1);
+		$count_news = $this->db->getOne('SELECT count(*) FROM pf_content c WHERE c.type_id = ?i AND c.geo_id = ?i AND c.active = ?i', 17, $content_id, 1);
+
 		$result = array(
 			'content' => $field_groups,
-			'view_modal' => $view_modal
+			'view_modal' => $view_modal,
+			'cordinates' => $coordinates,
+			'docs' => $docs,
+			'news' => $news,
+			'count_news' => $count_news
 		);
 
 		return $result;
-
-		/*$contents = array();
-
-		foreach($c as $v){
-			$contents[] = array(
-				'title' => $v[''],
-				'profile_image' => $v[''],
-				'profile_title' => $v[''],
-				'profile_mail' => $v[''],
-				'profile_phone' => $v[''],
-				'profile_mail' => $v[''],
-				'profile_phone' => $v[''],
-				'profile_caption' => $v[''],
-				'docs' => $v[''], #path
-				'caption' => $v[''],
-			);
-		}*/
 	}
 
 	######################
@@ -584,18 +660,18 @@ class ModelGeoContent extends MVC{
 
 		#FILEDS_TYPES
 		if($content['type_name'] == 'geo_page'){
-			$ids = array(20, 21, 22, 24);
+			$ids = array(20, 21, 22, 24, 25);
 		}
 
 		$sql_fields_type = 'SELECT ft.name, ft.title, s.action, s.params 
-							FROM '.DB_PREFIX.'fields_type ft, '.DB_PREFIX.'setting s 
+							FROM pf_fields_type ft, pf_setting s 
 							WHERE ft.id in (?a) AND s.id = ft.setting_id';
 
 		$field_types = $this->db->getAll($sql_fields_type, $ids);
 
 		#FIELDS
-		$sql_field = 'SELECT f.id, f.body, ft.id, ft.name, ft.title, s.params
-						FROM '.DB_PREFIX.'fields_content fc, '.DB_PREFIX.'fields f, '.DB_PREFIX.'fields_type ft, '.DB_PREFIX.'setting s
+		$sql_field = 'SELECT f.id, f.body, ft.name, ft.title, s.params
+						FROM pf_fields_content fc, pf_fields f, pf_fields_type ft, pf_setting s
 						WHERE fc.content_id = ?i AND f.id = fc.fields_id AND ft.id = f.fields_type_id AND s.id = ft.setting_id';
 
 		$field_array = $this->db->getAll($sql_field, $content_id);
@@ -616,6 +692,44 @@ class ModelGeoContent extends MVC{
 		);
 
 		return $result;
+	}
+
+	public function getPins(){
+		$data = array();
+
+		$pins = $this->db->getAll('SELECT gp.id as pin_id, c.title, gp.coordinates, cf.filter_id FROM pf_geo_pins gp, pf_content c, pf_content_filter cf WHERE gp.content_id != ?i AND c.id = gp.content_id AND cf.content_id = c.id AND c.active = ?i', 0, 1);
+
+		$data['type'] = 'FeatureCollection';
+		$data['features'] = array();
+
+		foreach($pins as $value){
+			$coordinates = explode(',', $value['coordinates']);
+
+			switch($value['filter_id']){
+				case 1:
+					$icon = '../website/view/theme/profrb/img/icon/icon_geo_map_pin.svg';
+				break;
+				case 2:
+					$icon = '../website/view/theme/profrb/img/icon/icon_geo_map_pin2.svg';
+				break;
+				default :
+					$icon = '../website/view/theme/profrb/img/icon/icon_geo_map_pin3.svg';
+				break;
+			}
+
+			$data['features'][] = array(
+				'type' => 'Feature',
+				'id' => (int)$value['pin_id'],
+				'geometry' => array(
+					'type' => 'Point',
+					'coordinates' => [(float)$coordinates[0], (float)$coordinates[1]]
+				),
+				'properties' => array('hintContent' => $value['title'], "iconCaption" => $value['filter_id']),
+				'options' => array('iconImageHref' => $icon)
+			);
+		}
+
+		return $data;
 	}
 }
 ?>

@@ -1,5 +1,5 @@
 <h2 class="modal_title">Редактирование материала: Внештатная инспекция труда</h2>
-
+<pre><?print_r($fields);?></pre>
 <form class="admin_form clearfix" method="post" action="index.php?r=admin/content/save_update&type=static" data-table="content" data-params="save">
     <input type="hidden" name="content_type_id" value="10">
     <input type="hidden" name="content_id" value="<?=$content_id;?>">

@@ -104,6 +104,23 @@
   	</div>
 </section>
 <? foreach($modal as $key => $value) : ?>
+	<? 
+		if(count($value['docs']) > 0) $docs = $value['docs'];
+		unset($value['docs']);
+
+		if(count($value['news']) > 0){
+			$news = $value['news'];
+			$count_news = $value['count_news'];
+		}
+		unset($value['news']);
+		unset($value['count_news']);
+
+		if(!empty($value['coordinates'])) $coordinates = $value['coordinates'];
+		$cord = explode(',',$coordinates);
+		$cord_x = round($cord[0], 6);
+		$cord_y = round($cord[1], 6);
+		unset($value['coordinates']);
+	?>
 	<? $dogovor = 'Коллективный договор'; ?>
 	<div class="modal modal_geo" data-modal-id="<?=$key;?>" data-modal-block="geo" data-modal-open="false">
 		<div class="modal_close"></div>
@@ -150,5 +167,43 @@
 				</div>
 			</div>
 		<? endforeach; ?>
+		<div class="modal_view maps clearfix">
+			<div class="btn brd btn_geo_map" data-cords="<?=$coordinates;?>" data-cordx="<?=$cord_x;?>" data-cordy="<?=$cord_y;?>" data-open-map="false">Показать на карте</div>
+			<div class="geo_map" data-map="false">
+				<div id="GMap"></div>
+			</div>
+		</div>
+		<? if(!empty($docs)) : ?>
+			<div class="modal_view documents clearfix">
+				<h4 class="modal_title">Документы</h4>
+				<div class="view_docs clearfix">
+					<? foreach($docs as $value) : ?>
+						<? $doc = json_decode($value['body'], true); ?>
+						<li class="view_docs__item">
+							<i class="docs_icon docs_icon__pdf"></i>
+							<div class="docs_title">
+				                <a href="<?=$doc['path'];?>" download="" data-id="642"><?=$doc['title'];?></a>
+				              </div>
+						</li>
+					<? endforeach; ?>
+				</div>
+			</div>
+		<? endif; ?>
+		<? if(!empty($news)) : ?>
+			<div class="modal_view geo_news clearfix">
+				<h4 class="modal_title">Новости</h4>
+				<div class="geo_news_block clearfix">
+					<? foreach($news as $value) : ?>
+						<div class="geo_news__content">
+							<time datetime="<?=$value['date_creat'];?>"><?=$value['date_creat'];?></time>
+							<?=$value['body'];?>
+						</div>
+					<? endforeach; ?>
+				</div>
+				<? if($count_news > 10) : ?>
+					<div id="more_geo_news" class="btn brd btn_submit btn_geo_news" data-page="2">Показать ещё</div>
+				<? endif; ?>
+			</div>
+		<? endif; ?>
 	</div>
 <? endforeach; ?>

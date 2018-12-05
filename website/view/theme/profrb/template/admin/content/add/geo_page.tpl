@@ -23,7 +23,7 @@
     <div class="admin_form_row">
       <?=HtmlHelper::formField($content['field_type'][2], 0);?>
     </div>
-    <div class="admin_form_row content_fields is_field_group">
+    <div class="admin_form_row is_field_group">
       <div id="<?=$content['field_group']['group']['group_name'];?>" data-group="1" class="admin_field_group">
         <p class="admin_field_group_title"><?=$content['field_group']['group']['group_title'];?></p>
         <? foreach($content['field_group']['field_type'] as $key => $fields) : ?>
@@ -33,6 +33,17 @@
       <div class="admin_form_row clearfix">
         <div id="add_group" class="btn brd btn_admin">Добавить группу</div>
       </div>
+    </div>
+    <div class="admin_form_row content_fields">
+      <h3 style="margin: 30px 0 10px;">Документы</h3>
+      <?
+        foreach($content['field_type'] as $key => $field_type){
+          if($field_type['name'] == 'docs'){
+            echo HtmlHelper::formField($field_type, 0);
+          }
+        }
+      ?>
+      <p id="more_field" class="admin_more_docs" onclick="addField(25)" data-type-id="25" data-type="docs" data-key="2">Добавить ещё документ</p>
     </div>
     <div class="admin_form_row">
       <div id="geo_map_pin" class="admin_form_row">

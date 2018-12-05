@@ -17,13 +17,21 @@ class ModelAdminStructure extends MVC{
 
 		$s_params = json_decode($setting_type['params'], true);
 		
-		$result = $this->$setting_type['action']($s_params, $setting_type);
+		$result = $this->{$setting_type['action']}($s_params, $setting_type);
 
 		return $result;
 	}
 
 	public function getContentTypeAll(){
-		return $this->db->getAll('SELECT id, name, title FROM '.DB_PREFIX.'content_type ORDER BY id');
+		$user = $this->isAdmin();
+
+		if($user['org_id'] != 0){
+			$result = $this->db->getAll('SELECT id, name, title FROM pf_content_type WHERE id IN(5,17) ORDER BY id');
+		} else {
+			$result = $this->db->getAll('SELECT id, name, title FROM '.DB_PREFIX.'content_type ORDER BY id');
+		}
+
+		return $result;
 	}
 
 	public function getContentType($name){
@@ -40,6 +48,18 @@ class ModelAdminStructure extends MVC{
 			'content_type_title' => $setting_type['title'],
 			'field_type' => $field_type
 		);
+
+		if($setting_type['action'] == 'getGeoNewsContent'){
+			$user = $this->isAdmin();
+
+			if($user['org_id'] != 0){
+				$geo_objects = $this->db->getOne('SELECT c.id FROM pf_content c WHERE c.id = ?i ORDER BY c.title ASC', $user['org_id']);
+			} else {
+				$geo_objects = $this->db->getAll('SELECT c.id, c.title FROM pf_content c WHERE c.type_id = ?i ORDER BY c.title ASC', 5);
+			}
+
+			$result['geo_objects'] = $geo_objects;
+		}
 
 		return $result;
 	}
@@ -88,6 +108,14 @@ class ModelAdminStructure extends MVC{
 		return $this->getStaticContent($s_params, $setting_type);
 	}
 
+	public function getTodayContent($s_params, $setting_type){
+		return $this->getStaticContent($s_params, $setting_type);
+	}
+
+	public function getGeoNewsContent($s_params, $setting_type){
+		return $this->getStaticContent($s_params, $setting_type);
+	}
+
 	public function getDocsContent($s_params, $setting_type){
 		$sql_ft = 'SELECT ft.id, ft.name, ft.title, s.action, s.params FROM '.DB_PREFIX.'fields_type ft, '.DB_PREFIX.'setting s WHERE ft.id in (?a) AND s.id = ft.setting_id ORDER BY s.order';
 		$field_type = $this->db->getAll($sql_ft, $s_params['field_type']['access']);
@@ -119,8 +147,8 @@ class ModelAdminStructure extends MVC{
 								ORDER BY s.order ASC';
 		$field_not_group = $this->db->getAll($sql_field_not_group, $s_params['field_type']['access'], $fields_id);
 
-		$sql_cat = 'SELECT p.id, p.content_type_id, p.name, p.title, p.setting_id FROM '.DB_PREFIX.'category p WHERE p.params = ?s ORDER BY p.name';
-		$category = $this->db->getAll($sql_cat, 'geo');
+		$sql_cat = 'SELECT p.id, p.content_type_id, p.name, p.title, p.setting_id FROM '.DB_PREFIX.'category p WHERE p.params like "%geo%" ORDER BY p.name';
+		$category = $this->db->getAll($sql_cat);
 
 		$result = array(
 			'content_type_title' => $setting_type['title'],
@@ -178,11 +206,27 @@ class ModelAdminStructure extends MVC{
 				$where .= ' AND c.category_id = ' . $arg['category_id'];
 			}
 
+			if($arg['user']['org_id'] != 0){
+				if($arg['type'] == 'geo_page'){
+					$where .= ' AND c.id = ' . $arg['user']['org_id'];
+				} else {
+					$where .= ' AND c.geo_id = ' . $arg['user']['org_id'];
+				}
+			}
+
 			$sql_count = $sql . $count . $from . $where;
 			$content['count'] = $this->db->getOne($sql_count, $arg['type']);
 
 			$sql_content = $sql . $fields . $from . $where . $order . $sort . $limit;
 			$content['content'] = $this->db->getAll($sql_content, $arg['type'], $arg['page'], $arg['limit']);
+		}
+
+		foreach($content['content'] as $key => $value){
+			if($value['title'] == '-'){
+				$title = $this->db->getOne('SELECT f.body FROM pf_fields f, pf_fields_content fc, pf_fields_type ft WHERE fc.content_id = ?i AND f.id = fc.fields_id AND ft.name = ?s AND f.fields_type_id = ft.id', $value['id'], 'text');
+
+				$content['content'][$key]['title'] = mb_substr(trim(strip_tags($title)), 0, 45).'...';
+			}
 		}
 
 		return $content;
@@ -194,8 +238,11 @@ class ModelAdminStructure extends MVC{
 
 		$sql_comments = 'SELECT count(*) FROM '.DB_PREFIX.'faq_comments WHERE active = 0';
 
+		$sql_user = 'SELECT count(*) FROM '.DB_PREFIX.'notification WHERE view = 0';
+
 		$count['faq'] = $this->db->getOne($sql_faq);
 		$count['comments'] = $this->db->getOne($sql_comments);
+		$count['notification'] = $this->db->getOne($sql_user);
 
 		$notifi = array();
 
@@ -231,6 +278,9 @@ class ModelAdminStructure extends MVC{
 			break;
 			case 'comments':
 				$text = $this->plural_form($count, array('комментарий','комментария','комментариев'));
+			break;
+			case 'notification':
+				$text = $this->plural_form($count, array('действие','действия','действий'));
 			break;
 			default : 
 				$text = null;

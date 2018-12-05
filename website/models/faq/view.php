@@ -52,6 +52,25 @@ class ModelFaqView extends MVC{
 		return $content;
 	}
 
+	public function getContent($id){
+		$comments = array();
+
+		$sql = 'SELECT fa.name as answer_name, fa.caption as answer_caption, f.* FROM '.DB_PREFIX.'faq f, '.DB_PREFIX.'faq_answer fa WHERE';
+		$sql .= ' f.id = ?i AND f.active = ?i LIMIT ?i,?i';
+		$result = $this->db->getAll($sql, $id, 1, 0, 1);
+
+		$sql_comments = 'SELECT fc.faq_id, fc.id, fc.author, DATE_FORMAT(fc.date_creat, "%d.%m.%Y") as view_date, fc.text 
+		FROM '.DB_PREFIX.'faq_comments fc, '.DB_PREFIX.'faq f WHERE f.id = ?i AND fc.faq_id = f.id AND fc.active = ?i';
+		$comments[$id] = $this->db->getAll($sql_comments, $id, 1);
+
+		$content = array(
+			'content' => $result,
+			'comments' => $comments
+		);
+
+		return $content;
+	}
+
 	private function getNewsDate($date){
 		$monthes = array(
 		    1 => 'Января', 2 => 'Февраля', 3 => 'Марта', 4 => 'Апреля',
@@ -71,7 +90,7 @@ class ModelFaqView extends MVC{
 		$search_faq = $this->db->getCol($sql_faq, "%$string%", "%$string%", (int)$string);
 
 		$sql = 'SELECT fa.name as answer_name, fa.caption as answer_caption, c.title as category_title, f.* FROM '.DB_PREFIX.'faq f, '.DB_PREFIX.'faq_answer fa, '.DB_PREFIX.'category c 
-		WHERE f.id IN (?a) GROUP BY f.id ORDER BY f.date_creat DESC';
+		WHERE f.id IN (?a) AND c.id = f.category_id GROUP BY f.id ORDER BY f.date_creat DESC';
 
 		$result = $this->db->getAll($sql, $search_faq);
 

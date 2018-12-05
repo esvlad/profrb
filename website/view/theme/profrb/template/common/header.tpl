@@ -15,13 +15,14 @@
   <? if(!empty($is_admin)) : ?>
     <link href="../<?= TPL_PATH . THEME_NAME; ?>/css/admin.css" rel="stylesheet" type="text/css" />
   <? endif; ?>
-  <? $basehref = isset($basehref) ? $basehref : 'https://eduprofrb.ru/'; ?>
+  <? $basehref = isset($basehref) ? $basehref : 'https://profrb/'; ?>
   <base href="<?= $basehref; ?>" />
   <meta property="og:title" content="Башкирская республиканская организация Профсоюза работников народного образования и науки Российской Федерации" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="" />
   <? $site_name = isset($site_name) ? $site_name : 'My Site'; ?>
   <meta property="og:site_name" content="<?=$site_name;?>" />
+  <script src="../<?= TPL_PATH . THEME_NAME; ?>/js/jquery/jquery.min.js"></script>
 </head>
 <body>
 <div class="modal_bg"></div>

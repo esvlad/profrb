@@ -146,7 +146,7 @@ class HtmlHelper{
 						$tag .= static::ordered($field_id).'<span id="remove_field" data-remove-ffile="'.$field_id.'" onclick="remove_field_file('.$field_id.');">Удалить поле с названием</span>';
 					} elseif(isset($name) && $name == 'docs'){
 						$tag .= '<div id="fileUploaded" class="btn btn_admin" onclick="fileUploadBtn(\''.$tag_attr['id'].$field_id.'\');">Добавить файл</div>';
-						$tag .= '<input class="file_upload_filed" type="hidden" name="'.$tag_attr['name'].'[group]['.$field_id.']" value="'.$field_id.'">';
+						$tag .= '<input class="file_upload_filed" type="hidden" name="'.$tag_attr['name'].'['.$field_id.']" value="'.$field_id.'">';
 						$tag .= static::ordered($field_id).'<span id="remove_field" data-remove-ffile="'.$field_id.'" onclick="remove_field_file('.$field_id.');">Удалить поле с названием</span>';
 					} elseif(isset($name) && $name == 'gallery'){
 						$tag .= '<div id="fileUploaded" class="btn btn_admin" onclick="fileUploadBtn(\''.$tag_attr['id'].$field_id.'\');">Добавить файл</div>';
@@ -323,6 +323,8 @@ class HtmlHelper{
 	}
 }
 
+#{"tag":{"name":"input","attr":{"id":"slider_title","type":"text","name":"slider_title","data-table":"fields"},"label":{"position":"top","attr":{"for":"slider_title"}}}}
+#{"tag":{"name":"input","attr":{"id":"slider_title","type":"text","name":"slider_title","data-table":"fields",}},"label":{"position":"top","attr":{"for":"slider_title"}}}
 ?>
 
 

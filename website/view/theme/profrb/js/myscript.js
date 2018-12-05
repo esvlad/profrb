@@ -201,18 +201,6 @@ $(document).ready(function() {
 	
 	//Делаем одинаковую высоту у блоков с вопросами и ответами
 	var faq_q_h, faq_a_h;
-	/*$('.faq_block').each(function(){
-		var faq_q = $(this).find('.faq_question');
-		var faq_a = $(this).find('.faq_answer');
-		faq_q_h = faq_q.innerHeight();
-		faq_a_h = faq_a.innerHeight();
-		
-		if(faq_q_h > faq_a_h){
-			faq_a.css('height', faq_q_h);
-		} else if(faq_q_h < faq_a_h){
-			faq_q.css('height', (faq_a_h - (-12)));
-		}
-	});*/
 
 	if(location.pathname == '/labor-inspection'){
 		if(location.search == '?ds=teh'){
@@ -237,30 +225,6 @@ $(document).ready(function() {
 		});
 	}
 });
-
-/*$('.cb_opened').click(function(){
-	var cb_element = $(this);
-	var comment_block = cb_element.parents('.comments_block');
-	var cb_type = cb_element.attr('data-type');
-	var cb_opened = cb_element.attr('data-open');
-
-	if(cb_type == 'comments'){
-		var cb_now_type = 'form';
-	} else {
-		var cb_now_type = 'comments';
-	}
-
-	if(cb_opened == 'false'){
-		comment_block.find('.cb_blocks[data-type="'+cb_type+'"] .cb_block').slideDown();
-		comment_block.find('.cb_blocks[data-type="'+cb_now_type+'"] .cb_block').slideUp();
-
-		cb_element.attr('data-open','true');
-
-		setTimeout(function(){
-			comment_block.find('.cb_opened[data-type="'+cb_now_type+'"]').attr('data-open','false');
-		},200);
-	}
-});*/
 
 var s_vision = {};
 $('#verius').click(function(){
@@ -615,6 +579,16 @@ $('#eventCarousel').esSlider({
 	step: 1,
 	items: item_number,
 	count: count_item,
+	paramPrevNext: 'invert',
+	btnText: false
+});
+
+
+var count_today_item = $('#todayCarousel').data('slides');
+$('#todayCarousel').esSlider({
+	step: 1,
+	items: 2,
+	count: count_today_item,
 	paramPrevNext: 'invert',
 	btnText: false
 });
@@ -1115,6 +1089,54 @@ if(location.pathname == '/contacts'){
 	});
 }
 
+//Карта в модалке
+var cord_x, cord_y;
+$('.btn_geo_map').click(function(){
+	cord_x = $(this).data('cordx');
+	cord_y = $(this).data('cordy');
+	var map_tag = $(this).next();
+
+	if($(this).attr('data-open-map') != 'false'){
+		map_tag.slideUp(300);
+		$(this).attr('data-open-map','false');
+		$(this).text('Показать на карте');
+	} else {
+		if(map_tag.attr('data-map') == 'false'){
+			map_tag.slideDown(300,function(){
+				ymaps.ready(init_modal_map);
+			});
+			map_tag.attr('data-map','true');
+			$(this).attr('data-open-map','true');
+			$(this).text('Скрыть карту');
+		} else {
+			map_tag.slideDown(300);
+			$(this).attr('data-open-map','true');
+			$(this).text('Скрыть карту');
+		}
+	}
+});
+
+function init_modal_map (){
+	modalMap = window.map = new ymaps.Map('GMap', {
+        center: [cord_x, cord_y],
+        zoom: 14
+    });
+
+    myPlacemark = new ymaps.Placemark([cord_x, cord_y], {
+		hintContent: '',
+		balloonContent: ''
+	}, {
+		iconLayout: 'default#image',
+		iconImageHref: '/website/view/theme/profrb/img/icon/icon_geo_map_pin.svg',
+		iconImageSize: [23, 40],
+		iconImageOffset: [-18, -22]
+	});
+
+	modalMap.behaviors.disable(['scrollZoom']);
+	
+	modalMap.geoObjects.add(myPlacemark);
+}
+
 //Карта географии
 if(location.pathname == '/geo'){
 	ymaps.ready(init);
@@ -1140,21 +1162,27 @@ if(location.pathname == '/geo'){
 	    myMap.controls.add(searchControl);
 
 	    objectManager.objects.options.set('iconLayout', 'default#image');
-	    objectManager.objects.options.set('iconImageHref', '/website/view/theme/profrb/img/icon/icon_geo_map_pin.svg');
+	    //objectManager.objects.options.set('iconImageHref', '/website/view/theme/profrb/img/icon/icon_geo_map_pin.svg');
 	    objectManager.objects.options.set('iconImageSize', [23, 40]);
 	    //objectManager.objects.options.set('iconImageOffset', [-18, -22]);
 	    myMap.geoObjects.add(objectManager);
 
 	    $.ajax({
-	        url: '../website/models/geo/geo2.json'
-	    }).done(function(data) {
-	        objectManager.add(data);
-	        console.log(data);
+	        url: 'index.php?r=geo/city/map', //../website/models/geo/geo.json   ../website/view/theme/profrb/template/geo/geo.json
+	    	dataType: 'json'
+	    }).done(function(json) {
+	        objectManager.add(json);
+	        console.log(json);
 	    });
 
 	    objectManager.objects.events.add('click', function (e) {
         	var obj_id = e.get('objectId');
         	getModalGeo(obj_id);
+        });
+
+        objectManager.objects.events.add('mouseenter', function (e) {
+        	var obj_id = e.get('objectId');
+        	//getTitleGeo(obj_id);
         });
 
         myMap.events.add('click', function (e) {

@@ -15,10 +15,16 @@ class ControllerAdminContent extends MVC{
 		$admin = $this->isAdmin();
 		if(empty($admin['name'])) return false;
 
-		$add_content = new Action(MODEL,'admin/structure');
-		$data['content'] = $add_content->loader('getStructureContent', $_POST['type']);
+		$data['user_level'] = $admin['level'];
 
-		return $this->render(THEME_NAME . '/template/admin/content/add/'.$_POST['type'].'.tpl',$data);
+		if($_POST['type'] == 'geo_page' && $admin['org_id'] != 0){
+			return false;
+		} else {
+			$add_content = new Action(MODEL,'admin/structure');
+			$data['content'] = $add_content->loader('getStructureContent', $_POST['type']);
+
+			return $this->render(THEME_NAME . '/template/admin/content/add/'.$_POST['type'].'.tpl',$data);
+		}
 	}
 
 	public function save(){
@@ -68,6 +74,7 @@ class ControllerAdminContent extends MVC{
 		$arg['page'] = isset($_POST['page']) ? ($_POST['page'] * $arg['limit']) : 0;
 		$arg['order'] = isset($_POST['order']) ? $_POST['order'] : 'id';
 		$arg['sort'] = isset($_POST['sort']) ? $_POST['sort'] : 'DESC';
+		$arg['user'] = $admin;
 
 		$c_type = $view->loader('getContentType', $arg['type']);
 		$data['content_type'] = isset($c_type['title']) ? $c_type['title'] : 'Все';
@@ -101,6 +108,8 @@ class ControllerAdminContent extends MVC{
 
 		$data['ccc'] = $content['count'];
 		$data['lll'] = $arg['limit'];
+
+		$data['user'] = $admin;
 
 		return $this->render(THEME_NAME . '/template/admin/content/view.tpl',$data);
 	}
@@ -151,6 +160,13 @@ class ControllerAdminContent extends MVC{
 			if(isset($content['filters'])){
 				$data['filters'] = $content['filters'];
 			}
+
+			if(isset($content['geo_id'])){
+				$data['geo_id'] = $content['geo_id'];
+				$data['geo_objects'] = $content['geo_objects'];
+			}
+
+			$data['user_level'] = $admin['level'];
 
 			return $this->render(THEME_NAME . '/template/admin/content/edit/'.$content_type_name.'.tpl',$data);
 		}

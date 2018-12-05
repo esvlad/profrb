@@ -95,6 +95,12 @@ class ModelAdminUpdate extends MVC{
 		$this->db->query('DELETE FROM '.DB_PREFIX.'setting WHERE id in (?a)', $setting_id);
 
 		$this->db->query('DELETE FROM '.DB_PREFIX.'content WHERE id = ?i', $content_id);
+
+		$user = $this->isAdmin();
+		if($user['level'] < 80){
+			$sql_notification = 'INSERT INTO '.DB_PREFIX.'notification SET date = NOW(), user_id = ?i, content_id = ?i, event = ?s';
+			$this->db->query($sql_notification, $user['id'], $content_id, 'delete');
+		}
 		
 		return array('success' => true);
 	}

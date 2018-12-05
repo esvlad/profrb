@@ -1,28 +1,37 @@
 <h2 class="modal_title">Редактирование материала <?=$content['content_type_title'];?></h2>
-<pre><?print_r($fields);?></pre>
+
 <form class="admin_form clearfix" method="post" action="index.php?r=admin/content/save_update&type=static" data-table="content" data-params="save">
-    <input type="hidden" name="content_type_id" value="6">
+    <input type="hidden" name="content_type_id" value="17">
     <input type="hidden" name="content_id" value="<?=$content_id;?>">
     <div class="admin_form_row">
-      <label for="title">Название материала</label>
-      <input id="title" type="text" name="title" data-table="content" value="<?=$content['title'];?>" required/>
+      <label for="title">Название материала* - <?=$user_level;?></label>
+      <input id="title" type="text" name="title" data-table="content" value="<?=$content['title'];?>" disabled required/>
+    </div>
+    <? $none_class = ($user_level < 80) ? ' display_none' : ''; ?>
+    <div class="admin_form_row<?=$none_class;?>">
+        <label for="geo_page">Организация</label>
+        <p class="admin_form_caption">Введите или выберите существующий</p>
+        <? if($user_level > 80) : ?>
+          <input id="geo_page" name="geo_id" required="required" list="list_geo_page" value="<?=$geo_id;?>">
+          <datalist id="list_geo_page">
+            <? foreach($geo_objects as $geo) : ?>
+              <option value="<?=$geo['id'];?>"><?=$geo['title'];?></option>
+            <? endforeach; ?>
+          </datalist>
+        <? else : ?>
+          <input id="geo_page" name="geo_id" required="required" list="list_geo_page" value="<?=$geo_id;?>">
+        <? endif; ?>
     </div>
     <div class="admin_form_row content_fields">
       <? if(!empty($fields)) : ?>
         <? foreach($fields as $key => $field) : ?>
           <?=HtmlHelper::formField($field);?>
-          <? $i = $fields['id']; ?>
         <? endforeach; ?>
       <? endif; ?>
     </div>
-    <p id="more_field" class="admin_more_docs" onclick="addField(25)" data-type-id="25" data-type="docs" data-key="<?=++$i;?>">Добавить ещё документ</p>
     <div class="admin_form_row">
       <label for="date_creat">Дата публикации</label>
       <input id="date_creat" type="datetime-local" name="date_creat" data-table="content" value="<?=$content['date_creat'];?>"/>
-    </div>
-    <div class="admin_form_row">
-      <label for="date_end">Дата конца публикации</label>
-      <input id="date_end" type="datetime-local" name="date_end" data-table="content" value="<?=$content['date_end'];?>"/>
     </div>
     <div class="admin_form_row">
       <? $checked = ($content['active'] == 1) ? 'checked' : null; ?>
@@ -57,19 +66,6 @@
 
 <script>
 
-$('#fileUpload').each(function(){
-	var dfid = $(this).find('.file_upload_filed').val();
-	var difid = $(this).find('input#docs').attr('id');
-	var newfid = difid + dfid;
-	$(this).find('input#docs').attr('id', newfid);
-});
-
-$('.file_upload_filed').each(function(){
-  group = $(this).attr('name');
-  ngroup = group.replace('[group]','');
-  $(this).attr('name',ngroup);
-});
-
 var tid = [];
 $('textarea').each(function(){
   tid.push($(this).attr('id'));
@@ -79,7 +75,4 @@ for(var i = 0; i<$('textarea').length; i++){
   CKEDITOR.replace(tid[i]);
 }
 
-$('.setting > .setting_btn').bind('click', function(){
-  $(this).parent().toggleClass('closed opened');
-});
 </script>
