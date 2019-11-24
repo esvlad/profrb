@@ -57,7 +57,7 @@ class MVC{
 
 	public function isAdmin(){
 		if(!empty($_COOKIE['userid']) && !empty($_COOKIE['hash'])){
-			$user = $this->db->getRow('SELECT u.id, u.name, ul.level FROM '.DB_PREFIX.'user u, '.DB_PREFIX.'user_level ul WHERE u.id = ?i AND u.hash = ?s AND ul.id = u.level_id', $_COOKIE['userid'], $_COOKIE['hash']);
+			$user = $this->db->getRow('SELECT u.*, ul.level FROM '.DB_PREFIX.'user u, '.DB_PREFIX.'user_level ul WHERE u.id = ?i AND u.hash = ?s AND ul.id = u.level_id', $_COOKIE['userid'], $_COOKIE['hash']);
 
 			if($user['level'] > 70){
 				return $user;

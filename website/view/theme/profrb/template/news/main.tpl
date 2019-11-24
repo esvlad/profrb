@@ -155,53 +155,82 @@
                 ?>
                 <div class="news_col_50">
                   <div class="news_views__blocks">
-                    <div class="news_views__blocks_left">
+                    <? if(IS_MOBILE) : ?>
                       <? foreach($value as $k => $news) : ?>
-                        <? if(empty($news['title'])) break; ?>
-                        <? if(in_array($k, $left_nl)) : ?>
-                          <? if(!$news['preview']) : ?>
-                            <div class="news_block <?=Functions::news_img_preview($news['preview'], 'class');?> small clearfix">
-                              <a href="..<?=$news['uri'];?>" target="_self">
-                                <?=Functions::news_img_preview($news['preview'], 'div');?>
-                                <div class="news_preview_text">
-                                  <h3 class="news_title"><span><?=$news['title'];?></span></h3>
-                                  <time class="news_date"><?=$news['date'];?></time>
-                                  <p class="news_count_view"><?=$news['views'];?></p>
-                                </div>
-                              </a>
-                            </div>
-                          <? else : ?>
-                            <div class="news_block <?=Functions::news_img_preview($news['preview'], 'class');?> small clearfix">
-                              <a href="..<?=$news['uri'];?>" target="_self">
-                                <?=Functions::news_img_preview($news['preview'], 'div');?>
-                                <div class="news_preview_text">
-                                  <h3 class="news_title"><span><?=$news['title'];?></span></h3>
-                                  <time class="news_date"><?=$news['date'];?></time>
-                                  <p class="news_count_view"><?=$news['views'];?></p>
-                                </div>
-                              </a>
-                            </div>
+                          <? if(empty($news['title'])) break; ?>
+                            <? if(!$news['preview']) : ?>
+                              <div class="news_block <?=Functions::news_img_preview($news['preview'], 'class');?> small clearfix">
+                                <a href="..<?=$news['uri'];?>" target="_self">
+                                  <?=Functions::news_img_preview($news['preview'], 'div');?>
+                                  <div class="news_preview_text">
+                                    <h3 class="news_title"><span><?=$news['title'];?></span></h3>
+                                    <time class="news_date"><?=$news['date'];?></time>
+                                    <p class="news_count_view"><?=$news['views'];?></p>
+                                  </div>
+                                </a>
+                              </div>
+                            <? else : ?>
+                              <div class="news_block <?=Functions::news_img_preview($news['preview'], 'class');?> small clearfix">
+                                <a href="..<?=$news['uri'];?>" target="_self">
+                                  <?=Functions::news_img_preview($news['preview'], 'div');?>
+                                  <div class="news_preview_text">
+                                    <h3 class="news_title"><span><?=$news['title'];?></span></h3>
+                                    <time class="news_date"><?=$news['date'];?></time>
+                                    <p class="news_count_view"><?=$news['views'];?></p>
+                                  </div>
+                                </a>
+                              </div>
                           <? endif; ?>
-                        <? endif; ?>
                       <? endforeach; ?>
-                    </div>
-                    <div class="news_views__blocks_right">
-                      <? foreach($value as $k => $news) : ?>
-                        <? if(empty($news['title'])) break; ?>
-                        <? if(in_array($k, $left_nr)) : ?>
-                            <div class="news_block <?=Functions::news_img_preview($news['preview'], 'class');?> large clearfix">
-                              <a href="..<?=$news['uri'];?>" target="_self">
-                                <?=Functions::news_img_preview($news['preview'], 'div');?>
-                                <div class="news_preview_text">
-                                  <h3 class="news_title"><span><?=$news['title'];?></span></h3>
-                                  <time class="news_date"><?=$news['date'];?></time>
-                                  <p class="news_count_view"><?=$news['views'];?></p>
-                                </div>
-                              </a>
-                            </div>
-                        <? endif; ?>
-                      <? endforeach; ?>
-                    </div>
+                    <? else : ?>
+                      <div class="news_views__blocks_left">
+                        <? foreach($value as $k => $news) : ?>
+                          <? if(empty($news['title'])) break; ?>
+                          <? if(in_array($k, $left_nl)) : ?>
+                            <? if(!$news['preview']) : ?>
+                              <div class="news_block <?=Functions::news_img_preview($news['preview'], 'class');?> small clearfix">
+                                <a href="..<?=$news['uri'];?>" target="_self">
+                                  <?=Functions::news_img_preview($news['preview'], 'div');?>
+                                  <div class="news_preview_text">
+                                    <h3 class="news_title"><span><?=$news['title'];?></span></h3>
+                                    <time class="news_date"><?=$news['date'];?></time>
+                                    <p class="news_count_view"><?=$news['views'];?></p>
+                                  </div>
+                                </a>
+                              </div>
+                            <? else : ?>
+                              <div class="news_block <?=Functions::news_img_preview($news['preview'], 'class');?> small clearfix">
+                                <a href="..<?=$news['uri'];?>" target="_self">
+                                  <?=Functions::news_img_preview($news['preview'], 'div');?>
+                                  <div class="news_preview_text">
+                                    <h3 class="news_title"><span><?=$news['title'];?></span></h3>
+                                    <time class="news_date"><?=$news['date'];?></time>
+                                    <p class="news_count_view"><?=$news['views'];?></p>
+                                  </div>
+                                </a>
+                              </div>
+                            <? endif; ?>
+                          <? endif; ?>
+                        <? endforeach; ?>
+                      </div>
+                      <div class="news_views__blocks_right">
+                        <? foreach($value as $k => $news) : ?>
+                          <? if(empty($news['title'])) break; ?>
+                          <? if(in_array($k, $left_nr)) : ?>
+                              <div class="news_block <?=Functions::news_img_preview($news['preview'], 'class');?> large clearfix">
+                                <a href="..<?=$news['uri'];?>" target="_self">
+                                  <?=Functions::news_img_preview($news['preview'], 'div');?>
+                                  <div class="news_preview_text">
+                                    <h3 class="news_title"><span><?=$news['title'];?></span></h3>
+                                    <time class="news_date"><?=$news['date'];?></time>
+                                    <p class="news_count_view"><?=$news['views'];?></p>
+                                  </div>
+                                </a>
+                              </div>
+                          <? endif; ?>
+                        <? endforeach; ?>
+                      </div>
+                    <? endif; ?>
                   </div>
                 </div>
                 <div class="news_col_50">

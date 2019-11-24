@@ -17,7 +17,7 @@ final class Router {
 		if(empty($sql['page_id'])){
 			$route['type'] = 'common/page';
 		}
-		
+		# id=?, page_id=?, view_id=?
 		return $route;
 	}
 }

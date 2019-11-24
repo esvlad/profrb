@@ -41,25 +41,25 @@
           </div>
           <div class="figure_block__blue">
             <div class="structure_org_caption">
-              <p class="count_org">2643</p>
+              <p class="count_org">2569</p>
               <p class="text_org">первичных профсоюзных организаций</p>
             </div>
           </div>
           <div class="brd field_block__row figure_block__light_blue">
             <div class="structure_org_caption">
-              <p class="count_org">1038</p>
+              <p class="count_org">989</p>
               <p class="text_org">первичных профсоюзных организаций дошкольных организаций</p>
             </div>
             <div class="structure_org_caption">
-              <p class="count_org">1288</p>
+              <p class="count_org">1275</p>
               <p class="text_org">первичных профсоюзных организаций общеобразовательных организаций</p>
             </div>
             <div class="structure_org_caption">
-              <p class="count_org">204</p>
+              <p class="count_org">199</p>
               <p class="text_org">первичных профсоюзных организаций дополнительного образования</p>
             </div>
             <div class="structure_org_caption">
-              <p class="count_org">113</p>
+              <p class="count_org">106</p>
               <p class="text_org">первичных профсоюзных организаций в других организациях</p>
             </div>
           </div>
@@ -67,11 +67,11 @@
         <div class="field_block__right brd figure_block__light_blue">
           <div class="field_block__row">
             <div class="structure_org_caption">
-              <p class="count_org">27</p>
+              <p class="count_org">26</p>
               <p class="text_org">первичных профсоюзных организаций профессионального образования</p>
             </div>
             <div class="structure_org_caption">
-              <p class="count_org">21</p>
+              <p class="count_org">20</p>
               <p class="text_org">первичная профсоюзная организация высшего профессионального образования</p>
             </div>
             <div class="structure_org_caption">

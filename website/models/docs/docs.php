@@ -67,7 +67,7 @@ class ModelDocsDocs extends MVC{
 	public function getNewDocs($type_id = 14){
 		$sql = 'SELECT c.id, c.title, c.date_creat, DATE_FORMAT(c.date_creat, "%d.%m.%Y") as view_date, c.date_end, f.id as field_id, f.body
 				FROM pf_content c, pf_fields_content fc, pf_fields f
-				WHERE c.type_id = ?i AND fc.content_id = c.id AND f.id = fc.fields_id AND f.fields_type_id = 25 AND c.active = 1
+				WHERE c.type_id = ?i AND c.date_creat <= (NOW() + INTERVAL 2 HOUR) AND (c.date_end >= (NOW() + INTERVAL 2 HOUR) OR c.date_end = "0000-00-00 00:00:00" OR c.date_end is null) AND fc.content_id = c.id AND f.id = fc.fields_id AND f.fields_type_id = 25 AND c.active = 1
 				GROUP BY c.id ORDER BY c.date_creat DESC LIMIT 0,4';
 
 		$content = $this->db->getAll($sql, $type_id);
@@ -102,18 +102,10 @@ class ModelDocsDocs extends MVC{
 		$docs = array();
 		foreach($content as $file){
 			$body = json_decode($file['body'], true);
-
-			/*if(iconv_strlen($file['title']) > 202){
-				$file['alt'] = $file['title'];
-				$file['title'] = substr($file['title'], 0, 240) . '...';
-			} else {
-				$file['alt'] = false;
-			}*/
 			
 			$docs[] = array(
 				'cid' => $file['id'],
 				'title' => $file['title'],
-				#'alt' => $file['alt'],
 				'date_creat' => $file['date_creat'],
 				'view_date' => $file['view_date'],
 				'date_end' => $file['date_end'],

@@ -72,7 +72,7 @@ class ModelCommonSearch extends MVC{
 			$data['counts'] += count($search_faq);
 
 			foreach($search_faq as $value){
-				$value['uri'] = '/faq?search='.$string;
+				$value['uri'] = '/faq?id='.$value['id'];
 				$value['c_body'] = $value['title'];
 				$value['title'] = $this->getStrlenTitle($value['title']);
 

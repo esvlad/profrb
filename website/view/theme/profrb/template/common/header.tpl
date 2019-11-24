@@ -15,7 +15,7 @@
   <? if(!empty($is_admin)) : ?>
     <link href="../<?= TPL_PATH . THEME_NAME; ?>/css/admin.css" rel="stylesheet" type="text/css" />
   <? endif; ?>
-  <? $basehref = isset($basehref) ? $basehref : 'https://profrb/'; ?>
+  <? $basehref = isset($basehref) ? $basehref : 'https://eduprofrb.ru/'; ?>
   <base href="<?= $basehref; ?>" />
   <meta property="og:title" content="Башкирская республиканская организация Профсоюза работников народного образования и науки Российской Федерации" />
   <meta property="og:type" content="website" />
@@ -85,7 +85,7 @@
           </div>
           <div class="menu_col">
             <p class="menu_first">
-              <a href="../labor-inspection" data-path="/labor-inspection" target="_self">Внештатная инспекция труда</a>
+              <a href="../labor-inspection" data-path="/labor-inspection" target="_self">Инспекция труда</a>
             </p>
             <ul class="menu_group">
               <li><a href="../labor-inspection" target="_self">Правовая</a></li>

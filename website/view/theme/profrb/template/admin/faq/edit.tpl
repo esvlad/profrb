@@ -16,6 +16,10 @@
       </select>
     </div>
     <div class="admin_form_row">
+      <label for="question_author_bilet">Номер профсоюзного билета</label>
+      <input id="question_author_bilet" type="text" name="question_author_bilet" data-table="faq" value="<?=$question_author_bilet;?>" disabled/>
+    </div>
+    <div class="admin_form_row">
       <label for="question">Вопрос</label>
       <p class="admin_form_caption">Текст вопроса, <b>обязательно для заполнения</b></p>
       <textarea id="question" name="question" data-table="faq" required><?=$question;?></textarea>

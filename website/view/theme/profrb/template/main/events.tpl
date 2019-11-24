@@ -52,6 +52,10 @@
             <input class="display_none" type="checkbox" name="letter[]" value="events" checked/>
             <? $placeholder = IS_MOBILE ? 'Введите ваш e-mail' : 'Введите ваш e-mail и нажмите Enter'; ?>
             <input type="email" name="mail" value="" placeholder="Введите ваш e-mail и нажмите Enter" required/>
+            <div class="_politics">
+              <input class="pf_checkbox_input _is_politics_chek" id="_form_data_event_mob" type="checkbox" checked="checked"/>
+              <label class="pf_checkbox_label mq_form__label _is_politics" for="_form_data_event_mob">Cогласен на <a href="../uploads/documents/Политика_в_отношении_обработки_персональных_данных.pdf" target="_blank">обработку персональных данных</a>.</label>
+            </div>
             <input class="mini_form_submit brd" type="submit" value="Подписаться">
           </form>
         </div>
@@ -96,6 +100,10 @@ $m_array = array(true,'Января','Февраля','Марта','Апреля
       <p>Подпишитесь на рассылку</p>
       <p>и не пропускайте анонсы интересных мероприятий</p>
       <form id="letter_event" class="eml_form">
+        <div class="_politics">
+          <input class="pf_checkbox_input _is_politics_chek" id="_form_data_event" type="checkbox" checked="checked"/>
+          <label class="pf_checkbox_label mq_form__label _is_politics" for="_form_data_event">Cогласен на <a href="../uploads/documents/Политика_в_отношении_обработки_персональных_данных.pdf" target="_blank">обработку персональных данных</a>.</label>
+        </div>
       	<input class="display_none" type="checkbox" name="letter[]" value="events" checked/>
         <input type="email" name="mail" value="" placeholder="Введите ваш e-mail и нажмите Enter" required/>
       </form>

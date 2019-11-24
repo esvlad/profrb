@@ -470,12 +470,12 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
   line-height: normal;
 }
 
-.modal .admin_content_table .no_view p{
-  font-weight: 600;
-}
-
 .modal .admin_content_table thead p{
   font-size: 16px;
+}
+
+.modal .admin_content_table .no_view p{
+  font-weight: 600;
 }
 
 .modal .admin_content_table thead p.sorted{
@@ -641,20 +641,24 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
   position: relative;
 }
 
+.admin_content_view.admin_faq .admin_content_table tr > td:nth-child(2){
+  width: 1%;
+}
+
 .admin_content_view.admin_faq .admin_content_table tr > td:nth-child(3){
   overflow-x: hidden;
 }
 
 .admin_content_view.admin_faq .admin_content_table tr > td:nth-child(3) {
-    width: 15%;
+    width: 10%;
 }
 
 .admin_content_view.admin_faq .admin_content_table tr > td:nth-child(4) {
-    width: 39%;
+    width: 19%;
 }
 
 .admin_content_view.admin_faq .admin_content_table tr > td:nth-child(5){
-  width: 4%;
+  width: 33%;
 }
 
 .admin_content_view.admin_faq .admin_content_table tr > td:nth-child(6), 

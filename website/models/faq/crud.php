@@ -235,6 +235,7 @@ class ModelFaqCRUD extends MVC{
 			'category_id' => $question['category_id'],
 			'question' => $question['question'],
 			'question_docs' => $question_docs,
+			'question_author_bilet' => $question['question_author_bilet'],
 			'question_author_name' => $question['question_author_name'],
 			'question_author_from' => $question['question_author_from'],
 			'question_author_work' => $question['question_author_work'],

@@ -66,7 +66,7 @@
             </div>
           </div>
         </div>
-        <!--<div class="admin_col admin_administrator">
+        <div class="admin_col admin_administrator">
           <div class="admin_first_menu_link">
             <a href="" data-admin-role="99">Структура</a>
             <div class="admin_second_menu_block">
@@ -124,7 +124,7 @@
               </div>
             </div>
           </div>
-        </div>-->
+        </div>
         <div class="admin_col admin_administrator">
           <div class="admin_first_menu_link"><a href="" data-admin-role="99">Пользователи</a>
             <div class="admin_second_menu_block">

@@ -6,6 +6,12 @@ class ControllerFaqViewFaq extends MVC{
 		$admin = $this->isAdmin();
 		if(!empty($admin['name'])) $data['is_admin'] = true;
 
+		if(isset($_GET['id'])){
+			$fid = (int)$_GET['id'];
+
+			return $this->get_faq_id($fid);
+		};
+
 		$structure = new Action(MODEL, 'setting/structure');
 		$sect_setting = $structure->loader('getSetting', $arg['setting_id']);
 
@@ -59,6 +65,31 @@ class ControllerFaqViewFaq extends MVC{
 
 			$data['paginator'] = $pagination->render();
 		}
+
+		return $this->render(THEME_NAME . '/template/faq/view.tpl', $data);
+	}
+
+	public function get_faq_id($id){
+		$faq_model = new Action(MODEL, 'faq/view');
+
+		$questions = $faq_model->loader('getContent', $id);
+
+		$data['contents'] = $questions['content'];
+		$data['comments'] = !empty($questions['comments']) ? $questions['comments'] : null;
+
+		$data['category_count'] = $faq_model->loader('getCounter');
+		$data['count'] = array($questions['count'], $limits);
+		$data['category_id'] = isset($arg['view_id']) ? $arg['view_id'] : false;
+		
+		$content_model = new Action(MODEL, 'static/content');
+		$category = $content_model->loader('getCategory', 0);
+
+		function cmp($a, $b){ 
+			return strnatcmp($a["params"], $b["params"]); 
+		} 
+
+		usort($category, "cmp"); 
+		$data['category'] = $category;
 
 		return $this->render(THEME_NAME . '/template/faq/view.tpl', $data);
 	}

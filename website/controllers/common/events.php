@@ -17,6 +17,8 @@ class ControllerCommonEvents extends MVC{
 
 		$data['daterange'] = $events->loader('getCalend');
 
+		if(empty($data['events'])) return false;
+
 		return $this->render(THEME_NAME . '/template/main/events.tpl', $data);
 	}
 

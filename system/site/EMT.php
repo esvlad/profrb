@@ -1538,12 +1538,12 @@ class EMT_Tret_Etc extends EMT_Tret
 				'pattern' 		=> '/([^\d\>]|^)([\d]{1,2}\:[\d]{2})(-|\&mdash\;|\&minus\;)([\d]{1,2}\:[\d]{2})([^\d\<]|$)/eui',
 				'replacement' 	=> '$m[1] . $this->tag($m[2]."&mdash;".$m[4],"span", array("class"=>"nowrap")).$m[5]'
 			),
-		'split_number_to_triads' => array(
+		/*'split_number_to_triads' => array(
 				'description'	=> 'Разбиение числа на триады',				
 				'pattern' 		=> '/([^a-zA-Z0-9<\)]|^)([0-9]{5,})([^a-zA-Z>\(]|$)/eu',
 				'replacement' 	=> '$m[1].str_replace(" ","&thinsp;",EMT_Lib::split_number($m[2])).$m[3] '
 				//'function'	    => 'split_number'
-			),	
+			),*/	
 		'expand_no_nbsp_in_nobr' => array(
 				'description'	=> 'Удаление nbsp в nobr/nowrap тэгах',
 				'function'	=> 'remove_nbsp'
@@ -1790,7 +1790,7 @@ class EMT_Tret_Number extends EMT_Tret
 				'replacement' 	=> array('&ne;', '&le;', '\1&ge;', '&cong;', '&plusmn;' )
 			),			
 				
-		'thinsp_between_number_triads' => array(
+		/*'thinsp_between_number_triads' => array(
 				'description'	=> 'Объединение триад чисел полупробелом',			
 				'pattern' 		=> '/([0-9]{1,3}( [0-9]{3}){1,})(.|$)/ue',
 				'replacement' 	=> '($m[3]=="-"? $m[0]:str_replace(" ","&thinsp;",$m[1]).$m[3])'
@@ -1799,12 +1799,12 @@ class EMT_Tret_Number extends EMT_Tret
 				'description'	=> 'Пробел между симоволом номера и числом',			
 				'pattern' 		=> '/(№|\&#8470\;)(\s|&nbsp;)*(\d)/iu',
 				'replacement' 	=> '&#8470;&thinsp;\3'
-			),
-		'thinsp_between_sect_and_number' => array(
+			),*/
+		/*'thinsp_between_sect_and_number' => array(
 				'description'	=> 'Пробел между параграфом и числом',			
 				'pattern' 		=> '/(§|\&sect\;)(\s|&nbsp;)*(\d+|[IVX]+|[a-zа-яё]+)/ui',
 				'replacement' 	=> '&sect;&thinsp;\3'
-			),
+			),*/
 		);
 }
 

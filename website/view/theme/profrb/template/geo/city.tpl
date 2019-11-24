@@ -167,10 +167,10 @@
 				</div>
 			</div>
 		<? endforeach; ?>
-		<div class="modal_view maps clearfix">
-			<div class="btn brd btn_geo_map" data-cords="<?=$coordinates;?>" data-cordx="<?=$cord_x;?>" data-cordy="<?=$cord_y;?>" data-open-map="false">Показать на карте</div>
-			<div class="geo_map" data-map="false">
-				<div id="GMap"></div>
+		<div class="modal_view modal_view__maps clearfix">
+			<div class="btn_geo_map" data-cords="<?=$coordinates;?>" data-cordx="<?=$cord_x;?>" data-cordy="<?=$cord_y;?>" data-open-map="false">Показать на карте</div>
+			<div class="geo_map" data-id="GMap<?=$key;?>" data-map="false">
+				<div id="GMap<?=$key;?>"></div>
 			</div>
 		</div>
 		<? if(!empty($docs)) : ?>

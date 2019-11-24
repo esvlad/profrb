@@ -8,6 +8,15 @@ $(document).ready(function() {
 		if(btn_id) console.log(btn_id);
 	});
 
+	var footer_message = getCookie('footer_message');
+	if(!footer_message || footer_message == undefined){
+		$('.footer_message').addClass('_visible');
+	} else {
+		$('.footer_message').detach();
+	}
+
+	if(location.pathname == '/faq') $("#bilet").mask("9999-9999-9999-9999");
+
 	var special_vision = JSON.parse(localStorage.getItem('vision'));
 
 	if(special_vision != null){
@@ -223,6 +232,56 @@ $(document).ready(function() {
 			//$(this).wrapAll('<div class="modal_open"></div>');
 			console.log('asd');
 		});
+	}
+});
+
+function getCookie(name) {
+  var matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function setCookie(name, value, options) {
+  options = options || {};
+
+  var expires = options.expires;
+
+  if (typeof expires == "number" && expires) {
+    var d = new Date();
+    d.setTime(d.getTime() + expires * 1000);
+    expires = options.expires = d;
+  }
+  if (expires && expires.toUTCString) {
+    options.expires = expires.toUTCString();
+  }
+
+  value = encodeURIComponent(value);
+
+  var updatedCookie = name + "=" + value;
+
+  for (var propName in options) {
+    updatedCookie += "; " + propName;
+    var propValue = options[propName];
+    if (propValue !== true) {
+      updatedCookie += "=" + propValue;
+    }
+  }
+
+  document.cookie = updatedCookie;
+}
+
+$('.footer_message_close').click(function(){
+	$('.footer_message').addClass('_hidden');
+	setCookie('footer_message', true, {expires: (3600 * 24 * 365)});
+});
+
+$('._is_politics_chek').change(function(){
+	var _this = $(this);
+	if(!_this.is(':checked')){
+		_this.parents('form').find('input[type="submit"]').addClass('disabled').attr('disabled','disabled');
+	} else {
+		_this.parents('form').find('input[type="submit"]').removeClass('disabled').removeAttr('disabled');
 	}
 });
 
@@ -485,50 +544,53 @@ $('#letter_event').submit(function(e){
 	e = e || event;
 	e.preventDefault();
 
-	e_lets = $(this).serialize();
-	console.log(e_lets);
+	if($('.eml_form ._is_politics_chek').is(':checked')){
+		e_lets = $(this).serialize();
+		console.log(e_lets);
 
-	$.ajax({
-		url: 'index.php?r=modules/letter/subscribe',
-		type: 'POST',
-		data: e_lets,
-		dataType: 'json',
-		success: function(json){
-			console.log(json);
-			if(json.success == true){
-				$('.events_modal_letter').html('<p>Спасибо подписка оформлена!</p>');
-			}
-		},
-		error: function(xhr, ajaxOptions, thrownError){
-	    	console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-	    }
-	});
+		$.ajax({
+			url: 'index.php?r=modules/letter/subscribe',
+			type: 'POST',
+			data: e_lets,
+			dataType: 'json',
+			success: function(json){
+				console.log(json);
+				if(json.success == true){
+					$('.events_modal_letter').html('<p>Спасибо подписка оформлена!</p>');
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+		    	console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		    }
+		});
+	}
 });
 
 var lets;
 $('#subscribe').submit(function(e){
 	e = e || event;
 	e.preventDefault();
+	error_subscribe = false;
 
-	lets = $(this).serialize();
+	if($('.mini_form ._is_politics_chek').is(':checked')){
+		lets = $(this).serialize();
 
-	console.log(lets);
-
-	$.ajax({
-		url: 'index.php?r=modules/letter/subscribe',
-		type: 'POST',
-		data: lets,
-		dataType: 'json',
-		success: function(json){
-			if(json.success == true){
-				$('.footer_letter_modal > form').detach();
-				$('.footer_letter_modal > .flm_title').addClass('letter_success').text('Спасибо подписка оформлена!');
-			}
-		},
-		error: function(xhr, ajaxOptions, thrownError){
-	    	console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-	    }
-	});
+		$.ajax({
+			url: 'index.php?r=modules/letter/subscribe',
+			type: 'POST',
+			data: lets,
+			dataType: 'json',
+			success: function(json){
+				if(json.success == true){
+					$('.footer_letter_modal > form').detach();
+					$('.footer_letter_modal > .flm_title').addClass('letter_success').text('Спасибо подписка оформлена!');
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+		    	console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		    }
+		});
+	}
 });
 
 $('p#mq_selected').click(function(){
@@ -1089,35 +1151,37 @@ if(location.pathname == '/contacts'){
 	});
 }
 
+
+
 //Карта в модалке
 var cord_x, cord_y;
+var geo_id, geo_map;
 $('.btn_geo_map').click(function(){
 	cord_x = $(this).data('cordx');
 	cord_y = $(this).data('cordy');
 	var map_tag = $(this).next();
+	geo_id = $(this).next().data('id');
+	geo_map = $(geo_id);
 
 	if($(this).attr('data-open-map') != 'false'){
 		map_tag.slideUp(300);
 		$(this).attr('data-open-map','false');
 		$(this).text('Показать на карте');
+		$('#GMap').empty();
 	} else {
-		if(map_tag.attr('data-map') == 'false'){
-			map_tag.slideDown(300,function(){
-				ymaps.ready(init_modal_map);
-			});
-			map_tag.attr('data-map','true');
-			$(this).attr('data-open-map','true');
-			$(this).text('Скрыть карту');
-		} else {
-			map_tag.slideDown(300);
-			$(this).attr('data-open-map','true');
-			$(this).text('Скрыть карту');
-		}
+		map_tag.slideDown(300,function(){
+			ymaps.ready(init_modal_map);
+		});
+		map_tag.attr('data-map','true');
+		$(this).attr('data-open-map','true');
+		$(this).text('Скрыть карту');
 	}
 });
 
 function init_modal_map (){
-	modalMap = window.map = new ymaps.Map('GMap', {
+	console.log('init_modal_map');
+	console.log(geo_id);
+	modalMap = window.map = new ymaps.Map(geo_id, {
         center: [cord_x, cord_y],
         zoom: 14
     });
@@ -1565,9 +1629,16 @@ $('.search_workers__input').bind('input',function(e){
 	search_workers = $(this).val();
 	search_workers = search_workers.toLowerCase();
 
-	console.log(search_workers);
 	$('.worker_block').removeClass('active');
 	$('.worker_block:Contains("'+search_workers+'")').addClass('active');
+});
+
+var count_str = $('.count_str').data('max');
+$('.mq_form__textarea').bind('input',function(e){
+	str = $(this).val();
+	result = count_str - str.length;
+
+	$('.count_str > span').text(result);
 });
 
 $('#search_workers').submit(function(e){

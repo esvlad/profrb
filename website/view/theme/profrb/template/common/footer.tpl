@@ -21,7 +21,7 @@
       <div class="foot_col">
         <ul class="foot_list_link foot_page">
           <li><a href="../entry" target="_self">Вступить в профсоюз</a></li>
-          <li><a href="../labor-inspection" target="_self">Внештатная инспекция труда</a></li>
+          <li><a href="../labor-inspection" target="_self">Инспекция труда</a></li>
           <li><a href="../obrazovanie" target="_self">КПК &laquo;Образование&raquo;</a></li>
           <li><a href="../burevestnik" target="_self">ПФСК &laquo;Буревестник&raquo;</a></li>
         </ul>
@@ -73,7 +73,7 @@
       <div class="foot_col">
         <ul class="foot_list_link foot_page">
           <li><a href="../entry" target="_self">Вступить в профсоюз</a></li>
-          <li><a href="../labor-inspection" target="_self">Внештатная инспекция труда</a></li>
+          <li><a href="../labor-inspection" target="_self">Инспекция труда</a></li>
           <li><a href="../obrazovanie" target="_self">КПК &laquo;Образование&raquo;</a></li>
           <li><a href="../burevestnik" target="_self">ПФСК &laquo;Буревестник&raquo;</a></li>
         </ul>
@@ -110,6 +110,12 @@
 </footer>
 <? endif; ?>
 
+<div class="footer_message">
+  <div class="wrappall">
+    <p class="footer_message_text">Мы&nbsp;собираем метаданные пользователей (cookie, данные об&nbsp;IP-адресе и&nbsp;местоположении) для улучшения функционирования сайта.</p>
+    <div class="footer_message_close"></div>
+  </div>
+</div>
 
 <!--<script src="../verstka/js/jquery/owl.carousel/owl.carousel.min.js"></script>
 <script src="../<?= TPL_PATH . THEME_NAME; ?>/js/search-address.js"></script>-->
@@ -129,7 +135,26 @@
     <script src="//www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
   <? endif; ?>
 
+<!-- Yandex.Metrika informer -->
+<a href="http://metrika.yandex.ru/stat/?id=12597004&amp;from=informer"
+target="_blank" rel="nofollow"><img src="//bs.yandex.ru/informer/12597004/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
+style="width:1px; height:1px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:12597004,type:0,lang:'ru'});return false}catch(e){}"/></a>
+<!-- /Yandex.Metrika informer -->
 
+<!-- Yandex.Metrika counter -->
+<div style="display:none;"><script type="text/javascript">
+(function(w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter12597004 = new Ya.Metrika({id:12597004, enableAll: true, webvisor:true});
+        }
+        catch(e) { }
+    });
+})(window, "yandex_metrika_callbacks");
+</script></div>
+<script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" defer="defer"></script>
+<noscript><div><img src="//mc.yandex.ru/watch/12597004" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 </body>
 </html>

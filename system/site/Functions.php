@@ -42,5 +42,13 @@ class Functions{
 
     return true;
   }
+
+  public static function odd_even($i){
+    if($i % 2 == 0){
+      return 'odd';
+    } else {
+      return 'even';
+    }
+  }
 }
 ?>

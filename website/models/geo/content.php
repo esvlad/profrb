@@ -1,4 +1,7 @@
 <?php
+/*ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);*/
 
 class ModelGeoContent extends MVC{
 
@@ -40,8 +43,12 @@ class ModelGeoContent extends MVC{
 			$this->db->query($sql_cf, $filter_id, $data['content_id']);
 		}
 
-		$title_cation_id = $this->db->getOne('SELECT f.id FROM '.DB_PREFIX.'fields_content fc, '.DB_PREFIX.'fields f, '.DB_PREFIX.'fields_type ft WHERE fc.content_id = ?i AND f.id = fc.fields_id AND ft.id = f.fields_type_id', $data['content_id']);
-		$this->db->query('UPDATE '.DB_PREFIX.'fields SET body = ?s WHERE id = ?i', $data['title_caption'][24], $title_cation_id);
+		//$title_cation_id = $this->db->getOne('SELECT f.id FROM '.DB_PREFIX.'fields_content fc, '.DB_PREFIX.'fields f, '.DB_PREFIX.'fields_type ft WHERE fc.content_id = ?i AND f.id = fc.fields_id AND ft.id = f.fields_type_id', $data['content_id']);
+
+		foreach($data['title_caption'] as $key => $value){
+			$this->db->query('UPDATE '.DB_PREFIX.'fields SET body = ?s WHERE id = ?i', $value, $key);
+			//$this->db->query('UPDATE '.DB_PREFIX.'fields SET body = ?s WHERE id = ?i', $data['title_caption'][24], $title_cation_id);
+		}
 
 		$geo_map_pin_id = $this->db->getOne('SELECT p.id FROM '.DB_PREFIX.'geo_pins p WHERE p.content_id = ?i', $data['content_id']);
 		$this->db->query('UPDATE '.DB_PREFIX.'geo_pins SET coordinates = ?s WHERE id = ?i', $data['geo_map_pin'][0], $geo_map_pin_id);
@@ -74,13 +81,6 @@ class ModelGeoContent extends MVC{
 					foreach($value as $k => $v){
 						if($v != ''){
 							$files['docs'][$data['docs'][$k]] = $data['docs_title'][$k];
-
-							if($data['order'] != '' || $data['order'] != null){
-								if(!array_key_exists($data['docs'][$k], $data['order'])){
-									$data['order'][$data['docs'][$k]] = $data['order'][$k];
-									unset($data['order'][$k]);
-								}
-							}
 						}
 					}
 				}
@@ -596,6 +596,23 @@ class ModelGeoContent extends MVC{
 		);
 
 		return $result;
+
+		/*$contents = array();
+
+		foreach($c as $v){
+			$contents[] = array(
+				'title' => $v[''],
+				'profile_image' => $v[''],
+				'profile_title' => $v[''],
+				'profile_mail' => $v[''],
+				'profile_phone' => $v[''],
+				'profile_mail' => $v[''],
+				'profile_phone' => $v[''],
+				'profile_caption' => $v[''],
+				'docs' => $v[''], #path
+				'caption' => $v[''],
+			);
+		}*/
 	}
 
 	######################
@@ -664,14 +681,14 @@ class ModelGeoContent extends MVC{
 		}
 
 		$sql_fields_type = 'SELECT ft.name, ft.title, s.action, s.params 
-							FROM pf_fields_type ft, pf_setting s 
+							FROM '.DB_PREFIX.'fields_type ft, '.DB_PREFIX.'setting s 
 							WHERE ft.id in (?a) AND s.id = ft.setting_id';
 
 		$field_types = $this->db->getAll($sql_fields_type, $ids);
 
 		#FIELDS
 		$sql_field = 'SELECT f.id, f.body, ft.name, ft.title, s.params
-						FROM pf_fields_content fc, pf_fields f, pf_fields_type ft, pf_setting s
+						FROM '.DB_PREFIX.'fields_content fc, '.DB_PREFIX.'fields f, '.DB_PREFIX.'fields_type ft, '.DB_PREFIX.'setting s
 						WHERE fc.content_id = ?i AND f.id = fc.fields_id AND ft.id = f.fields_type_id AND s.id = ft.setting_id';
 
 		$field_array = $this->db->getAll($sql_field, $content_id);
@@ -697,7 +714,7 @@ class ModelGeoContent extends MVC{
 	public function getPins(){
 		$data = array();
 
-		$pins = $this->db->getAll('SELECT gp.id as pin_id, c.title, gp.coordinates, cf.filter_id FROM pf_geo_pins gp, pf_content c, pf_content_filter cf WHERE gp.content_id != ?i AND c.id = gp.content_id AND cf.content_id = c.id AND c.active = ?i', 0, 1);
+		$pins = $this->db->getAll('SELECT gp.id as pin_id, gp.content_id, c.title, gp.coordinates, cf.filter_id FROM pf_geo_pins gp, pf_content c, pf_content_filter cf WHERE gp.content_id != ?i AND c.id = gp.content_id AND cf.content_id = c.id AND c.active = ?i', 0, 1);
 
 		$data['type'] = 'FeatureCollection';
 		$data['features'] = array();
@@ -719,7 +736,7 @@ class ModelGeoContent extends MVC{
 
 			$data['features'][] = array(
 				'type' => 'Feature',
-				'id' => (int)$value['pin_id'],
+				'id' => (int)$value['content_id'],
 				'geometry' => array(
 					'type' => 'Point',
 					'coordinates' => [(float)$coordinates[0], (float)$coordinates[1]]

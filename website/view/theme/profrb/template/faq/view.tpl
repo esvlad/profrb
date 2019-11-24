@@ -72,10 +72,10 @@
                 <div class="faq_answer_cs">
                   <div class="social_icons faq_answer_cs__socials clearfix">
                     <span>Поделиться: </span>
-                    <i class="social_icon" id="social_repost" data-social-type="vk" onclick="window.open('https://vk.com/share.php?url=<?='http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];?>&title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>','sharer','toolbar=0,status=0,width=700,height=400');"></i>
-                    <i class="social_icon" id="social_repost" data-social-type="tw" onclick="window.open('http://twitter.com/share?url=<?='http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];?>&text=<?=mb_substr(strip_tags($content['question']), 0, 120);?>','sharer','toolbar=0,status=0,width=700,height=400');"></i>
-                    <i class="social_icon" id="social_repost" data-social-type="fb" onclick="window.open('https://www.facebook.com/sharer.php?u=<?='http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];?>&title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>&description=<?=strip_tags($content['answer']);?>','sharer','toolbar=0,status=0,width=700,height=400');"></i>
-                    <i class="social_icon" id="social_repost" data-social-type="ok" onclick="window.open('https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.description=<?=strip_tags($content['answer']);?>&st.title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>&st.shareUrl=<?='http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];?>','sharer','toolbar=0,status=0,width=700,height=400');"></i>
+                    <i class="social_icon" id="social_repost" data-social-type="vk" onclick="window.open('https://vk.com/share.php?url=https://eduprofrb.ru/faq?id=<?=$content['id'];?>&title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>','sharer','toolbar=0,status=0,width=700,height=400');"></i>
+                    <i class="social_icon" id="social_repost" data-social-type="tw" onclick="window.open('http://twitter.com/share?url=https://eduprofrb.ru/faq?id=<?=$content['id'];?>&text=<?=mb_substr(strip_tags($content['question']), 0, 120);?>','sharer','toolbar=0,status=0,width=700,height=400');"></i>
+                    <i class="social_icon" id="social_repost" data-social-type="fb" onclick="window.open('https://www.facebook.com/sharer.php?u=https://eduprofrb.ru/faq?id=<?=$content['id'];?>&title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>&description=<?=strip_tags($content['answer']);?>','sharer','toolbar=0,status=0,width=700,height=400');"></i>
+                    <i class="social_icon" id="social_repost" data-social-type="ok" onclick="window.open('https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.description=<?=strip_tags($content['answer']);?>&st.title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>&st.shareUrl=https://eduprofrb.ru/faq?id=<?=$content['id'];?>','sharer','toolbar=0,status=0,width=700,height=400');"></i>
                   </div>
                   <? if($content['no_comment'] == 0) : ?>
                     <p class="faq_answer_cs__comments" id="faq_comments" data-faq-id="<?=$content['id'];?>">Комментарии: <span class="faq_answer_cs__comments_count"><?=count($comments[$content['id']]);?></span></p>
@@ -108,10 +108,10 @@
                     <? endif; ?>
                     <div class="social_icons faq_answer_cs__socials clearfix">
                       <span>Поделиться: </span>
-                      <i class="social_icon" id="social_repost" data-social-type="vk" onclick="window.open('https://vk.com/share.php?url=<?='http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];?>&title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>','sharer','toolbar=0,status=0,width=700,height=400,top='+((screen.height-600)/2)+',left='+((screen.width-700)/2)+'');"></i>
-                      <i class="social_icon" id="social_repost" data-social-type="tw" onclick="window.open('http://twitter.com/share?url=<?='http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];?>&text=<?=mb_substr(strip_tags($content['question']), 0, 120);?>','sharer','toolbar=0,status=0,width=700,height=400,top='+((screen.height-600)/2)+',left='+((screen.width-700)/2)+'');"></i>
-                      <i class="social_icon" id="social_repost" data-social-type="fb" onclick="window.open('https://www.facebook.com/sharer.php?u=<?='http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];?>&title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>&description=<?=strip_tags($content['answer']);?>','sharer','toolbar=0,status=0,width=700,height=400,top='+((screen.height-600)/2)+',left='+((screen.width-700)/2)+'');"></i>
-                      <i class="social_icon" id="social_repost" data-social-type="ok" onclick="window.open('https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.description=<?=strip_tags($content['answer']);?>&st.title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>&st.shareUrl=<?='http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];?>','sharer','toolbar=0,status=0,width=700,height=400,top='+((screen.height-600)/2)+',left='+((screen.width-700)/2)+'');"></i>
+                      <i class="social_icon" id="social_repost" data-social-type="vk" onclick="window.open('https://vk.com/share.php?url='https://eduprofrb.ru/faq?id=<?=$content['id'];?>&title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>','sharer','toolbar=0,status=0,width=700,height=400,top='+((screen.height-600)/2)+',left='+((screen.width-700)/2)+'');"></i>
+                      <i class="social_icon" id="social_repost" data-social-type="tw" onclick="window.open('http://twitter.com/share?url=https://eduprofrb.ru/faq?id=<?=$content['id'];?>&text=<?=mb_substr(strip_tags($content['question']), 0, 120);?>','sharer','toolbar=0,status=0,width=700,height=400,top='+((screen.height-600)/2)+',left='+((screen.width-700)/2)+'');"></i>
+                      <i class="social_icon" id="social_repost" data-social-type="fb" onclick="window.open('https://www.facebook.com/sharer.php?u=https://eduprofrb.ru/faq?id=<?=$content['id'];?>&title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>&description=<?=strip_tags($content['answer']);?>','sharer','toolbar=0,status=0,width=700,height=400,top='+((screen.height-600)/2)+',left='+((screen.width-700)/2)+'');"></i>
+                      <i class="social_icon" id="social_repost" data-social-type="ok" onclick="window.open('https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.description=<?=strip_tags($content['answer']);?>&st.title=<?=mb_substr(strip_tags($content['question']), 0, 140);?>&st.shareUrl=https://eduprofrb.ru/faq?id=<?=$content['id'];?>','sharer','toolbar=0,status=0,width=700,height=400,top='+((screen.height-600)/2)+',left='+((screen.width-700)/2)+'');"></i>
                     </div>
                   </div>
                 </div>
@@ -146,7 +146,11 @@
                       <form id="form_comments" class="comments_form clearfix">
                         <input type="hidden" name="faq_id" value="<?=$content['id'];?>" />
                         <input class="comments_form__input required" type="text" name="author" value="" placeholder="Как вас зовут?"/>
-                          <textarea class="comments_form__textarea required" id="c_body" name="text" cols="30" rows="5" placeholder="Текст комментария. Комментарий будет опубликован после того, как пройдет проверку модератором."></textarea>
+                        <textarea class="comments_form__textarea required" id="c_body" name="text" cols="30" rows="5" placeholder="Текст комментария. Комментарий будет опубликован после того, как пройдет проверку модератором."></textarea>
+                        <div class="_politics">
+                          <input class="pf_checkbox_input _is_politics_chek" id="_form_data_personal" type="checkbox" checked="checked"/>
+                          <label class="pf_checkbox_label mq_form__label _is_politics" for="_form_data_personal">Cогласен на <a href="../uploads/documents/Политика_в_отношении_обработки_персональных_данных.pdf" target="_blank">обработку персональных данных</a>.</label>
+                        </div>
                         <div class="captcha">
                           <div class="g-recaptcha" data-sitekey="6Lf7LiYUAAAAAAp4px2co8wMvUHRDwFOQ023zBLw"></div>
                         </div>
@@ -183,12 +187,19 @@
         </div>
       </div>
       <div class="mq_form_row_inputs clearfix">
-        <input class="mq_form__input required" type="text" name="question_author_name" value="" placeholder="Как вас зовут?"/>
-        <input class="mq_form__input required" type="text" name="question_author_from" value="" placeholder="Где вы живете?"/>
-        <input class="mq_form__input required" type="text" name="question_author_work" value="" placeholder="Место работы"/>
+        <input class="mq_form__input _input_bilet" type="text" name="question_author_bilet" value="" placeholder="Номер профсоюзного билета" id="bilet" />
+        <div class="mq_form_select_label">
+          <p>У&nbsp;каждого члена Общероссийского Профсоюза образования есть электронный профсоюзный билет. Номер будет виден только специалисту, отвечающему на&nbsp;Ваше обращение.</p>
+        </div>
+      </div>
+      <div class="mq_form_row_inputs clearfix">
+        <input class="mq_form__input required" type="text" name="question_author_name" value="" placeholder="Ваше имя"/>
+        <input class="mq_form__input required" type="text" name="question_author_from" value="" placeholder="Место работы"/>
+        <input class="mq_form__input required" type="text" name="question_author_work" value="" placeholder="Должность"/>
       </div>
       <div class="mq_form_row_textarea clearfix">
-        <textarea class="mq_form__textarea required" id="mqf_text" name="question" cols="30" rows="5" placeholder="Введите в это поле ваш вопрос."></textarea>
+        <textarea class="mq_form__textarea required" id="mqf_text" name="question" cols="30" rows="5" placeholder="Введите в это поле вопрос"></textarea>
+        <span class="count_str" data-max="2000">не более 2000 символов (осталось <span>2000</span>)</span>
       </div>
       <div class="mq_form_row clearfix">
         <div class="mq_form_froup_mail">
@@ -212,7 +223,7 @@
       <div class="mq_form_row clearfix">
         <div class="mq_form_group_private">
           <input class="pf_checkbox_input" id="mq_form_data_personal" type="checkbox" checked="checked" name="question_data_personal" value=""/>
-          <label class="pf_checkbox_label mq_form__label" for="mq_form_data_personal">Cогласен на обработку персональных данных.</label>
+          <label class="pf_checkbox_label mq_form__label" for="mq_form_data_personal">Cогласен на <a href="../uploads/documents/Политика_в_отношении_обработки_персональных_данных.pdf" target="_blank">обработку персональных данных</a>.</label>
         </div>
       </div>
       <div class="mq_form_row clearfix">
@@ -229,3 +240,4 @@
 </div>
 <div class="modals_block"></div>
 <div class="comment_modal"></div>
+<script src="../<?= TPL_PATH . THEME_NAME; ?>/js/jquery.maskedinput.min.js"></script>

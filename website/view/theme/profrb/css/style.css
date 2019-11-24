@@ -450,6 +450,22 @@ body.vision_bg_blue .maps .ymaps-2-1-50-image{
   z-index: 4;
 }
 
+.pf_checkbox_label._is_politics:before{
+  top: -6px;
+}
+
+.pf_checkbox_label._is_politics:after{
+  top: 3px;
+}
+
+._is_politics > a{
+  border-bottom: 1px solid #40bdfa;
+}
+
+.pf_checkbox_input:not(:checked) + .pf_checkbox_label._is_politics > a{
+  border-bottom-color: #d6d6e1;
+}
+
 .pf_checkbox_input:not(checked) + .pf_checkbox_label {
   color: #d6d6e1;
 }
@@ -1312,6 +1328,14 @@ body.modal_bg .header .site_menu{
   float: left;
 }
 
+.about + .docs.front{
+  padding-top: 0;
+}
+
+.about + .events.today{
+  padding-top: 80px;
+}
+
 .about {
   padding: 130px 0 160px;
 }
@@ -1531,7 +1555,7 @@ body.modal_bg .header .site_menu{
 /* TODAY */
 
 .events.today{
-  padding: 0 0 70px;
+  padding: 70px 0;
 }
 .events.today .event_owl_carousel{
   margin-top: 35px;
@@ -1686,6 +1710,11 @@ body.modal_bg .header .site_menu{
 @media all and (max-width: 1280px) {
   .events .even_item p > a {
     font-size: 14px;
+  }
+}
+@media all and (max-width: 640px) {
+  .events .even_item p > a {
+    font-size: inherit;
   }
 }
 .events .event_social_repost {
@@ -2590,6 +2619,11 @@ div.modal_bg {
   margin-bottom: 70px;
   float: left;
 }
+.news_sect .photo_blocks .news_block:nth-child(3n+1),
+.news_sect .video_blocks .news_block:nth-child(3n+1){
+  clear: both;
+}
+
 .news_sect .photo_blocks .news_block:nth-child(3n+3),
 .news_sect .video_blocks .news_block:nth-child(3n+3) {
   margin-right: 0;
@@ -4152,19 +4186,19 @@ div.modal_bg {
 .modal_geo > .modal_view {
   padding: 50px 36px 30px;
 }
-.modal_geo > .modal_view.maps{
+.modal_geo > .modal_view.modal_view__maps{
   padding-top: 0;
   padding-bottom: 0;
 }
 
-.modal_geo > .modal_view.maps .geo_map{
+.modal_geo > .modal_view.modal_view__maps .geo_map{
   width: 100%;
   height: 400px;
   display: none;
   margin-top: 50px;
 }
 
-#GMap{
+.geo_map > div{
   width: 100%;
   height: 100%;
 }
@@ -4466,8 +4500,7 @@ ymaps[class*="ground-pane"]{
     font-size: 14px;
   }
 }
-.faq .btn_answer,
-.btn_geo_map {
+.faq .btn_answer{
   width: 210px;
   float: right;
   background: #75bbf7;
@@ -4481,22 +4514,33 @@ ymaps[class*="ground-pane"]{
   -o-transition: 0.2s;
   transition: 0.2s;
 }
-.faq .btn_answer:hover,
-.btn_geo_map:hover {
+.faq .btn_answer:hover{
   border: 3px solid #75bbf7;
   background: #fff;
   color: #75bbf7;
 }
 .btn_geo_map{
-  float: none;
-  width: 228px;
+  color: #2b2b66;
+  display: inline-block;
+  border-bottom: 1px dashed rgba(43, 43, 102, 0.4);
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+  cursor: pointer;
 }
+.btn_geo_map:hover{
+  color: #75bbf7;
+  border-bottom: 1px dashed rgba(117, 187, 247, 0.4);
+}
+
 .faq .section_view {
   width: 100%;
   padding-top: 210px;
   padding-bottom: 10px;
 }
 .faq .faq_block {
+  width: 100%;
   margin-bottom: 80px;
   position: relative;
   display: table;
@@ -4878,7 +4922,7 @@ body.modal_bg{
   width: 100%;
   height: 145px;
   padding: 25px 15px;
-  margin-bottom: 45px;
+  margin-bottom: 15px;
   border: 3px solid #eeeef3;
   position: relative;
   z-index: 2;
@@ -4949,6 +4993,14 @@ body.modal_bg{
   color: #75bbf7;
 }
 
+.comments_block .comments_form .btn_submit.disabled,
+.comments_block .comments_form .btn_submit.disabled:hover{
+  background: #a8d5fb;
+  border: 3px solid #a8d5fb;
+  color: #fff;
+  cursor: no-drop;
+}
+
 .modal_question {
   padding: 95px 90px 75px;
 }
@@ -4969,7 +5021,7 @@ body.modal_bg{
 .modal_question .mq_form_select_group {
   width: 100%;
   height: 60px;
-  margin-bottom: 78px;
+  margin-bottom: 40px;
   position: relative;
   z-index: 2;
 }
@@ -5074,6 +5126,17 @@ body.modal_bg{
   float: right;
   padding: 17px 40px 0 25px;
 }
+
+._input_bilet{
+  float: left;
+}
+
+._input_bilet + .mq_form_select_label{
+  width: 600px;
+  float: left;
+  padding-left: 0;
+}
+
 .modal_question .mq_form_select_label > p {
   font-family: "Open Sans";
   font-size: 12px;
@@ -5103,7 +5166,17 @@ body.modal_bg{
 }
 .modal_question .mq_form_row_textarea {
   margin-bottom: 40px;
+  position: relative;
 }
+
+.modal_question .mq_form_row_textarea .count_str{
+  font-size: 14px;
+  color: #757575;
+  position: absolute;
+  bottom: 20px;
+  left: 33px;
+}
+
 .modal_question .mq_form__textarea {
   width: 100%;
   height: 196px;
@@ -5223,12 +5296,39 @@ body.modal_bg{
     line-height: normal;
   }
 }
-.modal_question .mq_form_group_private .mq_form__label {
+.modal_question .mq_form_group_private .mq_form__label,
+._is_politics {
   font-size: 14px;
   font-weight: 700;
   margin-top: 12px;
   width: 101%;
   display: block;
+}
+
+.comments_block .comments_form .comments_form__textarea + ._politics{
+  margin-bottom: 40px;
+}
+
+._is_politics{
+  position: relative;
+}
+
+.mini_form ._is_politics{
+  text-align: left;
+  width: 110%;
+  margin-bottom: 17px;
+}
+
+.eml_form ._is_politics{
+  margin-bottom: 7px;
+}
+
+.modal_question .mq_form_group_private .pf_checkbox_input:not(:checked) + .mq_form__label > a{
+  border-bottom: 1px solid #d6d6e1;
+}
+
+.modal_question .mq_form_group_private .pf_checkbox_input:checked + .mq_form__label > a{
+  border-bottom: 1px solid #40bdfa;
 }
 
 .modal_question .mq_form_group_private .mq_form__label.mq_form__label__spec{
@@ -6603,6 +6703,46 @@ body.vision_bg_black .docs .btn_main_docs > span{
   display: none;
 }
 
+.footer_message{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  background: #fff;
+  box-shadow: 0 -1px 15px -5px rgba(0, 0, 0, 0.2);
+  display: none;
+  z-index: 5;
+}
+
+.footer_message._visible{
+  display: block;
+}
+
+.footer_message._hidden{
+  bottom: -50px;
+}
+
+.footer_message_close{
+  background: url(../img/icon/icon_modal_close_black.png) no-repeat;
+  background-size: 100%;
+  width: 17px;
+  height: 17px;
+  position: relative;
+  display: inline-block;
+  top: 4px;
+  opacity: .5;
+  cursor: pointer;
+}
+
+.footer_message_text{
+  font-family: "Open Sans";
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: normal;
+  padding: 15px 35px 15px 0;
+  display: inline-block;
+}
+
 @media all and (min-width: 1025px) and (max-width: 1366px){
   .docs .btn_main_docs{
     width: auto;
@@ -6618,6 +6758,11 @@ body.vision_bg_black .docs .btn_main_docs > span{
   .header .logo span {
     width: 125%;
     top: 13px;
+  }
+
+  .footer_message_text{
+    font-size: 12px;
+    padding-right: 50px;
   }
 
   .search_page .search_block p:hover > span{
@@ -7038,11 +7183,21 @@ body.vision_bg_black .docs .btn_main_docs > span{
   .geo_city_list{
     left: 0;
   }
+
+  ._input_bilet + .mq_form_select_label{
+    width: 550px;
+    margin-top: -9px;
+    padding-right: 0;
+  }
 }
 
 @media all and (max-width: 768px){
   .wrappall, .wrapper, .modal {
     width: calc(100% - 80px);
+  }
+
+  .footer_message._hidden{
+    bottom: -65px;
   }
 
   .header .site_menu{
@@ -7446,6 +7601,11 @@ body.vision_bg_black .docs .btn_main_docs > span{
     margin-top: -7px;
   }
 
+  ._input_bilet + .mq_form_select_label{
+    width: 388px;
+    padding-right: 0;
+  }
+
   .events .btn_es_slider{
     width: 60px;
     right: -25px;
@@ -7517,7 +7677,7 @@ body.vision_bg_black .docs .btn_main_docs > span{
   }
 
   .modal_question .mq_form_select_group{
-    margin-bottom: 50px;
+    margin-bottom: 35px;
   }
 
   .events_modal .emc_cell:nth-child(6n+6) {
@@ -7552,6 +7712,14 @@ body.vision_bg_black .docs .btn_main_docs > span{
   .header .site_menu > span,
   .header .search_miniform{
     display: none;
+  }
+
+  .footer_message._hidden{
+    bottom: -90px;
+  }
+
+  .footer_message_text{
+    font-size: 14px;
   }
 
   .header .hamburglar {
@@ -9328,6 +9496,10 @@ body.vision_bg_black .docs .btn_main_docs > span{
     padding-bottom: 160px;
   }
 
+  .modal.modal_geo .modal_view.modal_view__maps{
+    padding-top: 55px;
+  }
+
   .modal_geo .modal_view__profile {
     margin-bottom: 35px;
     width: 100%;
@@ -9344,6 +9516,7 @@ body.vision_bg_black .docs .btn_main_docs > span{
     clear: both;
   }
 
+  .btn_geo_map,
   .modal.modal_geo p, 
   .modal.modal_geo ul {
     font-size: 28px;
@@ -9647,5 +9820,56 @@ body.vision_bg_black .docs .btn_main_docs > span{
 
   .modal_question .mq_form_froup_mail{
     margin-bottom: 45px;
+  }
+
+  .geo_news__content{
+    margin-bottom: 50px;
+  }
+
+  .modal_question .mq_form_row_textarea .count_str{
+    font-size: 18px;
+  }
+
+  .eml_form ._politics{
+    margin-top: 30px;
+  }
+
+  .mini_form ._is_politics,
+  .eml_form ._is_politics{
+    font-size: 28px;
+    width: 100%;
+    padding-left: 75px;
+  }
+
+  .mini_form .pf_checkbox_label:before,
+  .eml_form ._is_politics:before{
+    width: 50px;
+    height: 50px;
+  }
+
+  .mini_form .pf_checkbox_label:after,
+  .eml_form ._is_politics:after{
+    background-size: cover;
+    width: 36px;
+    height: 26px;
+    top: 8px;
+    left: 7px;
+  }
+
+  .eml_form .pf_checkbox_label._is_politics:before{
+    top: 4px;
+  }
+
+  .eml_form ._is_politics:after{
+    top: 18px;
+  }
+
+  .footer_message_close{
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    display: block;
+    top: calc(50% - 9px);
+    right: 0;
   }
 }

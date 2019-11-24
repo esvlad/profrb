@@ -26,7 +26,7 @@ class ClassMail
 
 	public function sendMail(){
 		$this->headers = "Content-type: text/html; charset=windows-1251 \r\n";
-		$this->headers .= "From: $this->from\r\n"; 
+		$this->headers .= "From: $this->from <info@profrb.ru>\r\n"; 
 		$mail = mail($this->to, $this->subject, $this->message, $this->headers);
 
 		if($mail === true){

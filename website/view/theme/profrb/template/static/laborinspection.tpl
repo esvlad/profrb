@@ -1,7 +1,7 @@
 <section class="sect statick_page">
   <div class="wrapper">
     <div class="content">
-      <h1 class="section_title">Внештатная инспекция труда</h1>
+      <h1 class="section_title">Инспекция труда</h1>
       <div class="section_switch" id="switch">
         <? $sw = 0; ?>
         <? foreach($contents as $key => $content) : ?>

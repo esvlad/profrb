@@ -1,7 +1,7 @@
 <section class="sect events today">
   <div class="wrappall">
     <div class="content">
-      <h2>Ежедневные события</h2>
+      <h2>Сегодня</h2>
       <div class="btn brd btn_event_calend"><a href="../today" target="_self"><span>Архив</span></a></div>
       <div class="row_block clearfix">
         <div class="event_owl_carousel clearfix" id="todayCarousel" data-slides="<?=count($content);?>">
