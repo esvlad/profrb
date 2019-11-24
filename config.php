@@ -4,13 +4,13 @@ if (version_compare(phpversion(), '5.3.0', '<') == true) {
 }
 
 // HTTP
-define('HTTP_SERVER', '');
+define('HTTP_SERVER', 'http://eduprofrb/');
 
 // HTTPS
-define('HTTPS_SERVER', '');
+define('HTTPS_SERVER', 'https://eduprofrb/');
 
 //DIRECTORY
-define('DYRR', '');
+define('DYRR', 'S:/domains/eduprofrb');
 
 // DIR
 define('DIR_APPLICATION', DYRR.'/website/');
@@ -30,15 +30,15 @@ define('TPL_PATH', 'website/view/theme/');
 #ip 37.140.192.170
 define('DB_DRIVER', 'mysql');
 define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', '');
+define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
-define('DB_DATABASE', '');
+define('DB_DATABASE', 'eduprofrb');
 define('DB_PORT', '3306');
-define('DB_PREFIX', '');
+define('DB_PREFIX', 'pf_');
 
 // LOADER
 define('CONTROLLER', 'controller');
 define('MODEL', 'model');
 
 // THEME
-define('THEME_NAME', '');
+define('THEME_NAME', 'profrb');
