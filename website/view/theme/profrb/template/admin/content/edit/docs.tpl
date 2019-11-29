@@ -48,6 +48,11 @@
       <input id="date_end" type="datetime-local" name="date_end" data-table="content" value="<?=$content['date_end'];?>"/>
     </div>
     <div class="admin_form_row">
+      <? $checked_popular = ($content['popular'] == 1) ? 'checked' : null; ?>
+      <input id="popular" type="checkbox" name="popular" data-table="content" value="1" <?=$checked_popular;?>/>
+      <label for="popular">Закрепить в популярных документах</label>
+    </div>
+    <div class="admin_form_row">
       <? $checked = ($content['active'] == 1) ? 'checked' : null; ?>
       <input id="active" type="checkbox" name="active" data-table="content" value="1" <?=$checked;?> />
       <label for="active">Материал опубликован</label>

@@ -62,7 +62,8 @@ class HtmlHelper{
 
 		$tag_caption = isset($params['tag']['caption']) ? $params['tag']['caption'] : null;
 
-		$html = '<div class="admin_form_row">';
+		$data_key = (!empty($fields['name'])) ? $fields['name'] : $fields['field_name'];
+		$html = '<div class="admin_form_row" data-key="'.$data_key.'">';
 
 		switch($params['tag']['name']){
 			case 'input':

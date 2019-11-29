@@ -122,88 +122,97 @@
 		unset($value['coordinates']);
 	?>
 	<? $dogovor = 'Коллективный договор'; ?>
-	<div class="modal modal_geo" data-modal-id="<?=$key;?>" data-modal-block="geo" data-modal-open="false">
-		<div class="modal_close"></div>
-		<? foreach($value as $geo) : ?>
-			<div class="modal_view clearfix">
-				<? if($geo['modal_title']['body'] == 'Без названия') {
-						foreach($content as $v){
-							if($v['id'] == $key){
-								$geo['modal_title']['body'] = $v['title'];
-								$dogovor = 'Отраслевое соглашение';
+	<div class="modal_panel">
+		<div class="modal modal_geo" data-modal-id="<?=$key;?>" data-modal-block="geo" data-modal-open="false">
+			<div class="modal_close"></div>
+			<? foreach($value as $geo) : ?>
+				<div class="modal_view clearfix">
+					<? 
+						if($geo['modal_title']['body'] == 'Без названия') {
+							foreach($content as $v){
+								if($v['id'] == $key){
+									$geo['modal_title']['body'] = $v['title'];
+									$dogovor = 'Отраслевое соглашение';
+								}
 							}
+						} elseif($geo['modal_title']['body'] == 'Профсоюз трудящихся'){
+							$geo['modal_title']['body'] = 'Профсоюзная организация работников';
+						} elseif($geo['modal_title']['body'] == 'Профсоюз учащихся'){
+							$geo['modal_title']['body'] = 'Профсоюзная организация студентов';
 						}
-					} elseif($geo['modal_title']['body'] == 'Профсоюз трудящихся'){
-						$geo['modal_title']['body'] = 'Профсоюзная организация работников';
-					} elseif($geo['modal_title']['body'] == 'Профсоюз учащихся'){
-						$geo['modal_title']['body'] = 'Профсоюзная организация студентов';
-					}
 
-					$geo_image_modal = ($geo['view_profile']['body']['path'] && file_exists($_SERVER['DOCUMENT_ROOT'] . $geo['view_profile']['body']['path'])) ? $geo['view_profile']['body']['path'] : '/uploads/images/geo/obrazec_110400.jpg';
-				?>
-				<h4 class="modal_title"><?=$geo['modal_title']['body'];?></h4>
-				<div class="modal_view__profile clearfix"><img src="..<?=$geo_image_modal;?>"/>
-					<p class="modal_view__profile_title"><?=$geo['view_profile_title']['body'];?></p>
-					<? if($geo['view_profile_mail']['body']) : ?>
-						<p class="modal_view__profile_title"><?=$geo['view_profile_phone']['body'];?></p>
-						<p class="modal_view__profile_phone"><?=$geo['view_profile_mail']['body'];?></p>
-					<? else : ?>
-						<p class="modal_view__profile_phone"><?=$geo['view_profile_phone']['body'];?></p>
-					<? endif; ?>
-					<?=$geo['position']['body'];?>
+						$geo_image_modal = ($geo['view_profile']['body']['path'] && file_exists($_SERVER['DOCUMENT_ROOT'] . $geo['view_profile']['body']['path'])) ? $geo['view_profile']['body']['path'] : '/uploads/images/geo/obrazec_110400.jpg';
+					?>
+					<h4 class="modal_title"><?=$geo['modal_title']['body'];?></h4>
+					<div class="modal_view__profile clearfix">
+						<img src="../website/view/theme/profrb/img/logo_geo.jpg"/>
+						<p class="modal_view__profile_title"><?=$geo['view_profile_title']['body'];?></p>
+						<? if($geo['view_profile_mail']['body']) : ?>
+							<p class="modal_view__profile_title"><?=$geo['view_profile_phone']['body'];?></p>
+							<p class="modal_view__profile_phone"><?=$geo['view_profile_mail']['body'];?></p>
+						<? else : ?>
+							<p class="modal_view__profile_phone"><?=$geo['view_profile_phone']['body'];?></p>
+						<? endif; ?>
+						<?=$geo['position']['body'];?>
+					</div>
+					<ul class="modal_view__docs view_docs">
+						<? if($geo['modal_title']['body'] != 'Профсоюзная организация студентов') : ?>
+							<li class="view_docs__item">
+								<i class="docs_icon docs_icon__doc"></i>
+								<div class="docs_title">
+									<a href="..<?=$geo['geo_docs']['body']['path'];?>"><?=$dogovor;?></a>
+								</div>
+							</li>
+						<? endif; ?>
+					</ul>
+					<div class="modal_view__caption clearfix">
+						<?=$geo['geo_profile']['body'];?>
+					</div>
 				</div>
-				<ul class="modal_view__docs view_docs">
-					<? if($geo['modal_title']['body'] != 'Профсоюзная организация студентов') : ?>
-						<li class="view_docs__item">
-							<i class="docs_icon docs_icon__doc"></i>
-							<div class="docs_title">
-								<a href="..<?=$geo['geo_docs']['body']['path'];?>"><?=$dogovor;?></a>
+			<? endforeach; ?>
+			<div class="modal_view modal_view__maps clearfix">
+				<div class="btn_geo_map" data-cords="<?=$coordinates;?>" data-cordx="<?=$cord_x;?>" data-cordy="<?=$cord_y;?>" data-open-map="false">Показать на карте</div>
+				<div class="geo_map" data-id="GMap<?=$key;?>" data-map="false">
+					<div id="GMap<?=$key;?>"></div>
+				</div>
+			</div>
+			<? if(!empty($docs)) : ?>
+				<div class="modal_view documents clearfix">
+					<h4 class="modal_title">Документы</h4>
+					<div class="view_docs clearfix">
+						<? foreach($docs as $value) : ?>
+							<? $doc = json_decode($value['body'], true); ?>
+							<li class="view_docs__item">
+								<i class="docs_icon docs_icon__pdf"></i>
+								<div class="docs_title">
+					                <a href="<?=$doc['path'];?>" download="" data-id="642"><?=$doc['title'];?></a>
+					              </div>
+							</li>
+						<? endforeach; ?>
+					</div>
+				</div>
+			<? endif; ?>
+			<? if(!empty($news)) : ?>
+				<div class="modal_view geo_news clearfix">
+					<h4 class="modal_title">Новости</h4>
+					<div class="geo_news_block clearfix">
+						<? foreach($news as $value) : ?>
+							<div class="geo_news__content">
+								<time datetime="<?=$value['date_creat'];?>"><?=$value['date_creat'];?></time>
+								<?=$value['body'];?>
 							</div>
-						</li>
+						<? endforeach; ?>
+					</div>
+					<? if($count_news > 10) : ?>
+						<div id="more_geo_news" class="btn brd btn_submit btn_geo_news" data-page="2">Показать ещё</div>
 					<? endif; ?>
-				</ul>
-				<div class="modal_view__caption clearfix">
-					<?=$geo['geo_profile']['body'];?>
 				</div>
-			</div>
-		<? endforeach; ?>
-		<div class="modal_view modal_view__maps clearfix">
-			<div class="btn_geo_map" data-cords="<?=$coordinates;?>" data-cordx="<?=$cord_x;?>" data-cordy="<?=$cord_y;?>" data-open-map="false">Показать на карте</div>
-			<div class="geo_map" data-id="GMap<?=$key;?>" data-map="false">
-				<div id="GMap<?=$key;?>"></div>
-			</div>
+			<? endif; ?>
 		</div>
-		<? if(!empty($docs)) : ?>
-			<div class="modal_view documents clearfix">
-				<h4 class="modal_title">Документы</h4>
-				<div class="view_docs clearfix">
-					<? foreach($docs as $value) : ?>
-						<? $doc = json_decode($value['body'], true); ?>
-						<li class="view_docs__item">
-							<i class="docs_icon docs_icon__pdf"></i>
-							<div class="docs_title">
-				                <a href="<?=$doc['path'];?>" download="" data-id="642"><?=$doc['title'];?></a>
-				              </div>
-						</li>
-					<? endforeach; ?>
-				</div>
-			</div>
-		<? endif; ?>
-		<? if(!empty($news)) : ?>
-			<div class="modal_view geo_news clearfix">
-				<h4 class="modal_title">Новости</h4>
-				<div class="geo_news_block clearfix">
-					<? foreach($news as $value) : ?>
-						<div class="geo_news__content">
-							<time datetime="<?=$value['date_creat'];?>"><?=$value['date_creat'];?></time>
-							<?=$value['body'];?>
-						</div>
-					<? endforeach; ?>
-				</div>
-				<? if($count_news > 10) : ?>
-					<div id="more_geo_news" class="btn brd btn_submit btn_geo_news" data-page="2">Показать ещё</div>
-				<? endif; ?>
-			</div>
-		<? endif; ?>
 	</div>
+<?
+unset($docs);
+unset($news);
+unset($count_news);
+?>
 <? endforeach; ?>

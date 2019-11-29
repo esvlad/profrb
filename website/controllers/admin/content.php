@@ -71,7 +71,7 @@ class ControllerAdminContent extends MVC{
 		$arg = array();
 		$arg['type'] = $_POST['type'];
 		$arg['limit'] = isset($_POST['limit']) ? $_POST['limit'] : 20;
-		$arg['page'] = isset($_POST['page']) ? ($_POST['page'] * $arg['limit']) : 0;
+		$arg['page'] = isset($_POST['page']) ? (((int)$_POST['page'] - 1) * $arg['limit']) : 0;
 		$arg['order'] = isset($_POST['order']) ? $_POST['order'] : 'id';
 		$arg['sort'] = isset($_POST['sort']) ? $_POST['sort'] : 'DESC';
 		$arg['user'] = $admin;
@@ -90,7 +90,15 @@ class ControllerAdminContent extends MVC{
 			$data['cats'] = $content_model->loader('getCategory', 14);
 		}
 
-		$content = $view->loader('getContents', $arg);
+		if(!empty($_POST['docs_populars'])){
+			$docs_model = new Action(MODEL, 'docs/docs');
+			
+			$content = $docs_model->loader('getPopularDocsAdmin', 14);
+
+			$data['populars'] = true;
+		} else {
+			$content = $view->loader('getContents', $arg);
+		}
 
 		$data['contents'] = $content['content'];
 

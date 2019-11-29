@@ -170,7 +170,9 @@
     </div>
   </div>
 </section>
-<div class="modal admin_modal" data-modal-id="999" data-modal-open="false">
-  <div class="modal_close"></div>
-  <div class="admin_modal_view"></div>
+<div class="modal_panel">
+  <div class="modal admin_modal" data-modal-id="999" data-modal-open="false">
+    <div class="modal_close"></div>
+    <div class="admin_modal_view"></div>
+  </div>
 </div>

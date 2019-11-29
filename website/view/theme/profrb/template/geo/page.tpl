@@ -60,7 +60,9 @@
     </div>
   </div>
 </section>
-<div id="btn_modal" class="display_none" data-btn="gro_modals" data-modal-id="0"></div>
-<div class="modal modal_geo" data-modal-id="0" data-modal-open="false">
-    <div class="modal_close"></div>
+<div class="modal_panel">
+  <div id="btn_modal" class="display_none" data-btn="gro_modals" data-modal-id="0"></div>
+  <div class="modal modal_geo" data-modal-id="0" data-modal-open="false">
+      <div class="modal_close"></div>
+  </div>
 </div>

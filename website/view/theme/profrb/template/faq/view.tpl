@@ -104,7 +104,7 @@
                   </div>
                   <div class="faq_answer_cs">
                     <? if($content['no_comment'] == 0) : ?>
-                      <p class="faq_answer_cs__comments" id="faq_comments" data-faq-id="<?=$content['id'];?>">Комментарии: <span class="faq_answer_cs__comments_count"><?=count($comments[$content['id']]);?></span></p>
+                      <p class="faq_answer_cs__comments" id="faq_comments" data-faq-id="<?=$content['id'];?>">Комментарии: <span class="faq_answer_cs__comments_count"><?=count((array)$comments[$content['id']]);?></span></p>
                     <? endif; ?>
                     <div class="social_icons faq_answer_cs__socials clearfix">
                       <span>Поделиться: </span>
@@ -124,7 +124,7 @@
             <div class="comments_block clearfix admin_edit" data-faq-id="<?=$content['id'];?>">
                 <div class="modal_close"></div>
                   <ul class="comments_list clearfix">
-                    <? if(count($comments[$content['id']]) >= 1) : ?>
+                    <? if(count((array)$comments[$content['id']]) >= 1) : ?>
                       <? foreach($comments[$content['id']] as $comment) : ?>
                         <li class="admin_edit" id="comments" data-comment-id="<?=$comment['id']?>">
                           <p><?=$comment['text']?></p>
@@ -165,78 +165,80 @@
     </div>
   </div>
 </section>
-<div class="modal modal_question" data-modal-id="55" data-modal-open="false">
-  <div class="modal_close"></div>
-  <form id="add_question" class="mq_form clearfix">
-    <div class="mq_form_row clearfix">
-      <div class="mq_form_select_group">
-        <div class="selected_activ">
-          <input class="selected_checkbox" id="mqf_s" type="checkbox" name="not"/>
-          <label for="mqf_s">Трудовой договор</label>
-          <div class="selected_group">
-            <? foreach($category as $cat) : ?>
-              <? if($cat['id'] != 113) : ?>
-                <p id="mq_selected" data-value="<?=$cat['id'];?>"><?=$cat['title'];?></p>
-              <? endif; ?>
-            <? endforeach; ?>
+<div class="modal_panel">
+  <div class="modal modal_question" data-modal-id="55" data-modal-open="false">
+    <div class="modal_close"></div>
+    <form id="add_question" class="mq_form clearfix">
+      <div class="mq_form_row clearfix">
+        <div class="mq_form_select_group">
+          <div class="selected_activ">
+            <input class="selected_checkbox" id="mqf_s" type="checkbox" name="not"/>
+            <label for="mqf_s">Трудовой договор</label>
+            <div class="selected_group">
+              <? foreach($category as $cat) : ?>
+                <? if($cat['id'] != 113) : ?>
+                  <p id="mq_selected" data-value="<?=$cat['id'];?>"><?=$cat['title'];?></p>
+                <? endif; ?>
+              <? endforeach; ?>
+            </div>
+          </div>
+          <input class="mq_form__select" id="mqf_subject" type="hidden" name="category_id" value="103"/>
+          <div class="mq_form_select_label">
+            <p>Пожалуйста, уточните тему вопроса, чтобы мы смогли быстрее переслать его нужному специалисту.</p>
           </div>
         </div>
-        <input class="mq_form__select" id="mqf_subject" type="hidden" name="category_id" value="103"/>
-        <div class="mq_form_select_label">
-          <p>Пожалуйста, уточните тему вопроса, чтобы мы смогли быстрее переслать его нужному специалисту.</p>
+        <div class="mq_form_row_inputs clearfix">
+          <input class="mq_form__input _input_bilet" type="text" name="question_author_bilet" value="" placeholder="Номер профсоюзного билета" id="bilet" />
+          <div class="mq_form_select_label">
+            <p>У&nbsp;каждого члена Общероссийского Профсоюза образования есть электронный профсоюзный билет. Номер будет виден только специалисту, отвечающему на&nbsp;Ваше обращение.</p>
+          </div>
+        </div>
+        <div class="mq_form_row_inputs clearfix">
+          <input class="mq_form__input required" type="text" name="question_author_name" value="" placeholder="Ваше имя"/>
+          <input class="mq_form__input required" type="text" name="question_author_from" value="" placeholder="Место работы"/>
+          <input class="mq_form__input required" type="text" name="question_author_work" value="" placeholder="Должность"/>
+        </div>
+        <div class="mq_form_row_textarea clearfix">
+          <textarea class="mq_form__textarea required" id="mqf_text" name="question" cols="30" rows="5" placeholder="Введите в это поле вопрос"></textarea>
+          <span class="count_str" data-max="2000">не более 2000 символов (осталось <span>2000</span>)</span>
+        </div>
+        <div class="mq_form_row clearfix">
+          <div class="mq_form_froup_mail">
+            <input class="pf_checkbox_input mq_form__checkbox" id="mq_form_tomail" type="checkbox" name="question_author_to_mail" value=""/>
+            <label class="pf_checkbox_label mq_form__label" for="mq_form_tomail">Выслать ответ на мою электронную почту.</label>
+            <input class="pf_input__bbottom" type="text" name="question_author_mail" value="" placeholder="Введите ваш e-mail"/>
+          </div>
+          <div class="mq_form_froup_file">
+            <input class="mq_form__file" id="mq_upload_file" type="file" name="docs[]" multiple="multiple" value=""/>
+            <label class="mq_form__file_label" for="mq_upload_file"><span>Вы можете приложить дополнительные материалы, более полно раскрывающие суть вопроса.</span></label>
+            <div class="mq_form__file_view"></div>
+            <p class="mq_form__caption_file">Размер файла не&nbsp;более 5&nbsp;МБ в&nbsp;форматах JPG, PNG, DOC, PDF.</p>
+          </div>
+        </div>
+        <div class="mq_form_row clearfix">
+          <div class="mq_form_group_private">
+            <input class="pf_checkbox_input" id="mq_form_private" type="checkbox" name="question_author_private" value=""/>
+            <label class="pf_checkbox_label mq_form__label mq_form__label__spec" for="mq_form_private">Я&nbsp;не&nbsp;хочу, чтобы мои персональные данные были видны на&nbsp;сайте.<br>Их&nbsp;увидит только специалист, отвечая на&nbsp;вопрос.</label>
+          </div>
+        </div>
+        <div class="mq_form_row clearfix">
+          <div class="mq_form_group_private">
+            <input class="pf_checkbox_input" id="mq_form_data_personal" type="checkbox" checked="checked" name="question_data_personal" value=""/>
+            <label class="pf_checkbox_label mq_form__label" for="mq_form_data_personal">Cогласен на <a href="../uploads/documents/Политика_в_отношении_обработки_персональных_данных.pdf" target="_blank">обработку персональных данных</a>.</label>
+          </div>
+        </div>
+        <div class="mq_form_row clearfix">
+          <div class="mq_form_group_private">
+            <input class="pf_checkbox_input" id="mq_form_data_membership" type="checkbox" checked="checked" name="question_data_membership" value=""/>
+            <label class="pf_checkbox_label mq_form__label" for="mq_form_data_membership">Я член Общероссийского Профсоюза образования.</label>
+          </div>
+        </div>
+        <div class="mq_form_row_btn clearfix">
+          <input class="btn brd btn_submit" id="question_add" type="submit" value="Отправить"/>
         </div>
       </div>
-      <div class="mq_form_row_inputs clearfix">
-        <input class="mq_form__input _input_bilet" type="text" name="question_author_bilet" value="" placeholder="Номер профсоюзного билета" id="bilet" />
-        <div class="mq_form_select_label">
-          <p>У&nbsp;каждого члена Общероссийского Профсоюза образования есть электронный профсоюзный билет. Номер будет виден только специалисту, отвечающему на&nbsp;Ваше обращение.</p>
-        </div>
-      </div>
-      <div class="mq_form_row_inputs clearfix">
-        <input class="mq_form__input required" type="text" name="question_author_name" value="" placeholder="Ваше имя"/>
-        <input class="mq_form__input required" type="text" name="question_author_from" value="" placeholder="Место работы"/>
-        <input class="mq_form__input required" type="text" name="question_author_work" value="" placeholder="Должность"/>
-      </div>
-      <div class="mq_form_row_textarea clearfix">
-        <textarea class="mq_form__textarea required" id="mqf_text" name="question" cols="30" rows="5" placeholder="Введите в это поле вопрос"></textarea>
-        <span class="count_str" data-max="2000">не более 2000 символов (осталось <span>2000</span>)</span>
-      </div>
-      <div class="mq_form_row clearfix">
-        <div class="mq_form_froup_mail">
-          <input class="pf_checkbox_input mq_form__checkbox" id="mq_form_tomail" type="checkbox" name="question_author_to_mail" value=""/>
-          <label class="pf_checkbox_label mq_form__label" for="mq_form_tomail">Выслать ответ на мою электронную почту.</label>
-          <input class="pf_input__bbottom" type="text" name="question_author_mail" value="" placeholder="Введите ваш e-mail"/>
-        </div>
-        <div class="mq_form_froup_file">
-          <input class="mq_form__file" id="mq_upload_file" type="file" name="docs[]" multiple="multiple" value=""/>
-          <label class="mq_form__file_label" for="mq_upload_file"><span>Вы можете приложить дополнительные материалы, более полно раскрывающие суть вопроса.</span></label>
-          <div class="mq_form__file_view"></div>
-          <p class="mq_form__caption_file">Размер файла не&nbsp;более 5&nbsp;МБ в&nbsp;форматах JPG, PNG, DOC, PDF.</p>
-        </div>
-      </div>
-      <div class="mq_form_row clearfix">
-        <div class="mq_form_group_private">
-          <input class="pf_checkbox_input" id="mq_form_private" type="checkbox" name="question_author_private" value=""/>
-          <label class="pf_checkbox_label mq_form__label mq_form__label__spec" for="mq_form_private">Я&nbsp;не&nbsp;хочу, чтобы мои персональные данные были видны на&nbsp;сайте.<br>Их&nbsp;увидит только специалист, отвечая на&nbsp;вопрос.</label>
-        </div>
-      </div>
-      <div class="mq_form_row clearfix">
-        <div class="mq_form_group_private">
-          <input class="pf_checkbox_input" id="mq_form_data_personal" type="checkbox" checked="checked" name="question_data_personal" value=""/>
-          <label class="pf_checkbox_label mq_form__label" for="mq_form_data_personal">Cогласен на <a href="../uploads/documents/Политика_в_отношении_обработки_персональных_данных.pdf" target="_blank">обработку персональных данных</a>.</label>
-        </div>
-      </div>
-      <div class="mq_form_row clearfix">
-        <div class="mq_form_group_private">
-          <input class="pf_checkbox_input" id="mq_form_data_membership" type="checkbox" checked="checked" name="question_data_membership" value=""/>
-          <label class="pf_checkbox_label mq_form__label" for="mq_form_data_membership">Я член Общероссийского Профсоюза образования.</label>
-        </div>
-      </div>
-      <div class="mq_form_row_btn clearfix">
-        <input class="btn brd btn_submit" id="question_add" type="submit" value="Отправить"/>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 <div class="modals_block"></div>
 <div class="comment_modal"></div>

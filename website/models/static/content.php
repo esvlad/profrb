@@ -214,7 +214,7 @@ class ModelStaticContent extends MVC{
 		print_r($files['docs']);
 		echo '</pre>';*/
 
-		if(count($files['docs']) > 0){
+		if(count((array)$files['docs']) > 0){
 			foreach($files['docs'] as $id => $file_title){
 				$sql_count_field = $this->db->getOne('SELECT count(*) FROM '.DB_PREFIX.'fields_content fc WHERE fc.content_id = ?i AND fc.fields_id = ?i', $content_id, $id);
 				if($sql_count_field != 0){
@@ -241,7 +241,7 @@ class ModelStaticContent extends MVC{
 			}
 		}
 
-		if(count($files['image']) > 0){
+		if(count((array)$files['image']) > 0){
 			foreach($files['image'] as $id => $file_title){
 				$sql_count_field = $this->db->getOne('SELECT count(*) FROM '.DB_PREFIX.'fields_content fc WHERE fc.content_id = ?i AND fc.fields_id = ?i', $content_id, $id);
 				if($sql_count_field != 0){
@@ -261,7 +261,7 @@ class ModelStaticContent extends MVC{
 			}
 		}
 
-		if(count($files['gallery']) > 0){
+		if(count((array)$files['gallery']) > 0){
 			foreach($files['gallery'] as $key => $ids){
 				foreach($files['gallery'] as $key => $ids){
 					$sql_g = $this->db->getOne('SELECT count(*) FROM '.DB_PREFIX.'fields p WHERE p.id = ?i AND p.fields_type_id = 39', $key);
@@ -279,6 +279,17 @@ class ModelStaticContent extends MVC{
 
 		#URL
 		if($content_type_id == 14){
+			if(!empty($data['popular'])) $popular = 1;
+			$popular_id = $this->db->getOne('SELECT id FROM '.DB_PREFIX.'docs_popular WHERE content_id = ?i', $content_id);
+
+			if($popular && empty($popular_id)){
+				$this->db->query('INSERT INTO '.DB_PREFIX.'docs_popular SET content_id = ?i', $content_id);
+			}
+
+			if(!$popular && !empty($popular_id)){
+				$this->db->query('DELETE FROM '.DB_PREFIX.'docs_popular WHERE id = ?i', $popular_id);
+			}
+
 			$url = $this->getUri($category_id, 'docs');
 		} else if($content_type_id == 11){
 			$url = $this->getUri($content_id, 'news');
@@ -302,6 +313,8 @@ class ModelStaticContent extends MVC{
 		$content_type_id = $data['content_type_id'];
 		if(!empty($data['is_letter'])) $is_letter = 1;
 		$is_active = (!empty($data['active'])) ? 1 : 0;
+
+		if(!empty($data['popular'])) $popular = 1;
 
 		if(isset($data['category_id']) && $data['category_id'] != ''){
 			$category_id = $data['category_id'];
@@ -543,6 +556,10 @@ class ModelStaticContent extends MVC{
 			if($is_letter){
 				$let_model = new Action(MODEL, 'modules/letter');
 				$letters = $let_model->loader('getSubscribe', $letter);
+			}
+
+			if($popular){
+				$this->db->query('INSERT INTO '.DB_PREFIX.'docs_popular SET content_id = ?i', $content_id);
 			}
 		}
 		

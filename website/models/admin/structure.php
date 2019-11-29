@@ -134,7 +134,6 @@ class ModelAdminStructure extends MVC{
 		return $result;
 	}
 
-
 	public function getGeoPage($s_params, $setting_type){
 		$sql_fg = 'SELECT p.title, p.fields_ids FROM pf_fields_group p WHERE p.name = ?s';
 		$field_group = $this->db->getRow($sql_fg, 'geo_group');
@@ -188,7 +187,7 @@ class ModelAdminStructure extends MVC{
 		$content = array();
 
 		if($arg['type'] == 'all'){
-			$fields = 'c.id, c.title, ct.title as type_title, c.type_id, c.date_creat, c.date_end, c.active ';
+			$fields = 'c.id, c.title, ct.title as type_title, c.type_id, c.date_creat, c.date_end, c.views, c.active ';
 			$from = 'FROM '.DB_PREFIX.'content c, pf_content_type ct ';
 			$where = 'WHERE ct.id = c.type_id ';
 
@@ -198,7 +197,7 @@ class ModelAdminStructure extends MVC{
 			$sql_content = $sql . $fields . $from . $where . $order . $sort . $limit;
 			$content['content'] = $this->db->getAll($sql_content, $arg['page'], $arg['limit']);
 		} else {
-			$fields = 'c.id, c.title, ct.title as type_title, c.type_id, c.date_creat, c.date_end, c.active ';
+			$fields = 'c.id, c.title, ct.title as type_title, c.type_id, c.geo_id, c.date_creat, c.date_end, c.views, c.active ';
 			$from = 'FROM pf_content c, pf_content_type ct ';
 			$where = 'WHERE ct.name = ?s AND c.type_id = ct.id ';
 
@@ -221,11 +220,21 @@ class ModelAdminStructure extends MVC{
 			$content['content'] = $this->db->getAll($sql_content, $arg['type'], $arg['page'], $arg['limit']);
 		}
 
+		if($arg['type'] == 'docs'){
+			$popular_ids = $this->db->getCol('SELECT content_id FROM pf_docs_popular');
+		}
+
 		foreach($content['content'] as $key => $value){
 			if($value['title'] == '-'){
 				$title = $this->db->getOne('SELECT f.body FROM pf_fields f, pf_fields_content fc, pf_fields_type ft WHERE fc.content_id = ?i AND f.id = fc.fields_id AND ft.name = ?s AND f.fields_type_id = ft.id', $value['id'], 'text');
 
-				$content['content'][$key]['title'] = mb_substr(trim(strip_tags($title)), 0, 45).'...';
+				$content['content'][$key]['title'] = mb_substr(trim(strip_tags($title)), 0, 60).'...';
+
+				$content['content'][$key]['geo_title'] = $this->db->getOne('SELECT `title` FROM `pf_content` WHERE `id` = ?i', $value['geo_id']);
+			}
+
+			if($arg['type'] == 'docs' && !empty($popular_ids) && in_array($value['id'], $popular_ids)){
+				$content['content'][$key]['popular'] = true;
 			}
 		}
 

@@ -43,6 +43,7 @@
             <? endif; ?>
           <? endforeach; ?>
         <? endforeach; ?>
+        <div id="print_news"><span>Распечатать новость</span></div>
         <div class="social_icons news_view_cs__socials clearfix" data-cid="<?=$cid;?>">
           <span>Поделиться: </span>
           <i class="social_icon" id="social_repost" data-social-type="vk" onclick="window.open('https://vk.com/share.php?url=<?='http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];?>&title=<?=$content_title;?>','sharer','toolbar=0,status=0,width=700,height=400,top='+((screen.height-600)/2)+',left='+((screen.width-700)/2)+'');"></i>

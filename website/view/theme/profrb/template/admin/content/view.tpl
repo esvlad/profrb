@@ -26,6 +26,17 @@ function ordered($data, $order){
       <? endforeach; ?>
     </select>
   </div>
+  <div class="admin_filter faq_category">
+    Фильтр по популярным: <select name="populars" onchange="get_populars_docs(this.value);">
+      <? if(!empty($populars)) : ?>
+        <option value="0">Все документы</option>
+        <option value="1" selected>В популярных</option>
+      <? else : ?>
+        <option value="0" selected>Все документы</option>
+        <option value="1">В популярных</option>
+      <? endif; ?>
+    </select>
+  </div>
 <? endif; ?>
 <div class="admin_content_view" data-user-level="<?=$user['level']?>">
   <table class="admin_content_table">
@@ -46,7 +57,19 @@ function ordered($data, $order){
       <td>
         <p id="type" class="content_views_title">Тип</p>
       </td>
-      <td></td>
+      <? if($c_type == 'geo_news') : ?>
+        <td class="geo_news">
+          <p id="type" class="content_views_title">Организация</p>
+        </td>
+      <? endif; ?>
+      <? if($c_type == 'docs') : ?>
+        <td>
+          <p id="views" data-sorted="<?=$sort;?>" data-sort-active="<?=ordered('views', $order);?>" class="sorted"><span onclick="sorted('views');">Количество скачиваний</span></p>
+        </td>
+        <td>
+          <p id="type" class="content_views_title">Закреплен в&nbsp;популярных</p>
+        </td>
+      <? endif; ?>
       <td></td>
       <td></td>
       <td></td>
@@ -70,6 +93,24 @@ function ordered($data, $order){
         <td>
           <p id="ctype_title_name" class="content_views_title"><?=$content['type_title'];?></p>
         </td>
+        <? if($c_type == 'geo_news') : ?>
+          <td>
+            <p id="geo_title" class="content_views_title"><?=$content['geo_title'];?></p>
+          </td>
+        <? endif; ?>
+        <? if($c_type == 'docs') : ?>
+        <td>
+          <p id="views" class="content_views_title" style="text-align:center;"><b><?=$content['views'];?></b></p>
+        </td>
+        <td>
+          <? $popular_checked = (!empty($content['popular'])) ? ' checked' : null; ?>
+          <div class="content_views_check">
+            <input id="popular<?=$content['id'];?>" type="checkbox"<?=$popular_checked;?> onchange="change_popular(<?=$content['id'];?>)">
+            <label for="popular<?=$content['id'];?>"></label>
+          </div>
+          <p id="popular" class="content_views_title"></p>
+        </td>
+      <? endif; ?>
         <td>
           <span onclick="content_event(<?=$content['id'];?>, 'edit');" class="content_event admin_icon icon_update">Редактировать</span>
         </td>

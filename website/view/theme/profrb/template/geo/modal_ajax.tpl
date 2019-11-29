@@ -23,7 +23,7 @@ $cordinates = $contents['cordinates'];
 <div class="modal_view clearfix">
   <h4 class="modal_title"><?=$title;?></h4>
   <div class="modal_view__profile clearfix">
-    <img src="..<?=json_file($content['view_profile']['body']);?>"/>
+    <img src="../website/view/theme/profrb/img/logo_geo.jpg"/>
     <p class="modal_view__profile_title"><?=$content['view_profile_title']['body'];?></p>
     <? if(isset($content['view_profile_mail']['body'])) : ?>
       <p class="modal_view__profile_title"><?=$content['view_profile_phone']['body'];?></p>

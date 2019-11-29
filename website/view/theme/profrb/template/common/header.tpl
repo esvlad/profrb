@@ -15,7 +15,7 @@
   <? if(!empty($is_admin)) : ?>
     <link href="../<?= TPL_PATH . THEME_NAME; ?>/css/admin.css" rel="stylesheet" type="text/css" />
   <? endif; ?>
-  <? $basehref = isset($basehref) ? $basehref : 'https://eduprofrb.ru/'; ?>
+  <? $basehref = isset($basehref) ? $basehref : 'http://eduprofrb/'; ?>
   <base href="<?= $basehref; ?>" />
   <meta property="og:title" content="Башкирская республиканская организация Профсоюза работников народного образования и науки Российской Федерации" />
   <meta property="og:type" content="website" />
@@ -24,7 +24,8 @@
   <meta property="og:site_name" content="<?=$site_name;?>" />
   <script src="../<?= TPL_PATH . THEME_NAME; ?>/js/jquery/jquery.min.js"></script>
 </head>
-<body>
+<? $body_page_class = (!empty($page['name'])) ? ' class="'.$page['name'].'"' : null; ?>
+<body<?=$body_page_class;?>>
 <div class="modal_bg"></div>
 <nav class="sect menu" data-open="false">
   <div class="wrapper">
@@ -109,7 +110,6 @@
 <? if(!empty($is_admin)) : ?>
   <?=$admin_panel;?>
 <? endif; ?>
-
 <header class="sect header <?=$page_class;?>">
   <div class="wrappall">
     <div class="content clearfix">

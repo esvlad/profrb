@@ -1722,13 +1722,12 @@ body.modal_bg .header .site_menu{
   height: 38px;
 }
 
-body.modal_bg {
+/*body.modal_bg {
   background: rgba(58, 58, 82, 0.1);
   overflow: hidden;
-  /*padding-right: 21px;*/
 }
 
-div.modal_bg {
+/*div.modal_bg {
   background: rgba(58, 58, 82, 0.4);
   width: 100%;
   height: 100%;
@@ -1738,14 +1737,38 @@ div.modal_bg {
   z-index: 98;
   display: none;
   cursor: pointer;
+}*/
+
+.modal_panel{
+  display: none;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2050;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+
+body.modal-open{
+  overflow: hidden;
+}
+
+.modal-open .modal_panel{
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: rgba(58, 58, 82, .4);
 }
 
 .modal {
-  position: absolute;
-  left: calc(50% - 550px);
+  position: relative;
+  /*left: calc(50% - 550px);*/
+  margin: 5% auto;
   background: #fff;
   border: 3px solid #f1f8fe;
-  display: none;
+  display: block;
   z-index: 9999;
 }
 
@@ -4161,8 +4184,6 @@ div.modal_bg {
 .modal_geo {
   text-align: left;
   width: 800px;
-  left: calc(50% - (800px / 2));
-  top: 55px;
   padding-bottom: 50px;
   border: 3px solid #e9e9ef;
 }
@@ -4245,6 +4266,7 @@ div.modal_bg {
   font-weight: 700;
 }
 .modal_geo p.modal_view__profile_phone {
+  margin-top: 10px;
   margin-bottom: 25px;
 }
 
@@ -5897,6 +5919,21 @@ textarea.error_form{
   background: #ffe9e9;
 }
 
+#print_news{
+  position: relative;
+  top: -25px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+#print_news > span{
+  color: rgba(43, 43, 102, 0.5);
+  border-bottom: 1px dashed rgba(43, 43, 102, 0.5);
+  -webkit-transition: .3s;
+  -o-transition: .3s;
+  transition: .3s;
+}
+
 /* VISION */
 
 body.special_vision .sect.slider,
@@ -6765,6 +6802,7 @@ body.vision_bg_black .docs .btn_main_docs > span{
     padding-right: 50px;
   }
 
+  #print_news,
   .search_page .search_block p:hover > span{
     display: none;
   }
@@ -9407,8 +9445,8 @@ body.vision_bg_black .docs .btn_main_docs > span{
   .modal {
     left: 0;
     width: 100%;
-    position: fixed;
-    top: 0;
+    position: relative;
+    margin: 0;
     height: calc(100vh + 50px);
     border: 0;
     -webkit-border-radius: 0;
@@ -9508,8 +9546,14 @@ body.vision_bg_black .docs .btn_main_docs > span{
 
   .modal_geo .modal_view__profile img {
     width: 160px;
-    float: left;
-    margin: 0 40px 14px 0;
+    /*float: left;
+    margin: 0 40px 14px 0;*/
+    float: none;
+    margin: 0 0 40px 0;
+  }
+
+  .modal_geo p.modal_view__profile_phone{
+    margin-top: 0;
   }
 
   .modal_geo .modal_view__profile p:last-child:not(.modal_view__profile_phone){
@@ -9871,5 +9915,51 @@ body.vision_bg_black .docs .btn_main_docs > span{
     display: block;
     top: calc(50% - 9px);
     right: 0;
+  }
+}
+
+#print_news > span:hover{
+  color: rgba(43, 43, 102, 0.8);
+  border-bottom: 1px dashed rgba(43, 43, 102, 0.8);
+}
+
+@media print{
+  .news .sect:not(.news_page),
+  .news .breadcrumbs,
+  .news .modal_bg,
+  .news .news_flippy,
+  .news .news_view_cs__socials{
+    display: none;
+  }
+
+  .news .news_page .news_title {
+    font-family: "Merriweather";
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 700;
+    text-align: left;
+    margin: 20px 0;
+  }
+
+  .news .news_page .news_title > time{
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  .news .news_page .news_view .news_view_row {
+    margin-bottom: 30px;
+  }
+
+  .news .news_page .news_view p, .news_page .news_view ul > li {
+    margin-bottom: 10px;
+    font-family: "Merriweather";
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .news .news_page .news_view .news_images_big{
+    width: 100%;
+    margin-left: 0;
   }
 }

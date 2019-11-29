@@ -118,6 +118,36 @@ class ModelDocsDocs extends MVC{
 		return $docs;
 	}
 
+	public function getPopularDocsAdmin($type_id = 14){
+		$docs_popular_fixed = $this->db->getAll('SELECT c.id, c.title, c.date_creat, c.views, ct.title as type_title FROM pf_content c, pf_docs_popular dp, pf_content_type ct 
+				WHERE c.type_id = ?i AND dp.content_id = c.id AND ct.id = c.type_id AND c.active = 1 ORDER BY c.date_creat DESC', (int)$type_id);
+
+		$count_docs_popular_fixed = (!empty($docs_popular_fixed)) ? count((array)$docs_popular_fixed) : 0;
+
+		$docs_popular_upload = $this->db->getAll('SELECT c.id, c.title, c.date_creat, c.views, ct.title as type_title FROM pf_content c, pf_content_type ct 
+			WHERE c.type_id = ?i AND c.date_creat <= (NOW() + INTERVAL 2 HOUR) AND (c.date_end >= (NOW() + INTERVAL 2 HOUR) OR c.date_end = "0000-00-00 00:00:00" OR c.date_end is null) AND ct.id = c.type_id AND c.active = 1 GROUP BY c.id ORDER BY c.views DESC LIMIT ?i,?i', (int)$type_id, 0, (4 - (int)$count_docs_popular_fixed));
+
+		$docs['content'] = [];
+
+		if($count_docs_popular_fixed > 0){
+			$docs['content'] = array_merge($docs_popular_fixed, $docs_popular_upload);
+
+			$popular_ids = $this->db->getCol('SELECT content_id FROM pf_docs_popular');
+
+			foreach($docs['content'] as $key => $value){
+				if(in_array($value['id'], $popular_ids)){
+					$docs['content'][$key]['popular'] = true;
+				}
+			}
+		} else {
+			$docs['content'] = $docs_popular_upload;
+		}
+
+		$docs['count'] = count((array)$docs['content']);
+
+		return $docs;
+	}
+
 	public function getDocsClass($path){
 		$file_type = explode('.', $path);
 		$format = array_pop($file_type);
@@ -190,6 +220,18 @@ class ModelDocsDocs extends MVC{
 		$this->db->query($sql, $id);
 
 		return true;
+	}
+
+	public function setPopular($post){
+		if($post['set'] == 'i'){
+			$this->db->query('INSERT INTO '.DB_PREFIX.'docs_popular SET content_id = ?i', $post['cid']);
+
+			return $this->db->insertId();
+		} else {
+			$this->db->query('DELETE FROM '.DB_PREFIX.'docs_popular WHERE content_id = ?i', $post['cid']);
+
+			return $post;
+		}
 	}
 }
 ?>

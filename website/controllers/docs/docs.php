@@ -37,5 +37,15 @@ class ControllerDocsDocs extends MVC{
 			}
 		}
 	}
+
+	public function popular(){
+		$json = array();
+
+		$model = new Action(MODEL, 'docs/docs');
+
+		$json[] = $model->loader('setPopular', $_POST);
+
+		echo json_encode($_POST);
+	}
 }
 ?>

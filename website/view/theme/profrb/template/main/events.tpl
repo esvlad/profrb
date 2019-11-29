@@ -72,41 +72,43 @@ function formate_date_event($date){
 $m_array = array(true,'Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря');
 ?>
 
-<div class="modal events_modal" data-modal-id="event_calend" data-modal-open="false">
-  <div class="modal_close"></div>
-  <div class="events_modal_head">
-    <h3>Все события</h3>
-  </div>
-  <div class="events_modal_content clearfix">
-    <? foreach($daterange as $d => $date) : ?>
-    	<?$dd = $date;?>
-      <div class="emc_cell">
-        <div class="emc_cell__content">
-          <? foreach($events as $key => $event) : ?>
-            <? if(strtotime(formate_date_event($event['date_creat'])) <= strtotime($date) && strtotime(formate_date_event($event['date_end'])) >= strtotime($date)) : ?>
-              <p class="emc_cell__content_title" data-event-type="vebinar"><span><?=$event['title'];?></span></p>
-              <div class="emc_cell__content_caption">
-                <?=$event['fields']['event_caption'];?>
-              </div>
-            <? endif; ?>
-          <? endforeach; ?>
+<div class="modal_panel">
+  <div class="modal events_modal" data-modal-id="event_calend" data-modal-open="false">
+    <div class="modal_close"></div>
+    <div class="events_modal_head">
+      <h3>Все события</h3>
+    </div>
+    <div class="events_modal_content clearfix">
+      <? foreach($daterange as $d => $date) : ?>
+      	<?$dd = $date;?>
+        <div class="emc_cell">
+          <div class="emc_cell__content">
+            <? foreach($events as $key => $event) : ?>
+              <? if(strtotime(formate_date_event($event['date_creat'])) <= strtotime($date) && strtotime(formate_date_event($event['date_end'])) >= strtotime($date)) : ?>
+                <p class="emc_cell__content_title" data-event-type="vebinar"><span><?=$event['title'];?></span></p>
+                <div class="emc_cell__content_caption">
+                  <?=$event['fields']['event_caption'];?>
+                </div>
+              <? endif; ?>
+            <? endforeach; ?>
+          </div>
+          <p class="emc_cell_num"><?=date('j',strtotime($dd));?> <span class="month"><?=$m_array[date('n',strtotime($dd))];?></span></p>
         </div>
-        <p class="emc_cell_num"><?=date('j',strtotime($dd));?> <span class="month"><?=$m_array[date('n',strtotime($dd))];?></span></p>
+      <? endforeach; ?>
+    </div>
+    <div class="events_modal_footer">
+      <div class="events_modal_letter">
+        <p>Подпишитесь на рассылку</p>
+        <p>и не пропускайте анонсы интересных мероприятий</p>
+        <form id="letter_event" class="eml_form">
+          <div class="_politics">
+            <input class="pf_checkbox_input _is_politics_chek" id="_form_data_event" type="checkbox" checked="checked"/>
+            <label class="pf_checkbox_label mq_form__label _is_politics" for="_form_data_event">Cогласен на <a href="../uploads/documents/Политика_в_отношении_обработки_персональных_данных.pdf" target="_blank">обработку персональных данных</a>.</label>
+          </div>
+        	<input class="display_none" type="checkbox" name="letter[]" value="events" checked/>
+          <input type="email" name="mail" value="" placeholder="Введите ваш e-mail и нажмите Enter" required/>
+        </form>
       </div>
-    <? endforeach; ?>
-  </div>
-  <div class="events_modal_footer">
-    <div class="events_modal_letter">
-      <p>Подпишитесь на рассылку</p>
-      <p>и не пропускайте анонсы интересных мероприятий</p>
-      <form id="letter_event" class="eml_form">
-        <div class="_politics">
-          <input class="pf_checkbox_input _is_politics_chek" id="_form_data_event" type="checkbox" checked="checked"/>
-          <label class="pf_checkbox_label mq_form__label _is_politics" for="_form_data_event">Cогласен на <a href="../uploads/documents/Политика_в_отношении_обработки_персональных_данных.pdf" target="_blank">обработку персональных данных</a>.</label>
-        </div>
-      	<input class="display_none" type="checkbox" name="letter[]" value="events" checked/>
-        <input type="email" name="mail" value="" placeholder="Введите ваш e-mail и нажмите Enter" required/>
-      </form>
     </div>
   </div>
 </div>

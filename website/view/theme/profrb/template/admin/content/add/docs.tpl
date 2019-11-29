@@ -38,6 +38,10 @@
       <input id="date_end" type="datetime-local" name="date_end" data-table="content" value=""/>
     </div>
     <div class="admin_form_row">
+      <input id="popular" type="checkbox" name="popular" data-table="content" value="1"/>
+      <label for="popular">Закрепить в популярных документах</label>
+    </div>
+    <div class="admin_form_row">
       <input id="active" type="checkbox" name="active" data-table="content" value="1" checked/>
       <label for="active">Материал опубликован</label>
     </div>

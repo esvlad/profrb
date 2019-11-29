@@ -44,7 +44,7 @@
       <p class="admin_form_caption">E-mail автора вопроса</p>
       <input id="question_author_mail" type="text" name="question_author_mail" data-table="faq" value="<?=$question_author_mail;?>"/>
     </div>
-    <? if(count($question_docs) >= 1) : ?>
+    <? if(count((array)$question_docs) >= 1) : ?>
       <div class="admin_form_row">
         <label>Прикрепленные документы</label>
         <? foreach($question_docs as $docs) : ?>

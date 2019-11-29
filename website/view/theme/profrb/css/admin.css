@@ -16,10 +16,19 @@
   display: inline;
 }
 
+#add_group,
 .admin_second_menu_block,
 .admin_second_children_menu_block,
 .notise_block_popup {
   display: none;
+}
+
+.admin_content_table > thead[data-types="docs"] + tbody .content_views_check > label{
+  left: 40%;
+}
+
+.admin_content_table > thead[data-types="docs"] + tbody .content_views_check > label:before{
+  border-color: transparent;
 }
 
 .admin_col {
@@ -77,7 +86,7 @@
 
 .admin_modal {
   width: 80%;
-  left: 10%;
+  /*left: 10%;*/
   padding: 50px;
   z-index: 9999;
 }
@@ -356,6 +365,13 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
   margin: -5px 0 13px;
 }
 
+/* ADMIN FORM ROW */
+
+.admin_form_row[data-key="view_profile"],
+.admin_form_row[data-key="modal_title"]{
+  display: none;
+}
+
 /* ADMIN TABLE */
 
 .admin_content_table{
@@ -383,7 +399,7 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
 }
 
 .admin_content_view .admin_content_table tr > td:nth-child(4){
-  width: 13%;
+  width: 11%;
 }
 
 .admin_content_view.admin_user .admin_content_table tr > td:nth-child(4){
@@ -394,10 +410,14 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
   width: 4%;
 }
 
+.admin_content_view .admin_content_table tr > td.geo_news{
+  width: 16%;
+}
+
 .admin_content_view .admin_content_table tr > td:nth-child(6),
 .admin_content_view .admin_content_table tr > td:nth-child(7),
 .admin_content_view .admin_content_table tr > td:nth-child(8){
-  width: 10%;
+  width: 7%;
 }
 
 .admin_modal .admin_content_table input[type="checkbox"] + label{
@@ -569,10 +589,16 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
 
 #remove_field{
   display: inline-block;
-  margin-left: 15px;
+  margin-left: 0;
   color: #75bbf7;
   border-bottom: 1px dashed #75bbf7;
   cursor: pointer;
+  position: relative;
+  top: -15px;
+}
+
+.file_upload #remove_field{
+  top: 0;
 }
 
 .admin_slider #remove_field{

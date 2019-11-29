@@ -97,19 +97,21 @@
 </section>
 
 <? foreach($contents as $key => $content) : ?>
-  <? $click = !empty($is_admin) ? '<span class="admin_edit_content" onclick="content_event('.$key.', \'edit\');"></span>' : null; ?>
-  <div class="modal modal_structure" data-modal-id="<?=$key;?>" data-modal-open="false">
-    <?=$click;?>
-    <div class="modal_close"></div>
-    <div class="modal_head">
-      <h4 class="modal_title"><?=$content['title'];?></h4>
-      <? if(!empty($content['title_caption'])) : ?>
-        <p class="modal_caption"><?=$content['title_caption'];?></p>
-      <? endif; ?>
-    </div>
-    <div class="modal_view clearfix">
-      <div class="modal_list grid_col_2">
-        <?=$content['fields']['text'];?>
+  <div class="modal_panel">
+    <? $click = !empty($is_admin) ? '<span class="admin_edit_content" onclick="content_event('.$key.', \'edit\');"></span>' : null; ?>
+    <div class="modal modal_structure" data-modal-id="<?=$key;?>" data-modal-open="false">
+      <?=$click;?>
+      <div class="modal_close"></div>
+      <div class="modal_head">
+        <h4 class="modal_title"><?=$content['title'];?></h4>
+        <? if(!empty($content['title_caption'])) : ?>
+          <p class="modal_caption"><?=$content['title_caption'];?></p>
+        <? endif; ?>
+      </div>
+      <div class="modal_view clearfix">
+        <div class="modal_list grid_col_2">
+          <?=$content['fields']['text'];?>
+        </div>
       </div>
     </div>
   </div>

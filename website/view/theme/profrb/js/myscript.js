@@ -103,7 +103,7 @@ $(document).ready(function() {
 	$('#btn_modal, h3#btn_modal, li#btn_modal, p#geo_modal, div#footer_popup').click(function(){
 		var $modal_id = $(this).attr('data-modal-id');
 		var $modal = $('.modal[data-modal-id="'+$modal_id+'"]');
-		if(winWidth > 640) $modal.css('top',(scroll_top - (- 120))+'px');
+		/*if(winWidth > 640) $modal.css('top',(scroll_top - (- 120))+'px');
 		console.log('click' + scroll_top);
 			
 		if($modal.attr('data-modal-open') == 'false'){
@@ -129,16 +129,32 @@ $(document).ready(function() {
 			$modal.fadeOut(300);
 			$modal.attr('data-modal-open','false');
 			$('.footer').removeAttr('style');
-		}
+		}*/
+
+		$modal.parent().fadeIn();
+		$('body').addClass('modal-open');
 	});
 	
 	$('.modal_close').click(function(){
-		if($(this).parents('.btn_letter').hasClass('opened')){
+		/*if($(this).parents('.btn_letter').hasClass('opened')){
 			$(this).parents('.btn_letter').removeClass('opened');
 			$(this).parents('.btn_letter').addClass('closed');
 		} else {
 			var $btn_clicked = $(this).parents('.modal').attr('data-modal-id');
 			$('#btn_modal[data-modal-id="'+$btn_clicked+'"]').trigger('click');
+		}*/
+
+		$(this).parents('.modal_panel').fadeOut();
+		$('body').removeClass('modal-open');
+	});
+
+	$('.modal_panel').mouseup(function (e) {
+		if($('.modal').is('div')){
+			if ($('.modal_panel').has(e.target).length === 0){			
+		  		
+		  		$('.modal_panel').fadeOut();
+		  		$('body').removeClass('modal-open');
+			}
 		}
 	});
 
@@ -233,6 +249,10 @@ $(document).ready(function() {
 			console.log('asd');
 		});
 	}
+});
+
+$('#print_news').click(function(){
+	window.print();
 });
 
 function getCookie(name) {
@@ -1569,8 +1589,8 @@ $('#add_question').submit(function(e){
 							console.log(json);
 							if(json.success == true){
 								my_form.find('.mq_form_row').detach();
-								my_form.parents('.modal_question').css('top',(scroller - (-120))+'px');
-								my_form.html('<p class="faq_success">Ваш вопрос принят на рассмотрение! Вашему вопросу присвоен номер <b>'+json.question_id+'</b></p>');
+								//my_form.parents('.modal_question').css('top',(scroller - (-120))+'px');
+								my_form.html('<p class="faq_success">Ваше обращение №'+json.question_id+' принято.</p>');
 							} else {
 								if(json.error){
 									$('.captcha').append('<p class="error_captcha">Вы не ввели капчу!</p>');
@@ -1599,8 +1619,8 @@ $('#add_question').submit(function(e){
 					console.log(json);
 					if(json.success == true){
 						my_form.find('.mq_form_row').detach();
-						my_form.parents('.modal_question').css('top',(scroller - (-120))+'px');
-						my_form.html('<p class="faq_success">Ваш вопрос принят на рассмотрение! Вашему вопросу присвоен номер <b>'+json.question_id+'</b></p>');
+						//my_form.parents('.modal_question').css('top',(scroller - (-120))+'px');
+						my_form.html('<p class="faq_success">Ваше обращение №'+json.question_id+' принято.</p>');
 					} else {
 						if(json.error){
 							$('.captcha').append('<p class="error_captcha">Вы не ввели капчу!</p>');

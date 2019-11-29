@@ -124,27 +124,36 @@ class ModelFaqCRUD extends MVC{
 			}
 		}
 
-		/*TO MAILER*/
-		if($question['question_author_to_mail'] == 1 && $question['answered'] == 1 && $to_mail == true){
-
-			$mailer = new ClassMail();
-			$mailer->setFrom('Башкирская организация Профсоюза');
-			$mailer->setTo($post['question_author_mail']);
-			$mailer->setSubject('Ответ с сайта eduprofrb.ru на вопрос номер ' . $content_id);
-
-			$message = 'Получен ответ на ваш вопрос с сайта eduprofrb.ru<br/><br/>';
-			$message .= '<b>Ваш вопрос:</b><br/>' . $question['question'] . '<br/><br/>';
-			$message .= '<b>Ответ:</b><br/>' . $question['answer'] . '<br/><br/><br/><br/>';
-			$message .= '<i style="font-size:90%;color:#8e8e8e;">Данное письмо сгенерировано сайтом, отвечать или задавать дополнительные вопросы на этот ящик не нужно!</i>';
-			
-			$mailer->setMessage($message);
-			$mailer->sendMail();
-		}
-
 		if($question['answer_author_id'] == 0){
 			$sql_author = 'INSERT INTO '.DB_PREFIX.'faq_answer SET ?u';
 			$this->db->query($sql_author, $author);
 			$question['answer_author_id'] = $this->db->insertId();
+		}
+
+		/*TO MAILER*/
+		if($question['question_author_to_mail'] == 1 && $to_mail == true){
+
+			$mailer = new ClassMail();
+			$mailer->setFrom('Башкирская организация Профсоюза');
+			$mailer->setTo($post['question_author_mail']);
+
+			if($question['answered'] == 1){
+				$mailer->setSubject('Ответ с сайта eduprofrb.ru на вопрос номер ' . $content_id);
+
+				$message = 'Получен ответ на ваш вопрос с сайта eduprofrb.ru<br/><br/>';
+				$message .= '<b>Ваш вопрос:</b><br/>' . $question['question'] . '<br/><br/>';
+				$message .= '<b>Ответ:</b><br/>' . $question['answer'] . '<br/><br/><br/><br/>';
+				$message .= '<i style="font-size:90%;color:#8e8e8e;">Данное письмо сгенерировано сайтом, отвечать или задавать дополнительные вопросы на этот ящик не нужно!</i>';
+			} else {
+				$mailer->setSubject('Действия с сайта eduprofrb.ru на вопрос номер ' . $content_id);
+
+				$answer_author = $this->db->getOne('SELECT name FROM '.DB_PREFIX.'faq_answer WHERE id = ?i', $question['answer_author_id']);
+
+				$message = 'Здравствуйте, '.$question['question_author_name'].', ваш вопрос №'.$content_id.' передан на рассмотрение специалисту. '.$answer_author.'<br/><br/>';
+			}
+			
+			$mailer->setMessage($message);
+			$mailer->sendMail();
 		}
 
 		$category_id = $this->db->getOne('SELECT category_id FROM '.DB_PREFIX.'faq WHERE id = ?i', $content_id);
