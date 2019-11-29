@@ -92,12 +92,26 @@ class ModelDocsDocs extends MVC{
 	}
 
 	public function getPopularDocs($type_id = 14){
+		$docs_popular_fixed = $this->db->getAll('SELECT c.id, c.title, c.date_creat, DATE_FORMAT(c.date_creat, "%d.%m.%Y") as view_date, c.date_end, f.id as field_id, f.body FROM pf_content c, pf_docs_popular dp, pf_fields_content fc, pf_fields f 
+			WHERE c.type_id = ?i AND dp.content_id = c.id  AND c.date_creat <= (NOW() + INTERVAL 2 HOUR) AND (c.date_end >= (NOW() + INTERVAL 2 HOUR) OR c.date_end = "0000-00-00 00:00:00" OR c.date_end is null) AND fc.content_id = c.id AND f.id = fc.fields_id AND f.fields_type_id = 25  AND c.active = 1 ORDER BY c.date_creat DESC', (int)$type_id);
+
+		$count_docs_popular_fixed = (!empty($docs_popular_fixed)) ? count((array)$docs_popular_fixed) : 0;
+		if($count_docs_popular_fixed > 4) $count_docs_popular_fixed = 4;
+
 		$sql = 'SELECT c.id, c.title, c.date_creat, DATE_FORMAT(c.date_creat, "%d.%m.%Y") as view_date, c.date_end, f.id as field_id, f.body
 				FROM pf_content c, pf_fields_content fc, pf_fields f
 				WHERE c.type_id = ?i AND c.date_creat <= (NOW() + INTERVAL 2 HOUR) AND (c.date_end >= (NOW() + INTERVAL 2 HOUR) OR c.date_end = "0000-00-00 00:00:00" OR c.date_end is null) AND fc.content_id = c.id AND f.id = fc.fields_id AND f.fields_type_id = 25 AND c.active = 1
-				GROUP BY c.id ORDER BY c.views DESC LIMIT 0,4';
+				GROUP BY c.id ORDER BY c.views DESC LIMIT ?i,?i';
 
-		$content = $this->db->getAll($sql, $type_id);
+		$docs_popular_upload = $this->db->getAll($sql, $type_id, 0, (4 - (int)$count_docs_popular_fixed));
+
+		if($count_docs_popular_fixed > 0){
+			$content = array_merge($docs_popular_fixed, $docs_popular_upload);
+		} elseif($count_docs_popular_fixed == 4){
+			$content = $docs_popular_fixed;
+		} else {
+			$content = $docs_popular_upload;
+		}
 
 		$docs = array();
 		foreach($content as $file){
