@@ -72,9 +72,9 @@ $coordinates['body'] = $content['coordinates'];
         </div>
         <? $i++; ?>
       <? endforeach; ?>
-      <!--<div class="admin_form_row clearfix">
+      <div class="admin_form_row clearfix">
         <div id="add_group" class="btn brd btn_admin">Добавить группу</div>
-      </div>-->
+      </div>
     </div>
     <? if(!$d) : ?>
       <div class="admin_form_row">

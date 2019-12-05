@@ -143,7 +143,6 @@
 
 						$geo_image_modal = ($geo['view_profile']['body']['path'] && file_exists($_SERVER['DOCUMENT_ROOT'] . $geo['view_profile']['body']['path'])) ? $geo['view_profile']['body']['path'] : '/uploads/images/geo/obrazec_110400.jpg';
 					?>
-					<h4 class="modal_title"><?=$geo['modal_title']['body'];?></h4>
 					<div class="modal_view__profile clearfix">
 						<img src="../website/view/theme/profrb/img/logo_geo.jpg"/>
 						<p class="modal_view__profile_title"><?=$geo['view_profile_title']['body'];?></p>
@@ -155,16 +154,18 @@
 						<? endif; ?>
 						<?=$geo['position']['body'];?>
 					</div>
-					<ul class="modal_view__docs view_docs">
-						<? if($geo['modal_title']['body'] != 'Профсоюзная организация студентов') : ?>
-							<li class="view_docs__item">
-								<i class="docs_icon docs_icon__doc"></i>
-								<div class="docs_title">
-									<a href="..<?=$geo['geo_docs']['body']['path'];?>"><?=$dogovor;?></a>
-								</div>
-							</li>
-						<? endif; ?>
-					</ul>
+					<? if(is_file($_SERVER['DOCUMENT_ROOT'] . $geo['geo_docs']['body']['path'])) : ?>
+						<ul class="modal_view__docs view_docs">
+							<? if($geo['modal_title']['body'] != 'Профсоюзная организация студентов') : ?>
+								<li class="view_docs__item">
+									<i class="docs_icon docs_icon__doc"></i>
+									<div class="docs_title">
+										<a href="..<?=$geo['geo_docs']['body']['path'];?>"><?=$dogovor;?></a>
+									</div>
+								</li>
+							<? endif; ?>
+						</ul>
+					<? endif; ?>
 					<div class="modal_view__caption clearfix">
 						<?=$geo['geo_profile']['body'];?>
 					</div>

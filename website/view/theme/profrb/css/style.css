@@ -1785,6 +1785,11 @@ body.modal-open{
   z-index: 10;
 }
 
+.modal_geo .modal_close{
+  top: 25px;
+  right: 25px;
+}
+
 .footer_letter_modal > .modal_close{
   background-size: 100%;
   width: 25px;
@@ -4381,6 +4386,12 @@ ymaps[class*="ground-pane"]{
   width: 1080px;
   padding: 0;
 }
+
+.faq .modal_question{
+  width: 1100px;
+  padding: 95px 90px 75px;
+}
+
 @media all and (max-width: 1180px) {
   .faq .wrapper, .faq .modal, .faq .geo_block_list > li > .modal_geo {
     width: calc(100% - 100px);
@@ -5023,11 +5034,8 @@ body.modal_bg{
   cursor: no-drop;
 }
 
-.modal_question {
-  padding: 95px 90px 75px;
-}
 @media all and (max-width: 1180px) {
-  .modal_question {
+  .faq .modal_question{
     width: calc(100% - 60px);
     left: 30px;
   }
