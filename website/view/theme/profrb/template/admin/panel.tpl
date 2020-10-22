@@ -66,6 +66,25 @@
             </div>
           </div>
         </div>
+        <div class="admin_col">
+          <div class="admin_first_menu_link"><a href="" data-admin-role="81">Калькулятор ЗП</a>
+            <div class="admin_second_menu_block">
+              <div class="admin_second_menu_list"><a href="admin/calculator/setting" data-admin-role="81">Настройки модуля</a></div>
+              <div class="admin_second_menu_list"><a href="admin/calculator/viewJobs" data-admin-role="81">Место работы</a>
+                <div class="admin_second_children_menu_block">
+                  <div class="admin_second_children_menu_list"><a href="admin/calculator/viewJobs" data-admin-role="81">Показать все</a></div>
+                  <div class="admin_second_children_menu_list"><a href="admin/calculator/addJobs" data-admin-role="81">Добавить место работы</a></div>
+                </div>
+              </div>
+              <div class="admin_second_menu_list"><a href="admin/calculator/viewPositions" data-admin-role="81">Должности</a>
+                <div class="admin_second_children_menu_block">
+                  <div class="admin_second_children_menu_list"><a href="admin/faq/viewPositions" data-admin-role="81">Показать все</a></div>
+                  <div class="admin_second_children_menu_list"><a href="admin/faq/addPositions" data-admin-role="81">Добавить должность</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="admin_col admin_administrator">
           <div class="admin_first_menu_link">
             <a href="" data-admin-role="99">Структура</a>

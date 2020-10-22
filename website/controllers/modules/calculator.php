@@ -1,7 +1,13 @@
 <?
 class ControllerModulesCalculator extends MVC{
 	public function index(){
-		return $this->render(THEME_NAME . '/template/modules/calculator/view.tpl');
+		$data = [];
+
+		$calculator = new Action(MODEL,'modules/calculator');
+
+		$data['calculator'] = $calculator->loader('getCalculator');
+
+		return $this->render(THEME_NAME . '/template/modules/calculator/view.tpl', $data);
 	}
 }
 ?>
