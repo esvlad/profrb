@@ -78,8 +78,8 @@
               </div>
               <div class="admin_second_menu_list"><a href="admin/calculator/viewPositions" data-admin-role="81">Должности</a>
                 <div class="admin_second_children_menu_block">
-                  <div class="admin_second_children_menu_list"><a href="admin/faq/viewPositions" data-admin-role="81">Показать все</a></div>
-                  <div class="admin_second_children_menu_list"><a href="admin/faq/addPositions" data-admin-role="81">Добавить должность</a></div>
+                  <div class="admin_second_children_menu_list"><a href="admin/calculator/viewPositions" data-admin-role="81">Показать все</a></div>
+                  <div class="admin_second_children_menu_list"><a href="admin/calculator/addPositions" data-admin-role="81">Добавить должность</a></div>
                 </div>
               </div>
             </div>

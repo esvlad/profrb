@@ -855,3 +855,199 @@ function password_generator( len ) {
     }
     return password;
 }
+
+function calc_jobs_edit(content_id){
+	var data = {};
+
+	$.ajax({
+		url: 'index.php?r=admin/calculator/editJob',
+		type: 'get',
+		data: {id: content_id},
+		dataType: 'html',
+		success: function(html){
+			var $modal_id = 999;
+			var $modal = $('.modal[data-modal-id="'+$modal_id+'"]');
+
+			$modal.parent().fadeIn();
+			$('body').addClass('modal-open');
+			
+			$('.admin_modal .admin_modal_view').html(html);
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+}
+
+function calc_jobs_delete(content_id){
+	var data_tag = $('span#deleted[data-content-id="'+content_id+'"]');
+  	var element = $('.admin_content_row[data-content-id="'+content_id+'"]');
+
+  	data_tag.parent().addClass('mini_load');  
+
+  	var data_confirm = confirm('Вы уверены, что хотите удалить это место работы?');
+
+  	if(data_confirm){
+  		$.ajax({
+	      url: 'index.php?r=admin/calculator/deleteJob',
+	      type: 'post',
+	      data: {id: content_id},
+	      dataType: 'json',
+	      success: function(json){
+	        console.log(json);
+	        if(json.success){
+	          data_tag.parent().removeClass('mini_load');
+	          element.slideUp(300);
+	          setTimeout(function(){
+	            element.detach();
+	          },300);
+	        }
+	      },
+	      error: function(xhr, ajaxOptions, thrownError){
+	        console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+	      }
+	    });
+  	} else {
+	  data_tag.parent().removeClass('mini_load');
+	}
+}
+
+function status_calc_jobs(cid){
+	faq_active_val = $('input#status_calc_jobs'+cid).val();
+
+	console.log(faq_active_val)
+
+  	if(faq_active_val == 1) {
+    	faq_active = 0;
+    	faq_active_text = 'Выключено';
+  	} else {
+    	faq_active = 1;
+    	faq_active_text = 'Включено';
+  	}
+
+
+  	$.ajax({
+	    url: 'index.php?r=admin/calculator/activeJob',
+	    type: 'post',
+	    data: {id: cid, active: faq_active},
+	    dataType: 'json',
+	    success: function(json){
+	      console.log(json);
+	      if(json.success == true){
+			$('.admin_calc_active[data-content-id="'+cid+'"]').text(faq_active_text);
+			$('input#status_calc_jobs'+cid).val(faq_active);
+	      }
+	    },
+	    error: function(xhr, ajaxOptions, thrownError){
+	      console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+	    }
+  	});
+}
+
+function calc_position_edit(content_id){
+	var data = {};
+
+	$.ajax({
+		url: 'index.php?r=admin/calculator/editPositions',
+		type: 'get',
+		data: {id: content_id},
+		dataType: 'html',
+		success: function(html){
+			var $modal_id = 999;
+			var $modal = $('.modal[data-modal-id="'+$modal_id+'"]');
+
+			$modal.parent().fadeIn();
+			$('body').addClass('modal-open');
+			
+			$('.admin_modal .admin_modal_view').html(html);
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+}
+
+function calc_position_delete(content_id){
+	var data_tag = $('span#deleted[data-content-id="'+content_id+'"]');
+  	var element = $('.admin_content_row[data-content-id="'+content_id+'"]');
+
+  	data_tag.parent().addClass('mini_load');  
+
+  	var data_confirm = confirm('Вы уверены, что хотите удалить эту должность?');
+
+  	if(data_confirm){
+  		$.ajax({
+	      url: 'index.php?r=admin/calculator/deletePosition',
+	      type: 'post',
+	      data: {id: content_id},
+	      dataType: 'json',
+	      success: function(json){
+	        console.log(json);
+	        if(json.success){
+	          data_tag.parent().removeClass('mini_load');
+	          element.slideUp(300);
+	          setTimeout(function(){
+	            element.detach();
+	          },300);
+	        }
+	      },
+	      error: function(xhr, ajaxOptions, thrownError){
+	        console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+	      }
+	    });
+  	} else {
+	  data_tag.parent().removeClass('mini_load');
+	}
+}
+
+function status_calc_position(cid){
+	faq_active_val = $('input#status_calc_position'+cid).val();
+
+	console.log(faq_active_val)
+
+  	if(faq_active_val == 1) {
+    	faq_active = 0;
+    	faq_active_text = 'Выключено';
+  	} else {
+    	faq_active = 1;
+    	faq_active_text = 'Включено';
+  	}
+
+
+  	$.ajax({
+	    url: 'index.php?r=admin/calculator/activePosition',
+	    type: 'post',
+	    data: {id: cid, active: faq_active},
+	    dataType: 'json',
+	    success: function(json){
+	      console.log(json);
+	      if(json.success == true){
+			$('.admin_calc_active[data-content-id="'+cid+'"]').text(faq_active_text);
+			$('input#status_calc_position'+cid).val(faq_active);
+	      }
+	    },
+	    error: function(xhr, ajaxOptions, thrownError){
+	      console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+	    }
+  	});
+}
+
+function calc_job_filter(data){
+	filter_curl = JSON.parse(localStorage.getItem('admin_url'));
+	filter_curl['job_id'] = data;
+
+  	localStorage.setItem('admin_url', JSON.stringify(filter_curl));
+
+	$.ajax({
+		url: 'index.php?r=admin/calculator/viewPositions',
+		type: 'get',
+		data: {job_id: data},
+		dataType: 'html',
+		success: function(html){
+			$('.admin_modal .admin_modal_view').html(html);
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+}

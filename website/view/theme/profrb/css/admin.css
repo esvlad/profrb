@@ -397,8 +397,20 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
   width: 11%;
 }
 
+.admin_content_view.calc_jobs .admin_content_table tr > td:nth-child(2){
+  width: 64%;
+}
+
+.admin_content_view.calc_positions .admin_content_table tr > td:nth-child(2){
+  width: 15%;
+}
+
 .admin_content_view .admin_content_table tr > td:nth-child(4){
   width: 11%;
+}
+
+.admin_content_view.calc_positions .admin_content_table tr > td:nth-child(4){
+  width: 7%;
 }
 
 .admin_content_view.admin_user .admin_content_table tr > td:nth-child(4){
@@ -407,6 +419,10 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
 
 .admin_content_view .admin_content_table tr > td:nth-child(5){
   width: 4%;
+}
+
+.admin_content_view.calc_positions .admin_content_table tr > td:nth-child(5) {
+    width: 12%;
 }
 
 .admin_content_view .admin_content_table tr > td.geo_news{

@@ -59,6 +59,7 @@ body {
   text-align: center;
 }
 
+
 .wrapp100 {
   width: 100%;
   max-width: 100%;
@@ -3382,6 +3383,25 @@ body.modal-open{
 .ya_maps_all {
   width: 100%;
   height: 640px;
+}
+
+.calculator .section_title {
+  margin-bottom: 70px;
+  position: relative;
+}
+
+.calculator .view_block{
+  width: 700px;
+  margin: 0 auto 100px;
+}
+
+.calculator .view_block p {
+    font-family: "Merriweather";
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25px;
+    text-align: left;
+    margin-bottom: 23px;
 }
 
 .kpk_education {
