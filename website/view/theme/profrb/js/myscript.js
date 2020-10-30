@@ -1722,6 +1722,149 @@ $('.news_block.news_block__big__image_small').each(function(){
 	$(this).appendTo($('.news_views__important'));
 });
 
+// CALCULATOR
+
+if(location.pathname == '/calculator') $("#bilet").mask("9999-9999-9999-9999");
+
+$('.calc_selected .selected_checkbox').change(function(){
+	if($(this).parent().parent().hasClass('calc_jobs')){
+		if($('.calc_position .selected_checkbox').is(':checked')){
+			$('.calc_position .selected_checkbox').trigger('click');
+		}
+	}
+});
+
+var calc_position;
+function calc_selected(id, type){
+	var block = $('.calculator_block .'+type);
+	var calc_selected = block.children('.calc_selected');
+
+	calc_selected.next().val(id);
+	calc_selected.children('label').text(calc_selected.find('.calc_selected_group > p[data-value="'+id+'"]').text());
+	calc_selected.find('.selected_checkbox').trigger('click');
+
+	if(type == 'calc_jobs'){
+		$('.calc_position > .calc_selected > label').text('Выберите должность');
+		$('.calc_position > .calc_selected').removeClass('error');
+		$('.calc_position_info').slideUp(300);
+		$.ajax({
+			url: 'index.php?r=modules/calculator/get_positions',
+			type: 'get',
+			data: {job_id: id},
+			dataType: 'json',
+			success: function(json){
+				console.log(json);
+				if(json.success == true){
+					var select_position = calc_selected.parent().next('.calc_position').find('.calc_selected_group');
+
+					calc_position = json.list;
+
+					select_position.html('');
+					$.each(calc_position, function(key, value){
+						select_position.append('<p data-value="'+value.id+'" onclick="calc_selected('+value.id+', \'calc_position\')">'+value.name+'</p>');
+					});
+				} else {
+					console.log('Что-то пошло не так!');
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+				console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	}
+
+	if(type == 'calc_position'){
+		$.each(calc_position, function(key, value){
+			if(value.id == id){
+				$('.calc_position_info .oklad_text').text(value.oklad);
+				$('.calc_position_info .norm_hour_text').text(value.norm_hour);
+			}
+		});
+	}
+
+	if(block.next().hasClass('hidden')){
+		block.next().slideDown(300);
+	}
+}
+
+function rh_text(number){
+	if(!Number.isInteger(number)){
+		var titles = ['час','часа','часов'];
+    	cases = [2, 0, 1, 1, 1, 2];
+
+    	result = titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
+	} else {
+		result = 'часов';
+	}
+
+	if(result === undefined){
+		result = 'часов';
+	}
+
+	return result;
+}
+
+$('#calculate').click(function(){
+	var calc_result = $('.calc_result');
+	var result = 0;
+	var bilet = $('input[name="calc_bilet"]').val();
+	var calculate_error = false;
+
+	$('input[name="calc_bilet"]').removeClass('error_form');
+	$('input[name="how_norm_hour"]').removeClass('error_form');
+	$('.calc_jobs > .calc_selected').removeClass('error');
+	$('.calc_position > .calc_selected').removeClass('error');
+
+	if(bilet.substr(0,9) != '9643-8090' || bilet.length != 19){
+		$('input[name="calc_bilet"]').addClass('error_form');
+		calculate_error = true;
+	}
+
+	if($('input[name="job_id"]').val() == ''){
+		$('.calc_jobs > .calc_selected').addClass('error');
+		calculate_error = true;
+	}
+
+	if($('input[name="position"]').val() == ''){
+		$('.calc_position > .calc_selected').addClass('error');
+		calculate_error = true;
+	}
+
+	if($('input[name="how_norm_hour"]').val() == ''){
+		$('input[name="how_norm_hour"]').addClass('error_form');
+		calculate_error = true;
+	}
+
+	if(!calculate_error){
+		result = parseInt($('.oklad_text').text()) * parseInt($('input[name="how_norm_hour"]').val()) / parseInt($('.norm_hour_text').text());
+
+		calc_result.find('.rh').text($('input[name="how_norm_hour"]').val());
+		calc_result.find('.rh_text').text(rh_text(parseInt($('input[name="how_norm_hour"]').val())));
+		
+		calc_result.find('.rrub').text(parseInt(result));
+		calc_result.find('.okl').text($('.oklad_text').text());
+		calc_result.find('.nh').text($('.norm_hour_text').text());
+
+		$('.calc_result').slideDown(300);
+
+		$('.calc_buttons .hidden').fadeIn(300);
+	}
+});
+
+$('#reset_calc').click(function(){
+	$('input[name="calc_bilet"]').val('');
+	$('.calc_jobs > .calc_selected > label').text('Выберите место работы');
+	$('.calc_position > .calc_selected > label').text('Выберите должность');
+	$('input[name="how_norm_hour"]').val('');
+	$('input[name="job_id"]').val('');
+	$('input[name="position"]').val('');
+
+	$('input[name="calc_bilet"]').removeClass('error_form');
+
+	$('.calculator_block .row.hidden').slideUp(300);
+	$('.calc_buttons .hidden').fadeOut(300);
+});
+
 var CaptchaCallback = function() {
     $('.g-recaptcha').each(function(index, el) {
     	grecaptcha.render(el, {'sitekey' : '6Lf7LiYUAAAAAAp4px2co8wMvUHRDwFOQ023zBLw'});

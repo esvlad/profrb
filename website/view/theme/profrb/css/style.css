@@ -3404,6 +3404,125 @@ body.modal-open{
     margin-bottom: 23px;
 }
 
+.calculator .calculator_block{
+    border: 2px solid #75bbf7;
+    border-radius: 5px;
+    padding: 10px 25px;
+    margin: -90px auto 100px;
+    width: 755px;
+}
+
+.calculator .calculator_block h3.calc_title_form{
+  font-family: "Merriweather";
+  font-size: 18px;
+  font-weight: 700;
+  color: #2b2b66;
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+
+.calculator_block .row.clearfix{
+  position: relative;
+  margin: 30px 0;
+}
+
+.calculator_block .row.hidden{
+  display: none;
+}
+
+.calculator_block .row > .col{
+  float: left;
+  margin-right: 20px;
+}
+
+.calculator_block .row > .col:last-child{
+  margin-right: 0;
+}
+
+.calculator_block .row.calc_norm_hour{
+  margin-top: -25px;
+}
+
+.calculator_block .row.calc_result p > span:not(.rh_text){
+  font-weight: 700;
+}
+
+.calculator_block .row.calc_buttons > .hidden{
+  display: none;
+}
+
+.calc_selected_group{
+  position: absolute;
+  padding: 30px 0 15px;
+  top: 30px;
+  z-index: 8;
+}
+
+.calculator_block .modal_question .calc_selected .selected_checkbox:checked + label{
+    webkit-border-radius: 30px 30px 0 0;
+    -moz-border-radius: 30px 30px 0 0;
+    border-radius: 30px 30px 0 0;
+}
+
+.calculator_block .row.clearfix:before,
+.calculator_block .row.clearfix:after{
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.calculator_block .modal_question .btn_submit{
+    margin: 0;
+    float: left;
+    margin-right: 20px;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.calculator_block .modal_question .btn_submit:last-child{
+  margin-right: 0;
+}
+
+.calculator_block .modal_question .calc_selected{
+  position: relative;
+  background: #f2f2f2;
+  width: 500px;
+  padding: 0;
+  top: 0;
+  left: 0;
+  border: 0 solid transparent;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+}
+
+/*.calculator_block .modal_question .calc_selected.open{
+  -webkit-border-radius: 30px 30px 0 0;
+  -moz-border-radius: 30px 30px 0 0;
+  border-radius: 30px 30px 0 0;
+}*/
+
+.calculator_block .modal_question .calc_selected .selected_checkbox:checked + label{
+  position: relative;
+  z-index: 9;
+}
+
+.calculator .calculator_block p{
+  margin-bottom: 0;
+}
+
+.calculator_block .modal_question .calc_selected .calc_selected_group{
+  padding-bottom: 15px;
+}
+
+.calculator_block .modal_question .calc_selected.error{
+  background: #ffe9e9;
+}
+
 .kpk_education {
   padding-bottom: 160px;
 }
@@ -5075,6 +5194,7 @@ body.modal_bg{
   position: relative;
   z-index: 2;
 }
+
 .modal_question .selected_activ {
   background: #f2f2f2;
   width: 500px;
@@ -5089,6 +5209,7 @@ body.modal_bg{
   -o-transition: 0.2s;
   transition: 0.2s;
 }
+.calculator_block .modal_question .calc_selected > label,
 .modal_question .selected_activ > label {
   font-family: "Open Sans";
   font-size: 16px;
@@ -5099,6 +5220,7 @@ body.modal_bg{
   overflow-x: hidden;
   cursor: pointer;
 }
+.calculator_block .modal_question .calc_selected .selected_checkbox,
 .modal_question .selected_activ .selected_checkbox {
   background: url(../img/icon/icon_selected_checkbox.png);
   width: 30px;
@@ -5113,39 +5235,47 @@ body.modal_bg{
   transition: 0.2s;
 }
 
+.calculator_block .modal_question .calc_selected .selected_checkbox:not(checked) + label,
 .modal_question .selected_activ .selected_checkbox:not(checked) + label{
   border-bottom: 0;
 }
 
+.calculator_block .modal_question .calc_selected .selected_checkbox:checked + label,
 .modal_question .selected_activ .selected_checkbox:checked + label{
   border-bottom: 1px solid #e6e6e6;
 }
 
+.calculator_block .modal_question .calc_selected .selected_checkbox:not(checked),
 .modal_question .selected_activ .selected_checkbox:not(checked) {
   -webkit-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
   transform: rotate(0deg);
 }
+.calculator_block .modal_question .calc_selected .selected_checkbox:checked,
 .modal_question .selected_activ .selected_checkbox:checked {
   -webkit-transform: rotate(-180deg);
   -ms-transform: rotate(-180deg);
   transform: rotate(-180deg);
 }
+.calculator_block .modal_question .calc_selected .selected_checkbox:not(checked) ~ .calc_selected_group,
 .modal_question .selected_activ .selected_checkbox:not(checked) ~ .selected_group {
   display: none;
 }
+.calculator_block .modal_question .calc_selected .selected_checkbox:checked ~ .calc_selected_group,
 .modal_question .selected_activ .selected_checkbox:checked ~ .selected_group {
   display: block;
   -webkit-border-radius: 0 0 30px 30px;
   -moz-border-radius: 0 0 30px 30px;
   border-radius: 0 0 30px 30px;
 }
+.calculator_block .modal_question .calc_selected .calc_selected_group,
 .modal_question .selected_activ .selected_group {
   width: 100%;
   background: #f2f2f2;
   margin-top: 10px;
   padding-bottom: 35px;
 }
+.calculator_block .modal_question .calc_selected .calc_selected_group p,
 .modal_question .selected_activ .selected_group p {
   font-family: "Open Sans";
   font-size: 16px;
@@ -5163,12 +5293,16 @@ body.modal_bg{
   -moz-border-radius: 0 0 30px 30px;
   border-radius: 0 0 30px 30px;
 }*/
+.calculator_block .modal_question .calc_selected .calc_selected_group p:hover,
 .modal_question .selected_activ .selected_group p:hover {
   background: #fff;
 }
 @media all and (max-width: 1180px) {
   .modal_question .selected_activ {
     width: calc(100% - 400px);
+  }
+  .calculator_block .modal_question .calc_selected{
+    width: calc(100% - 200px);
   }
 }
 .modal_question .mq_form_select_label {
@@ -5212,6 +5346,10 @@ body.modal_bg{
   .modal_question .mq_form__input {
     width: 30%;
     margin-right: 4%;
+  }
+  .calculator_block .modal_question .mq_form__input{
+    width: 40%;
+    margin-right: 0;
   }
 }
 .modal_question .mq_form_row_textarea {
@@ -7262,6 +7400,14 @@ body.vision_bg_black .docs .btn_main_docs > span{
     width: calc(100% - 80px);
   }
 
+  .calculator .calculator_block{
+    width: 700px;
+  }
+
+  .calculator_block .modal_question .calc_selected{
+    width: 100%;
+  }
+
   .footer_message._hidden{
     bottom: -65px;
   }
@@ -7768,6 +7914,23 @@ body.vision_bg_black .docs .btn_main_docs > span{
 }
 
 @media all and (max-width: 640px){
+  .calculator .view_block,
+  .calculator .calculator_block,
+  .calculator_block .modal_question .mq_form__input{
+    width: 100%;
+  }
+
+  .calculator_block .modal_question .mq_form__input{
+    margin-bottom: 0;
+  }
+
+  .calculator_block .modal_question .btn_submit {
+    float: none;
+    margin-right: 0;
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
   .header .logo span {
     width: 400px;
     top: 21px;
