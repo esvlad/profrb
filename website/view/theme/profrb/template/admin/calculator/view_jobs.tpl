@@ -1,4 +1,5 @@
 <h2 class="modal_title">Показаны все места работы</h2>
+<div id="calc_add_jobs" class="btn brd btn_admin btn_calc_add">Добавить место работы</div>
 <div class="admin_content_view calc_jobs">
   <table class="admin_content_table">
   <thead data-types="">
@@ -51,3 +52,8 @@
   </tbody>
   </table>
 </div>
+<script>
+  $('#calc_add_jobs').click(function(){
+    $('.admin_section a[href="admin/calculator/addJobs"]').trigger('click');
+  });
+</script>

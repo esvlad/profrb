@@ -205,6 +205,11 @@
   -o-transition: 0.2s;
   transition: 0.2s;
 }
+.admin_modal .btn_admin.btn_calc_add{
+  display: block;
+  width: 300px;
+  margin-bottom: 30px;
+}
 .admin_modal .btn_admin.gpass{
   display: inline-block;
   float: none;
@@ -822,10 +827,15 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
   width: 30px;
 }
 
+.admin_filter.calc_position_filter,
 .admin_filter.faq_category,
 .admin_filter.faq_authors{
   width: 450px;
   float: left;
+}
+
+.admin_filter.calc_position_filter{
+  clear: both;
 }
 
 .isset_keys{

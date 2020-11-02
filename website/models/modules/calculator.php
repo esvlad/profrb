@@ -79,7 +79,7 @@ class ModelModulesCalculator extends MVC{
 		}
 
 		if(!empty($data['sorted']) && $data['sorted'] == 'position'){
-			$sql .= ' ORDER BY p.position ASC';
+			$sql .= ' ORDER BY p.position, p.id ASC';
 		} else {
 			$sql .= ' ORDER BY p.id ASC';
 		}

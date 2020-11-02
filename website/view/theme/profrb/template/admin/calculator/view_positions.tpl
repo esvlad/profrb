@@ -1,6 +1,7 @@
-<h2 class="modal_title">Показаны все места работы</h2>
+<h2 class="modal_title">Показаны все должности</h2>
 <div class="admin_content_view calc_positions">
-  <div class="admin_filter faq_category">
+  <div id="calc_add_positions" class="btn brd btn_admin btn_calc_add">Добавить должность</div>
+  <div class="admin_filter calc_position_filter">
     Фильтр по месту работы: <select name="job_id" onchange="calc_job_filter(this.value);">
       <? if(!$job_id) : ?>
         <option value="0" selected>Все места работы</option>
@@ -85,3 +86,8 @@
     </tbody>
   </table>
 </div>
+<script>
+  $('#calc_add_positions').click(function(){
+    $('.admin_section a[href="admin/calculator/addPositions"]').trigger('click');
+  });
+</script>

@@ -8,7 +8,7 @@
       <input id="title" type="text" name="title" data-table="faq" value="<?=$title;?>" required/>
     </div>
     <div class="admin_form_row">
-      <label for="caption">Описания</label>
+      <label for="caption">Описание</label>
       <p class="admin_form_caption">Введите текст который будет отображаться перед калькулятором, <b>обязательно для заполнения</b></p>
       <textarea id="caption" name="caption" data-table="faq" required><?=$caption;?></textarea>
     </div>
