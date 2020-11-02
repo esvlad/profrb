@@ -33,10 +33,10 @@
 		        </div>
 		        <div class="row clearfix calc_position_info hidden">
 		        	<div class="col oklad">
-		        		<p><b>Ставка:</b> <span class="oklad_text"></span></p>
+		        		<p>Ставка <span class="oklad_text"></span> рублей</p>
 		        	</div>
 		        	<div class="col norm_hour">
-		        		<p><b>Норма часов:</b> <span class="norm_hour_text">25</span></p>
+		        		<p>Норма <span class="norm_hour_text"></span> <span class="norm_hour_text_caption"></span></p>
 		        	</div>
 		        </div>
 		        <div class="row calc_norm_hour clearfix">
@@ -44,7 +44,7 @@
 		          	<input class="mq_form__input" type="text" name="how_norm_hour" value="" placeholder="Сколько часов вы работаете?" />
 		        </div>
 		        <div class="row clearfix calc_result hidden">
-		        	<p>За <span class="rh"></span> <span class="rh_text"></span> работы оплата составит <span class="rrub"></span> рублей. Ваш оклад <span class="okl"></span> рублей, а норма часов работы <span class="nh"></span></p>
+		        	<p>За <span class="rh"></span> <span class="rh_text hht"></span> работы оплата составит <span class="rrub"></span> рублей. Ваш оклад <span class="okl"></span> рублей, а норма работы <span class="nh"></span> <span class="nh_text hht"></span>.</p>
 		        </div>
 		        <div class="row calc_buttons clearfix">
 		          <input class="btn brd btn_submit" id="calculate" type="submit" value="Рассчитать"/>

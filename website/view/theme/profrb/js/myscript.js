@@ -1778,6 +1778,7 @@ function calc_selected(id, type){
 			if(value.id == id){
 				$('.calc_position_info .oklad_text').text(value.oklad);
 				$('.calc_position_info .norm_hour_text').text(value.norm_hour);
+				$('.calc_position_info .norm_hour_text_caption').text(rh_text(parseInt(value.norm_hour)));
 			}
 		});
 	}
@@ -1788,7 +1789,7 @@ function calc_selected(id, type){
 }
 
 function rh_text(number){
-	if(!Number.isInteger(number)){
+	if(Number.isInteger(number)){
 		var titles = ['час','часа','часов'];
     	cases = [2, 0, 1, 1, 1, 2];
 
@@ -1844,6 +1845,7 @@ $('#calculate').click(function(){
 		calc_result.find('.rrub').text(parseInt(result));
 		calc_result.find('.okl').text($('.oklad_text').text());
 		calc_result.find('.nh').text($('.norm_hour_text').text());
+		calc_result.find('.nh_text').text(rh_text(parseInt($('.norm_hour_text').text())));
 
 		$('.calc_result').slideDown(300);
 

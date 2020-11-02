@@ -3404,10 +3404,10 @@ body.modal-open{
 }
 
 .calculator .calculator_block{
-    border: 2px solid #75bbf7;
-    border-radius: 5px;
-    padding: 10px 25px;
-    margin: -90px auto 100px;
+    /*border: 2px solid #75bbf7;
+    border-radius: 5px;*/
+    padding: 10px 27px;
+    margin: -104px auto 100px;
     width: 755px;
 }
 
@@ -3422,7 +3422,15 @@ body.modal-open{
 
 .calculator_block .row.clearfix{
   position: relative;
-  margin: 30px 0;
+  margin: 40px 0;
+}
+
+.calculator_block .row.clearfix.calc_buttons{
+  margin-top: 60px;
+}
+
+.calculator_block .row.hidden.calc_result + .calc_buttons{
+  margin-top: 54px;
 }
 
 .calculator_block .row.hidden{
@@ -3442,12 +3450,20 @@ body.modal-open{
   margin-top: -25px;
 }
 
-.calculator_block .row.calc_result p > span:not(.rh_text){
+.calculator_block .row.calc_result p > span:not(.hht){
   font-weight: 700;
 }
 
 .calculator_block .row.calc_buttons > .hidden{
   display: none;
+  background: transparent;
+  border: 3px solid #75bbf7;
+  color: #75bbf7;
+}
+
+.calculator_block .row.calc_buttons > .hidden:hover{
+  background: #75bbf7;
+  color: #fff;
 }
 
 .calc_selected_group{
