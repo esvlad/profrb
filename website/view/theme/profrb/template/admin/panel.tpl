@@ -82,6 +82,18 @@
                   <div class="admin_second_children_menu_list"><a href="admin/calculator/addPositions" data-admin-role="81">Добавить должность</a></div>
                 </div>
               </div>
+              <div class="admin_second_menu_list"><a href="admin/calculator/viewCompensation" data-admin-role="81">Компенсационные выплаты</a>
+                <div class="admin_second_children_menu_block">
+                  <div class="admin_second_children_menu_list"><a href="admin/calculator/viewCompensation" data-admin-role="81">Показать все</a></div>
+                  <div class="admin_second_children_menu_list"><a href="admin/calculator/addCompensation" data-admin-role="81">Добавить выплату</a></div>
+                </div>
+              </div>
+              <div class="admin_second_menu_list"><a href="admin/calculator/viewPays" data-admin-role="81">Стимулирующие выплаты</a>
+                <div class="admin_second_children_menu_block">
+                  <div class="admin_second_children_menu_list"><a href="admin/calculator/viewPays" data-admin-role="81">Показать все</a></div>
+                  <div class="admin_second_children_menu_list"><a href="admin/calculator/addPays" data-admin-role="81">Добавить выплату</a></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

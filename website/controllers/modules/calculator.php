@@ -18,5 +18,16 @@ class ControllerModulesCalculator extends MVC{
 
 		echo json_encode($json);
 	}
+
+	public function get_compenations_and_pays(){
+		$json = array();
+
+		$calculator = new Action(MODEL,'modules/calculator');
+
+		$json['list'] = $calculator->loader('getCompensationsAndPays', $_GET['position_id']);
+		$json['success'] = true;
+
+		echo json_encode($json);
+	}
 }
 ?>

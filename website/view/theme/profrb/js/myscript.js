@@ -1724,9 +1724,55 @@ $('.news_block.news_block__big__image_small').each(function(){
 
 // CALCULATOR
 
-if(location.pathname == '/calculator') $("#bilet").mask("9999-9999-9999-9999");
+if(location.pathname == '/calculator'){
+	$("#bilet").mask("9999-9999-9999-9999");
+
+	$('#bilet').bind('input, keyup', function(){
+		var bilet = $(this).val();
+		//console.log(bilet.search(/_/i));
+
+		if(bilet.substr(0,9) == '9643-8090' && bilet.length == 19 && bilet.search(/_/i) == -1){
+			$('.calculator_block .mq_form_row > .row.bilet_number').removeClass('bilet_disabled');
+
+			$('.calc_jobs #jobs, .calc_position #position, .calc_norm_hour > input, .calc_compensation #compensation, .calc_pays #pays, #tr_dop_cpays').removeAttr('disabled');
+		} else {
+			if(!$('.calculator_block .mq_form_row > .row.bilet_number').hasClass('bilet_disabled')){
+				$('.calculator_block .mq_form_row > .row.bilet_number').addClass('bilet_disabled');
+				$('.calc_jobs #jobs, .calc_position #position, .calc_norm_hour > input, .calc_compensation #compensation, .calc_pays #pays, #tr_dop_cpays').attr('disabled','disabled');
+			}
+		}
+	});
+
+	$(document).mouseup(function (e) {
+		if($('.calc_selected').is('div')){
+			var container = $(".calc_selected");
+			if (container.has(e.target).length === 0){
+				$('.selected_checkbox').removeClass('_on');
+				$('.selected_checkbox').each(function(){
+					console.log($(this).is(':checked'));
+					if($(this).is(':checked')){
+						$(this).trigger('click');
+					}
+				});
+			}
+		}
+	});
+}
 
 $('.calc_selected .selected_checkbox').change(function(){
+	$('.selected_checkbox').removeClass('_on');
+	if($(this).is(':checked')){
+		$(this).addClass('_on');
+	} else {
+		$(this).removeClass('_on');
+	}
+
+	$('.selected_checkbox').each(function(){
+		if($(this).is(':checked') && !$(this).hasClass('_on')){
+			$(this).trigger('click');
+		}
+	});
+
 	if($(this).parent().parent().hasClass('calc_jobs')){
 		if($('.calc_position .selected_checkbox').is(':checked')){
 			$('.calc_position .selected_checkbox').trigger('click');
@@ -1734,7 +1780,7 @@ $('.calc_selected .selected_checkbox').change(function(){
 	}
 });
 
-var calc_position;
+var calc_position, calc_position_old_id = 0, compensations = [], pays = [], oklad = 0;
 function calc_selected(id, type){
 	var block = $('.calculator_block .'+type);
 	var calc_selected = block.children('.calc_selected');
@@ -1746,7 +1792,11 @@ function calc_selected(id, type){
 	if(type == 'calc_jobs'){
 		$('.calc_position > .calc_selected > label').text('Выберите должность');
 		$('.calc_position > .calc_selected').removeClass('error');
-		$('.calc_position_info').slideUp(300);
+		$('.calc_position_info, .calc_compensation, .calc_compensation_info, .calc_pays, .calc_pays_info, .calc_result, .calc_result_summ, .calc_buttons').slideUp(300);
+		$('.calc_compensation_info > .calc_compensation_info_items, .calc_pays_info > .calc_pays_info_items, .calc_compensation .calc_selected_group_list, .calc_pays .calc_selected_group_list').html('');
+		$('.calc_norm_hour > input').val('');
+		$('#calculate').css('display','block');
+		
 		$.ajax({
 			url: 'index.php?r=modules/calculator/get_positions',
 			type: 'get',
@@ -1776,16 +1826,157 @@ function calc_selected(id, type){
 	if(type == 'calc_position'){
 		$.each(calc_position, function(key, value){
 			if(value.id == id){
+				oklad = value.oklad;
 				$('.calc_position_info .oklad_text').text(value.oklad);
 				$('.calc_position_info .norm_hour_text').text(value.norm_hour);
 				$('.calc_position_info .norm_hour_text_caption').text(rh_text(parseInt(value.norm_hour)));
 			}
 		});
+
+		if(calc_position_old_id != id){
+			$('.calc_compensation, .calc_compensation_info, .calc_pays, .calc_pays_info, .calc_dop_pays, .calc_result, .calc_result_summ, .calc_buttons').slideUp(300);
+			$('.calc_compensation_info > .calc_compensation_info_items, .calc_pays_info > .calc_pays_info_items, .calc_compensation .calc_selected_group_list, .calc_pays .calc_selected_group_list').html('');
+			$('.calc_norm_hour > input').val('');
+			$('#calculate').css('display','block');
+
+			calc_position_old_id = id;
+		}
 	}
 
 	if(block.next().hasClass('hidden')){
 		block.next().slideDown(300);
 	}
+}
+
+var all_result = 0;
+function calc_compenation_pays_info(type, key, data, k){
+	var el, text, summ = 0;
+	var cpays = 0;
+
+	console.log(cpays);
+
+	if(type == 'compensation'){
+		el = $('.calc_compensation_info > .calc_compensation_info_items');
+
+		summ = parseInt(summ_result) / 100 * data.value;
+
+		if($('.calc_compensation_info').css('display') != 'block'){
+			$('.calc_compensation_info').css('display', 'block');
+		}
+	} else if(type == 'pays') {
+		el = $('.calc_pays_info > .calc_pays_info_items');
+
+		if(data.type_value == 2){
+			summ = data.value;
+		} else {
+			if(data.type == 1){
+				summ = parseInt(summ_result) * data.value;
+			} else {
+				summ = parseInt(oklad) * data.value;
+			}
+		}
+
+		if($('.calc_pays_info').css('display') != 'block'){
+			$('.calc_pays_info').css('display', 'block');
+		}
+	}
+
+	if(type){
+		if(data.v === undefined){
+			text = '<p id="'+type+data.id+'" data-key="'+key+'" class="calc_cp_info_text">Размер выплаты за "' + data.slug + '" составит <b>'+parseInt(summ)+'</b> '+rb_text(parseInt(summ))+'.</p>';
+		} else {
+			text = '<p id="'+type+data.id+'" data-key="'+key+'" data-vkey="'+k+'" class="calc_cp_info_text">Размер выплаты за "'+data.parent_name + ' ' + data.name+'" составит <b>'+parseInt(summ)+'</b> '+rb_text(parseInt(summ))+'.</p>';
+		}
+
+		el.append(text);
+	}
+
+	/*console.log(oklad);
+	console.log(summ_result);*/
+
+	if($('.calc_compensation_info_items > .calc_cp_info_text').is('p')){
+		$('.calc_compensation_info_items > .calc_cp_info_text').each(function(){
+			if($(this).data('vkey')){
+				cpays += summ_result / 100 * compensations[$(this).data('key')].variants[$(this).data('vkey')].value;
+				console.log(cpays);
+			} else {
+				cpays += summ_result / 100 * compensations[$(this).data('key')].value;
+				console.log(cpays);
+			}
+
+			console.log(cpays);
+		});
+	}
+
+
+	if($('.calc_pays_info_items > .calc_cp_info_text').is('p')){
+		$('.calc_pays_info_items > .calc_cp_info_text').each(function(){
+			_type = pays[$(this).data('key')].type;
+			_type_value = pays[$(this).data('key')].type_value;
+
+			if($(this).data('vkey') || $(this).data('vkey') == 0){
+				if(_type_value == 2){
+					cpays += pays[$(this).data('key')].variants[$(this).data('vkey')].value;
+				} else {
+					if(_type == 1){
+						cpays += summ_result * pays[$(this).data('key')].variants[$(this).data('vkey')].value;
+					} else {
+						cpays += oklad * pays[$(this).data('key')].variants[$(this).data('vkey')].value;
+					}
+				}
+			} else {
+				if(_type_value == 2){
+					cpays += pays[$(this).data('key')].value;
+				} else {
+					if(_type == 1){
+						cpays += summ_result * pays[$(this).data('key')].value;
+					} else {
+						cpays += oklad * pays[$(this).data('key')].value;
+					}
+				}
+			}
+
+			console.log(cpays);
+		});
+	}
+
+	if($('.calc_dop_pays input[name="tr_dop_cpays"]').is(':checked') && $('.calc_dop_pays input[name="dop_cpays"]').val() != ''){
+		dop_cpays = parseInt($('.calc_dop_pays input[name="dop_cpays"]').val());
+		if(dop_cpays > 0 && $('.calc_dop_pays input[name="tr_dop_cpays"]').is(':checked')){
+			cpays += 100 + 80 * dop_cpays;
+		}
+	}
+
+	console.log(cpays);
+
+	all_result = (summ_result + cpays);
+	console.log(all_result);
+
+	all_result += all_result * 0.15;
+	console.log(all_result);
+
+	if($('.calc_result_summ').css('display') != 'block'){
+		$('.calc_result_summ').slideDown(300);
+	}
+
+	$('.calc_result_summ > p > b').text(parseInt(all_result));
+}
+
+function rb_text(number){
+	if(Number.isInteger(number)){
+		var titles = ['рубль','рубля','рублей'];
+    	cases = [2, 0, 1, 1, 1, 2];
+
+    	result = titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
+	} else {
+		result = 'рублей';
+	}
+
+	if(result === undefined){
+		result = 'рублей';
+	}
+
+	return result;
 }
 
 function rh_text(number){
@@ -1805,6 +1996,7 @@ function rh_text(number){
 	return result;
 }
 
+var summ_result = 0;
 $('#calculate').click(function(){
 	var calc_result = $('.calc_result');
 	var result = 0;
@@ -1837,21 +2029,251 @@ $('#calculate').click(function(){
 	}
 
 	if(!calculate_error){
+		$(this).css('display','none');
+		$('.calc_buttons').removeAttr('style');
 		result = parseInt($('.oklad_text').text()) * parseInt($('input[name="how_norm_hour"]').val()) / parseInt($('.norm_hour_text').text());
 
 		calc_result.find('.rh').text($('input[name="how_norm_hour"]').val());
 		calc_result.find('.rh_text').text(rh_text(parseInt($('input[name="how_norm_hour"]').val())));
+
+		summ_result = result;
+
 		
-		calc_result.find('.rrub').text(parseInt(result));
-		calc_result.find('.okl').text($('.oklad_text').text());
-		calc_result.find('.nh').text($('.norm_hour_text').text());
-		calc_result.find('.nh_text').text(rh_text(parseInt($('.norm_hour_text').text())));
+		calc_result.find('.rrub').text(parseInt(summ_result)); //parseInt(summ_result)
+		//calc_result.find('.okl').text($('.oklad_text').text());
+		//calc_result.find('.nh').text($('.norm_hour_text').text());
+		//calc_result.find('.nh_text').text(rh_text(parseInt($('.norm_hour_text').text())));
+
+		//calc_result.find('.cpays').text(parseInt(cpays));
 
 		$('.calc_result').slideDown(300);
+
+		$('.calc_compenation, .calc_pays').slideUp(300);
+
+		$.ajax({
+			url: 'index.php?r=modules/calculator/get_compenations_and_pays',
+			type: 'get',
+			data: {position_id: $('.calc_position > input[name="position"]').val()},
+			dataType: 'json',
+			success: function(json){
+				console.log(json);
+				if(json.success == true){
+					compensations = json.list.compensations;
+					pays = json.list.pays;
+
+					if(compensations !== false){
+						var calc_compensation = $('.calc_compensation');
+
+						$.each(compensations, function(key, value){
+							if(value.value !== false){
+								calc_compensation_el = $('<p />', {
+									class: 'calc_compensation',
+									text: value.name,
+									click: function(){
+										if($(this).hasClass('_selected')){
+											$(this).removeClass('_selected');
+											$('.calc_compensation_info > .calc_compensation_info_items p#compensation'+value.id).detach();
+										} else {
+											$(this).addClass('_selected');
+											calc_compenation_pays_info('compensation', key, value);
+										}
+									}
+								}).attr({
+										'data-type':'compensations',
+										'data-id': value.id,
+										'data-value': value.value
+									});
+
+								calc_compensation.find('.calc_selected_group_list').append(calc_compensation_el);
+							} else {
+								calc_compensation_el = $('<p />', {
+									class: 'calc_compensation calc_compensation_variants',
+									text: value.name
+								}).attr({
+										'data-type':'compensations',
+										'data-id': value.id
+									});
+
+								calc_compensation_el_ul = $('<ul />');
+
+								if(value.variants !== false){
+									$.each(value.variants, function(k, val){
+										calc_pays_var_li = $('<li />');
+										calc_pays_var_li_p = $('<p />', {
+											text: val.name,
+											click: function(){
+												if($(this).hasClass('_selected')){
+													$(this).removeClass('_selected');
+													$('.calc_compensation_info > .calc_compensation_info_items p#compensation'+value.id).detach();
+												} else {
+													$(this).parent().find('._selected').each(function(){
+														$('.calc_compensation_info > .calc_compensation_info_items p#compensation'+$(this).parent().prev().attr('data-id')).detach();
+														$(this).removeClass('_selected');
+													});
+
+													val.parent_name = value.slug;
+													$(this).addClass('_selected');
+													calc_compenation_pays_info('compensation', key, val, k);
+												}
+											}
+										}).attr({
+												'data-type':'compensations_variants',
+												'data-id': val.v,
+												'data-value': val.value
+											});
+
+										calc_compensation_el_ul.append(calc_pays_var_li_p);
+									});
+								}
+
+								calc_compensation.find('.calc_selected_group_list').append(calc_compensation_el);
+								calc_compensation_el.after(calc_compensation_el_ul);
+							}
+						});
+
+						calc_compensation.slideDown(300);
+					}
+
+					if(pays !== false){
+						var calc_pays = $('.calc_pays');
+
+						$.each(pays, function(key, value){
+							if(value.value !== false){
+								calc_pays_el = $('<p />', {
+									class: 'calc_pays',
+									text: value.name,
+									click: function(){
+										if($(this).hasClass('_selected')){
+											$(this).removeClass('_selected');
+											$('.calc_pays_info > .calc_pays_info_items p#pays'+value.id).detach();
+										} else {
+											$(this).addClass('_selected');
+											calc_compenation_pays_info('pays', key, value);
+										}
+									}
+								}).attr({
+										'data-type':'pays',
+										'data-id': value.id,
+										'data-value': value.value
+									});
+
+								calc_pays.find('.calc_selected_group_list').append(calc_pays_el);
+							} else {
+								calc_pays_el = $('<p />', {
+									class: 'calc_pays calc_pays_variants',
+									text: value.name
+								}).attr({
+										'data-type':'pays',
+										'data-id': value.id
+									});
+
+								calc_pays_el_ul = $('<ul />');
+
+								if(value.variants !== false){
+									$.each(value.variants, function(k, val){
+										calc_pays_var_li = $('<li />');
+										calc_pays_var_li_p = $('<p />', {
+											text: val.name,
+											click: function(){
+												if($(this).hasClass('_selected')){
+													$(this).removeClass('_selected');
+													$('.calc_pays_info > .calc_pays_info_items p#pays'+value.id).detach();
+												} else {
+													$(this).parent().find('._selected').each(function(){
+														$('.calc_pays_info > .calc_pays_info_items p#pays'+$(this).parent().prev().data('id')).detach();
+														$(this).removeClass('_selected');
+													});
+													
+													val.parent_name = value.slug;
+													val.type = value.type;
+													val.type_value = value.type_value;
+													$(this).addClass('_selected');
+													console.log(val);
+													calc_compenation_pays_info('pays', key, val, k);
+												}
+											}
+										}).attr({
+												'data-type':'pays_variants',
+												'data-id': val.v,
+												'data-value': val.value
+											});
+
+										calc_pays_el_ul.append(calc_pays_var_li_p);
+									});
+								}
+
+								calc_pays.find('.calc_selected_group_list').append(calc_pays_el);
+								calc_pays_el.after(calc_pays_el_ul);
+							}
+						});
+
+						calc_pays.slideDown(300);
+					}
+
+					$('.calc_dop_pays').slideDown(300);
+				} else {
+					console.log('Что-то пошло не так!');
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+				console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
 
 		$('.calc_buttons .hidden').fadeIn(300);
 	}
 });
+
+$('.calc_dop_pays input[name="tr_dop_cpays"]').change(function(){
+	if($(this).is(':checked')){
+		$(this).parent().find('.mq_form__input').removeClass('disabled').removeAttr('disabled');
+		if(parseInt($('.calc_dop_pays input[name="dop_cpays"]').val()) > 0) calc_compenation_pays_info();
+	} else {
+		$(this).parent().find('.mq_form__input').addClass('disabled').attr('disabled', 'disabled');
+		calc_compenation_pays_info();
+	}
+});
+
+$('.calc_dop_pays input[name="dop_cpays"]').bind('input', function(){
+	calc_compenation_pays_info();
+});
+
+$('.calculator_block .prompt').hover(
+	function(){
+		$(this).children('.prompt_text').css('display', 'block');
+		$(this).children('.prompt_text').animate({'opacity':1, 'bottom': '25px'}, 300);
+	},
+	function(){
+		$(this).children('.prompt_text').animate({'opacity':0, 'bottom': '18px'}, 300, function(){
+			$(this).removeAttr('style');
+		});
+	}
+);
+
+/*if(winWidth <= 640){
+	$('.calculator_block .prompt').click(function(){
+		if($('.calculator_block .prompt > .prompt_text').css('display') == 'block'){
+			$('.calculator_block .prompt > .prompt_text').animate({'opacity':0, 'bottom': '40px'}, 300, function(){
+				$(this).removeAttr('style');
+			});
+		} else {
+			$('.calculator_block .prompt > .prompt_text').css('display', 'block');
+			$('.calculator_block .prompt > .prompt_text').animate({'opacity':1, 'bottom': '50px'}, 300);
+		}
+	});
+} else {
+	$('.calculator_block .prompt').hover(
+		function(){
+			$('.calculator_block .prompt > .prompt_text').css('display', 'block');
+			$('.calculator_block .prompt > .prompt_text').animate({'opacity':1, 'bottom': '50px'}, 300);
+		},
+		function(){
+			$('.calculator_block .prompt > .prompt_text').animate({'opacity':0, 'bottom': '40px'}, 300, function(){
+				$(this).removeAttr('style');
+			});
+		}
+	);
+}*/
 
 $('#reset_calc').click(function(){
 	$('input[name="calc_bilet"]').val('');
@@ -1860,11 +2282,20 @@ $('#reset_calc').click(function(){
 	$('input[name="how_norm_hour"]').val('');
 	$('input[name="job_id"]').val('');
 	$('input[name="position"]').val('');
+	$('.calc_dop_pays input[name="dop_cpays"]').val('');
 
 	$('input[name="calc_bilet"]').removeClass('error_form');
 
-	$('.calculator_block .row.hidden').slideUp(300);
+	$('.calculator_block .row.hidden, .calc_result_summ').slideUp(300);
 	$('.calc_buttons .hidden').fadeOut(300);
+
+	$('.calc_pays_info_items, .calc_compensation_info_items').html('');
+
+	$('#calculate').css('display','block');
+
+	$('.calc_compensation .calc_selected_group p, .calc_pays .calc_selected_group p').removeClass('_selected');
+
+	$('.calculator_block .mq_form_row > .row.bilet_number').addClass('bilet_disabled');
 });
 
 var CaptchaCallback = function() {

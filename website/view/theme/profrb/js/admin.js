@@ -1051,3 +1051,147 @@ function calc_job_filter(data){
 		}
 	});
 }
+
+//Compensations or Pays
+
+function calc_comp_or_pays_edit(content_id, type){
+	var data = {};
+	var method;
+
+	if(type == 'c'){
+		method = 'editCompensation';
+	} else {
+		method = 'editPays';
+	}
+
+	$.ajax({
+		url: 'index.php?r=admin/calculator/'+method,
+		type: 'get',
+		data: {id: content_id},
+		dataType: 'html',
+		success: function(html){
+			var $modal_id = 999;
+			var $modal = $('.modal[data-modal-id="'+$modal_id+'"]');
+
+			$modal.parent().fadeIn();
+			$('body').addClass('modal-open');
+			
+			$('.admin_modal .admin_modal_view').html(html);
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+}
+
+function calc_comp_or_pays_delete(content_id, type){
+	var data_tag = $('span#deleted[data-content-id="'+content_id+'"]');
+  	var element = $('.admin_content_row[data-content-id="'+content_id+'"]');
+
+  	var method;
+
+	if(type == 'c'){
+		method = 'deleteCompensation';
+	} else {
+		method = 'deletePays';
+	}
+
+  	data_tag.parent().addClass('mini_load');  
+
+  	var data_confirm = confirm('Вы уверены, что хотите удалить эту должность?');
+
+  	if(data_confirm){
+  		$.ajax({
+	      url: 'index.php?r=admin/calculator/'+method,
+	      type: 'post',
+	      data: {id: content_id},
+	      dataType: 'json',
+	      success: function(json){
+	        console.log(json);
+	        if(json.success){
+	          data_tag.parent().removeClass('mini_load');
+	          element.slideUp(300);
+	          setTimeout(function(){
+	            element.detach();
+	          },300);
+	        }
+	      },
+	      error: function(xhr, ajaxOptions, thrownError){
+	        console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+	      }
+	    });
+  	} else {
+	  data_tag.parent().removeClass('mini_load');
+	}
+}
+
+function status_calc_comp_or_pays(cid, type){
+	faq_active_val = $('input#status_calc_comp_or_pays'+cid).val();
+	var method;
+
+	if(type == 'c'){
+		method = 'activeCompensation';
+	} else {
+		method = 'activePays';
+	}
+
+	console.log(faq_active_val)
+
+  	if(faq_active_val == 1) {
+    	faq_active = 0;
+    	faq_active_text = 'Выключено';
+  	} else {
+    	faq_active = 1;
+    	faq_active_text = 'Включено';
+  	}
+
+
+  	$.ajax({
+	    url: 'index.php?r=admin/calculator/'+method,
+	    type: 'post',
+	    data: {id: cid, active: faq_active},
+	    dataType: 'json',
+	    success: function(json){
+	      console.log(json);
+	      if(json.success == true){
+			$('.admin_calc_active[data-content-id="'+cid+'"]').text(faq_active_text);
+			$('input#status_calc_comp_or_pays'+cid).val(faq_active);
+	      }
+	    },
+	    error: function(xhr, ajaxOptions, thrownError){
+	      console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+	    }
+  	});
+}
+
+function calc_cp_filter(data, type){
+	filter_curl = JSON.parse(localStorage.getItem('admin_url'));
+	filter_curl['position_id'] = data;
+
+  	localStorage.setItem('admin_url', JSON.stringify(filter_curl));
+
+  	var method;
+
+	if(type == 'c'){
+		method = 'viewCompensation';
+	} else {
+		method = 'viewPays';
+	}
+
+	console.log(filter_curl);
+	console.log(method);
+	console.log(data);
+
+	$.ajax({
+		url: 'index.php?r=admin/calculator/'+method,
+		type: 'get',
+		data: {position_id: data},
+		dataType: 'html',
+		success: function(html){
+			$('.admin_modal .admin_modal_view').html(html);
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+}

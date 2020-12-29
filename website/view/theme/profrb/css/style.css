@@ -3391,7 +3391,7 @@ body.modal-open{
 
 .calculator .view_block{
   width: 700px;
-  margin: 0 auto 100px;
+  margin: 0 auto 67px;
 }
 
 .calculator .view_block p {
@@ -3407,8 +3407,53 @@ body.modal-open{
     /*border: 2px solid #75bbf7;
     border-radius: 5px;*/
     padding: 10px 27px;
-    margin: -104px auto 100px;
+    margin: -104px auto 0;
     width: 755px;
+}
+
+.calculator_block .prompt{
+  position: absolute;
+  right: 10px;
+  background: #75bbf7;
+  font-family: "Merriweather";
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+  line-height: 20px;
+  width: 18px;
+  height: 18px;
+  border-radius: 30px;
+  color: #fff;
+  cursor: default;
+}
+
+.calculator_block .calc_selected_group + .prompt{
+  top: 0;
+  right: -20px;
+}
+
+.calculator_block .mq_form_group_private input[name="dop_cpays"] + .prompt{
+  top: initial;
+  right: initial;
+  margin-top: 15px;
+  margin-left: -25px;
+}
+
+.calculator_block .prompt > .prompt_text{
+  position: absolute;
+  background: rgba(0, 0, 0, .8);
+  width: 160px;
+  padding: 8px;
+  border-radius: 5px;
+  font-family: "Open Sans";
+  font-size: 12px;
+  text-align: left;
+  line-height: 1.3;
+  bottom: 18px;
+  left: -70px;
+  display: none;
+  opacity: 0;
+  z-index: 9;
 }
 
 .calculator .calculator_block h3.calc_title_form{
@@ -3429,8 +3474,12 @@ body.modal-open{
   margin-top: 60px;
 }
 
-.calculator_block .row.hidden.calc_result + .calc_buttons{
+.calculator_block .row.hidden.calc_result + .calc_buttons_submit{
   margin-top: 54px;
+}
+
+.calculator_block .row.clearfix.calc_buttons_submit + div{
+  margin-top: -50px;
 }
 
 .calculator_block .row.hidden{
@@ -3473,6 +3522,36 @@ body.modal-open{
   z-index: 8;
 }
 
+.calculator_block .calc_compensation .calc_selected_group > .calc_selected_group_list,
+.calculator_block .calc_pays .calc_selected_group > .calc_selected_group_list{
+  max-height: 400px;
+  overflow: auto;
+  margin-top: -15px;
+  padding-top: 15px;
+}
+
+.calculator_block .calc_compensation .calc_selected_group > .calc_selected_group_list::-webkit-scrollbar-track,
+.calculator_block .calc_pays .calc_selected_group > .calc_selected_group_list::-webkit-scrollbar-track{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
+}
+
+.calculator_block .calc_compensation .calc_selected_group > .calc_selected_group_list::-webkit-scrollbar,
+.calculator_block .calc_pays .calc_selected_group > .calc_selected_group_list::-webkit-scrollbar{
+  width: 6px;
+  background-color: #F5F5F5;
+}
+
+.calculator_block .calc_compensation .calc_selected_group > .calc_selected_group_list::-webkit-scrollbar-thumb,
+.calculator_block .calc_pays .calc_selected_group > .calc_selected_group_list::-webkit-scrollbar-thumb{
+  background-color: #888;
+}
+
+.calculator_block .modal_question .calc_selected .selected_checkbox + label{
+  background: #f2f2f2;
+  border-radius: 30px;
+}
+
 .calculator_block .modal_question .calc_selected .selected_checkbox:checked + label{
     webkit-border-radius: 30px 30px 0 0;
     -moz-border-radius: 30px 30px 0 0;
@@ -3500,7 +3579,7 @@ body.modal-open{
 
 .calculator_block .modal_question .calc_selected{
   position: relative;
-  background: #f2f2f2;
+  /*background: #f2f2f2;*/
   width: 600px;
   padding: 0;
   top: 0;
@@ -3510,9 +3589,9 @@ body.modal-open{
   -moz-transition: 0.2s;
   -o-transition: 0.2s;
   transition: 0.2s;
-  -webkit-border-radius: 30px;
+  /*-webkit-border-radius: 30px;
   -moz-border-radius: 30px;
-  border-radius: 30px;
+  border-radius: 30px;*/
 }
 
 /*.calculator_block .modal_question .calc_selected.open{
@@ -3536,6 +3615,14 @@ body.modal-open{
 
 .calculator_block .modal_question .calc_selected.error{
   background: #ffe9e9;
+}
+
+.calculator_block .calc_compensation .calc_selected_group,
+.calculator_block .calc_pays .calc_selected_group{
+  margin-top: 0 !important;
+  top: 100%;
+  border-radius: 0 0 30px 30px;
+  padding-bottom: 30px;
 }
 
 .kpk_education {
@@ -5259,6 +5346,7 @@ body.modal_bg{
   display: block;
   overflow-x: hidden;
   cursor: pointer;
+  border-radius: 30px;
 }
 .calculator_block .modal_question .calc_selected .selected_checkbox,
 .modal_question .selected_activ .selected_checkbox {
@@ -5275,10 +5363,11 @@ body.modal_bg{
   transition: 0.2s;
 }
 
-.calculator_block .modal_question .calc_selected .selected_checkbox:not(checked) + label,
+/*.calculator_block .modal_question .calc_selected .selected_checkbox:not(checked) + label,
 .modal_question .selected_activ .selected_checkbox:not(checked) + label{
   border-bottom: 0;
-}
+  border-radius: 30px 30px 0 0;
+}*/
 
 .calculator_block .modal_question .calc_selected .selected_checkbox:checked + label,
 .modal_question .selected_activ .selected_checkbox:checked + label{
@@ -5296,6 +5385,9 @@ body.modal_bg{
   -webkit-transform: rotate(-180deg);
   -ms-transform: rotate(-180deg);
   transform: rotate(-180deg);
+}
+.calculator_block .modal_question .calc_selected .selected_checkbox:checked{
+  z-index: 10;
 }
 .calculator_block .modal_question .calc_selected .selected_checkbox:not(checked) ~ .calc_selected_group,
 .modal_question .selected_activ .selected_checkbox:not(checked) ~ .selected_group {
@@ -5315,6 +5407,42 @@ body.modal_bg{
   margin-top: 10px;
   padding-bottom: 35px;
 }
+
+.calculator_block .modal_question .calc_compensation .calc_selected .calc_selected_group,
+.calculator_block .modal_question .calc_pays .calc_selected .calc_selected_group{
+  padding-top: 15px;
+}
+
+/*.calculator_block .modal_question .calc_compensation .calc_selected .calc_selected_group:after,
+.calculator_block .modal_question .calc_pays .calc_selected .calc_selected_group:after{
+  content: '';
+  background-image: linear-gradient(rgba(242,242,242,.2), #f2f2f2);
+  width: 100%;
+  height: 35px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}*/
+
+.calculator_block .mq_form_group_private{
+  position: relative;
+  margin-top: -30px;
+}
+
+.calculator_block .pf_checkbox_label:before{
+  top: 9px;
+}
+
+.calculator_block .pf_checkbox_label:after{
+  top: 17px;
+}
+
+.calculator_block .modal_question .mq_form_group_private .mq_form__label{
+  max-width: 595px;
+  padding-right: 0;
+}
+
+.calculator_block .modal_question .mq_form_group_private .mq_form__label,
 .calculator_block .modal_question .calc_selected .calc_selected_group p,
 .modal_question .selected_activ .selected_group p {
   font-family: "Open Sans";
@@ -5328,6 +5456,62 @@ body.modal_bg{
   -o-transition: 0.2s;
   transition: 0.2s;
 }
+
+.calculator_block .modal_question .mq_form_group_private .mq_form__label{
+  color: #000;
+  opacity: 1;
+  padding-right: 0;
+  padding-left: 48px;
+}
+
+.calculator_block .modal_question .mq_form_group_private .mq_form__label > span{
+  opacity: .5;
+  -webkit-transition: .3s;
+  -o-transition: .3s;
+  transition: .3s;
+}
+
+.calculator_block .modal_question .mq_form_group_private input:checked + .mq_form__label > span,
+.calculator_block .modal_question .mq_form_group_private input:checked + .mq_form__label{
+  color: #000;
+  opacity: 1;
+}
+
+.calculator_block .modal_question .calc_selected .calc_selected_group p + ul{}
+
+.calculator_block .modal_question .calc_selected .calc_selected_group p + ul p{
+  margin-top: -5px;
+  padding-left: 50px;
+}
+
+.calculator_block .mq_form_group_private input[type="text"]{
+  margin-top: 15px;
+  -webkit-transition: .3s;
+  -o-transition: .3s;
+  transition: .3s;
+}
+
+.calculator_block .mq_form_group_private input[type="text"].disabled{
+  cursor: no-drop;
+  opacity: .4;
+}
+
+.calculator_block .bilet_disabled ~ .row{
+  opacity: .4;
+}
+
+.calculator_block .row.clearfix.calc_position_info, 
+.calculator_block .row.clearfix.calc_compensation_info,
+.calculator_block .row.clearfix.calc_pays_info{
+  margin-top: -12px;
+}
+
+.calculator_block .row.clearfix.calc_result p,
+.calculator_block .row.clearfix.calc_result_summ p{
+  font-size: 20px;
+  line-height: 1.4;
+} 
+
 /*.modal_question .selected_activ .selected_group p:last-child {
   -webkit-border-radius: 0 0 30px 30px;
   -moz-border-radius: 0 0 30px 30px;
@@ -5337,6 +5521,26 @@ body.modal_bg{
 .modal_question .selected_activ .selected_group p:hover {
   background: #fff;
 }
+.calculator_block .modal_question .calc_selected .calc_selected_group p.calc_compensation_variants,
+.calculator_block .modal_question .calc_selected .calc_selected_group p.calc_pays_variants{
+  cursor: default;
+}
+.calculator_block .modal_question .calc_selected .calc_selected_group p.calc_compensation_variants:hover,
+.calculator_block .modal_question .calc_selected .calc_selected_group p.calc_pays_variants:hover{
+  background: #f2f2f2;
+}
+
+.calculator_block .modal_question .calc_selected .calc_selected_group p._selected{
+  background: #e0e0e0;
+}
+
+.calculator .calculator_block .calc_compensation_info p,
+.calculator .calculator_block .calc_pays_info p{
+  margin-bottom: 10px;
+}
+
+
+
 @media all and (max-width: 1180px) {
   .modal_question .selected_activ {
     width: calc(100% - 400px);
@@ -10167,6 +10371,18 @@ body.vision_bg_black .docs .btn_main_docs > span{
   .workers .workers_block,
   .workers .worker_block[data-content="89"]{
     margin-left: 0;
+  }
+
+  .calculator .calculator_block .calc_compensation_info p, .calculator .calculator_block .calc_pays_info p {
+    margin-bottom: 20px;
+  }
+
+  .calculator_block .prompt{
+    right: -50px;
+  }
+
+  .calculator_block .prompt > .prompt_text{
+    left: -120px;
   }
 }
 

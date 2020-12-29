@@ -35,6 +35,16 @@ class Functions{
     return $result;
   }
 
+  public static function calc_prompt($data){
+    $result = false;
+
+    if(!empty($data)){
+      $result = '<span class="prompt"><span class="prompt_text">'.$data.'</span>?</span>';
+    }
+
+    return $result;
+  }
+
   public static function pre_print($data){
     echo '<pre>';
     print_r($data);

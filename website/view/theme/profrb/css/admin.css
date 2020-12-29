@@ -102,6 +102,10 @@
   margin-bottom: 25px;
 }
 
+.admin_modal .admin_form_calc_cp input, .admin_modal .admin_form_calc_cp select, .admin_modal .admin_form_calc_cp textarea{
+  width: 70%;
+}
+
 .admin_modal input[type="checkbox"]{
   display: none;
 }
@@ -233,6 +237,38 @@
 .cke,
 .cke_reset{
   margin-bottom: 25px !important;
+}
+
+.admin_form_row_calc_variants{
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.admin_form_row_calc_variants:before,
+.admin_form_row_calc_variants:after{
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.admin_form_row_calc_variants #variants{
+  width: 100%;
+}
+
+#variants .calc_var_name{
+  width: 50%;
+}
+
+#variants .calc_var_value{
+  width: 20%;
+  margin-left: 10px;
+}
+
+#variants .delete_variant{
+  color: #616dc1;
+  border-bottom: 1px dashed;
+  /*margin-left: 17px;*/
+  cursor: pointer;
 }
 
 /* FILEUPLOAD */
@@ -408,6 +444,10 @@ label[for="geo_docs"] + .file_upload .file_viewed .img_block img{
 
 .admin_content_view.calc_positions .admin_content_table tr > td:nth-child(2){
   width: 15%;
+}
+
+.admin_content_view.calc_compensation_or_pays .admin_content_table tr > td:nth-child(2){
+  width: 44%;
 }
 
 .admin_content_view .admin_content_table tr > td:nth-child(4){

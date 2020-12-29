@@ -12,6 +12,41 @@
       <p class="admin_form_caption">Введите текст который будет отображаться перед калькулятором, <b>обязательно для заполнения</b></p>
       <textarea id="caption" name="caption" data-table="faq" required><?=$caption;?></textarea>
     </div>
+    <div class="admin_form_row">
+      <label for="prompt1">Справка к полю Билет</label>
+      <p class="admin_form_caption">Введите текст который будет отображаться в спарвке к полю Билет</p>
+      <input id="prompt1" type="text" name="prompt[bilet]" data-table="faq" value="<?=$prompt['bilet'];?>"/>
+    </div>
+    <div class="admin_form_row">
+      <label for="prompt1">Справка к полю Место работы</label>
+      <p class="admin_form_caption">Введите текст который будет отображаться в спарвке к полю Место работы</p>
+      <input id="prompt1" type="text" name="prompt[jobs]" data-table="faq" value="<?=$prompt['jobs'];?>"/>
+    </div>
+    <div class="admin_form_row">
+      <label for="prompt1">Справка к полю Должность</label>
+      <p class="admin_form_caption">Введите текст который будет отображаться в спарвке к полю Должность</p>
+      <input id="prompt1" type="text" name="prompt[position]" data-table="faq" value="<?=$prompt['position'];?>"/>
+    </div>
+    <div class="admin_form_row">
+      <label for="prompt1">Справка к полю Сколько часов вы работаете?</label>
+      <p class="admin_form_caption">Введите текст который будет отображаться в спарвке к полю Сколько часов вы работаете?</p>
+      <input id="prompt1" type="text" name="prompt[how_norm_hour]" data-table="faq" value="<?=$prompt['how_norm_hour'];?>"/>
+    </div>
+    <div class="admin_form_row">
+      <label for="prompt1">Справка к полю Компенсационные выплаты</label>
+      <p class="admin_form_caption">Введите текст который будет отображаться в спарвке к полю Компенсационные выплаты</p>
+      <input id="prompt1" type="text" name="prompt[compensation]" data-table="faq" value="<?=$prompt['compensation'];?>"/>
+    </div>
+    <div class="admin_form_row">
+      <label for="prompt1">Справка к полю Стимулирующие выплаты</label>
+      <p class="admin_form_caption">Введите текст который будет отображаться в спарвке к полю Стимулирующие выплаты</p>
+      <input id="prompt1" type="text" name="prompt[pays]" data-table="faq" value="<?=$prompt['pays'];?>"/>
+    </div>
+    <div class="admin_form_row">
+      <label for="prompt1">Справка к полю Количество учащихся</label>
+      <p class="admin_form_caption">Введите текст который будет отображаться в спарвке к полю Количество учащихся</p>
+      <input id="prompt1" type="text" name="prompt[dop_cpays]" data-table="faq" value="<?=$prompt['dop_cpays'];?>"/>
+    </div>
     <div class="admin_form_row btns">
       <button class="btn brd btn_admin" id="save" data-btn-event="save">Сохранить</button>
     </div>
